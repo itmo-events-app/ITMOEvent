@@ -21,6 +21,8 @@
     <color name="grey_300">#818181</color>
     <color name="grey_400">#5A5A5A</color>
     <color name="grey_500">#333333</color>
+    <color name="black">#000000</color>
+
 
 
 </resources>
