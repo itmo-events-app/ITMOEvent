@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
         android:id="@+id/text_line"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Уведомления"
+        android:text="@string/notification_text"
         android:textAppearance="@style/Text.Body1"
         android:textColor="@color/grey_300"
         android:textSize="14sp"
