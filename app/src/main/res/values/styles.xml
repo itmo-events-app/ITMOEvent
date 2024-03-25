@@ -2,6 +2,7 @@
 <resources>
     <style name="Text" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/golos</item>
     </style>
 
     <style name="Text.Header1">
@@ -12,6 +13,12 @@
     <style name="Text.Header2">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Header3">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
     <style name="Text.Body1">
@@ -28,6 +35,9 @@
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-    
+    <style name="Text.Label.Highlight">
+        <item name="android:textColor">?android:attr/textColorHighlight</item>
+    </style>
+
     
 </resources>
