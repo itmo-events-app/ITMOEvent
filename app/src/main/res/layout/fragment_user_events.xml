@@ -7,4 +7,43 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/user_events_create_requests_title"
+        android:textAppearance="?textAppearanceHeadlineSmall"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/events_list_create_req_item"
+        tools:itemCount="3"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/user_events_organized_title"
+        android:textAppearance="?textAppearanceHeadlineSmall"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/events_list_item"
+        tools:itemCount="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="@string/user_events_helped_title"
+        android:textAppearance="?textAppearanceHeadlineSmall"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/events_list_item"
+        tools:itemCount="2"/>
+
 </LinearLayout>
