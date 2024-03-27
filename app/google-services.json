@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "324740552757",
+    "project_id": "itmoevent-88912",
+    "storage_bucket": "itmoevent-88912.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324740552757:android:8dac7a57f0e4d89932f97c",
+        "android_client_info": {
+          "package_name": "org.itmo.itmoevent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324740552757-3rtnbbfqogdm41su4fn1e1skuvijjaru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.itmo.itmoevent",
+            "certificate_hash": "89c884b8831346a24065dda59107cb388ec5b591"
+          }
+        },
+        {
+          "client_id": "324740552757-2ccgetj712djhdsjunn72prokcg5e13u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNGQlmiB1gCVakeUMLk-xZYtbvDAMiGuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324740552757-2ccgetj712djhdsjunn72prokcg5e13u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" >
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ITMOEvent" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -33,5 +33,10 @@
         <item name="textAppearanceLabelMedium">@style/Text.Label</item>
         <item name="textAppearanceLabelLarge">@style/Text.Label.Highlight</item>
 
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ITMOEvent" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 </resources>
