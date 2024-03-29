@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="event_status_array">
+        <item>Завершено</item>
+        <item>В процессе</item>
+        <item>Отменено</item>
+    </string-array>
+    <string-array name="event_format_array">
+        <item>Дистанционно</item>
+        <item>Очно</item>
+    </string-array>
+</resources>

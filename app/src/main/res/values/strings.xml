@@ -15,4 +15,11 @@
     <string name="nav_bar_tasks_title">Задачи</string>
     <string name="nav_bar_manage_title">Управление</string>
     <string name="nav_bar_profile_title">Профиль</string>
+    <string name="event_filter_date_from">От</string>
+    <string name="event_filter_date_to">До</string>
+    <string name="event_filter_status">Статус</string>
+    <string name="event_filter_format">Формат</string>
+    <string name="event_filter_name">Название</string>
+    <string name="event_filter_apply">Применить</string>
+    <string name="event_filter_header">Фильтр мероприятий</string>
 </resources>

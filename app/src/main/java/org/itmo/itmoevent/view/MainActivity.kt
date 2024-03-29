@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!)
-                .addToBackStack(null)
                 .commit()
 
             viewBinding?.run {
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace(R.id.main_fragment_container, this)
-                            .addToBackStack(null)
                             .commit()
                     }
                     true
