@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:layout_marginBottom="12dp">
+
+<!--TODO: запись открыта/запись закрыта - это тэг. Специальная область для тэгов и внешний вид -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp">
+
+        <TextView
+            android:id="@+id/event_item_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/event_item_time"
+            android:textAppearance="?textAppearanceTitleMedium"
+            tools:text="День карьеры" />
+
+        <TextView
+            android:id="@+id/event_item_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="Невероятное восхитительное событие в Университете..."
+            android:textAppearance="?textAppearanceBodyMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/event_item_header"
+            app:layout_constraintEnd_toStartOf="@id/event_item_img"/>
+
+        <ImageView
+            android:id="@+id/event_item_img"
+            android:layout_width="112dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/event_item_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@color/blue_100"
+            android:contentDescription="@string/event_item_image_desc"/>
+
+        <ImageView
+            android:id="@+id/event_item_place_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/place_icon_desc"
+            android:src="@drawable/ic_place"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/event_item_desc" />
+
+        <TextView
+            android:id="@+id/event_item_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceLabelMedium"
+            app:layout_constraintBottom_toBottomOf="@id/event_item_place_icon"
+            app:layout_constraintStart_toEndOf="@id/event_item_place_icon"
+            tools:text="Zoom" />
+
+        <TextView
+            android:id="@+id/event_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceLabelLarge"
+            app:layout_constraintBottom_toTopOf="@id/event_item_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12dp"
+            tools:text="14 декабря 20:00" />
+
+        <TextView
+            android:id="@+id/event_item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:textAppearance="?textAppearanceLabelMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/event_item_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/event_item_place"
+            tools:text="Запись открыта" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
