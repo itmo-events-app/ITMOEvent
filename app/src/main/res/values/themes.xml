@@ -18,9 +18,12 @@
         <item name="android:textColorHighlight">@color/red_300</item>
         <item name="colorSurfaceContainer">@color/blue_100</item>
         <item name="colorSecondaryContainer">@color/blue_150</item>
+        <item name="colorOnSurface">@color/grey_500</item>
+        <item name="colorSurfaceContainerHighest">@color/blue_100</item>
+
         <item name="android:fontFamily">@font/golos</item>
 
-        <item name="textAppearanceBodySmall">@style/Text.Body2</item>
+        <item name="textAppearanceBodySmall">@style/Text.Label</item>
         <item name="textAppearanceBodyMedium">@style/Text.Body1</item>
         <item name="textAppearanceBodyLarge">@style/Text.Body1</item>
         <item name="textAppearanceTitleSmall">@style/Text.Body1</item>
@@ -32,6 +35,8 @@
         <item name="textAppearanceLabelSmall">@style/Text.Label</item>
         <item name="textAppearanceLabelMedium">@style/Text.Label</item>
         <item name="textAppearanceLabelLarge">@style/Text.Label.Highlight</item>
+
+        <item name="textInputFilledExposedDropdownMenuStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
 
     </style>
     <!-- Base application theme. -->
