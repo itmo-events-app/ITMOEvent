@@ -2,4 +2,18 @@
     <string name="app_name">ITMOEvent</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="test_string">hi hello</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="event_item_image_desc">event image</string>
+    <string name="place_icon_desc">place icon</string>
+    <string name="event_section_all_events_header">Все</string>
+    <string name="event_section_user_events_header">Мои</string>
+    <string name="user_events_create_requests_title">Заявки</string>
+    <string name="user_events_organized_title">Организуемые</string>
+    <string name="user_events_helped_title">Помощник</string>
+    <string name="event_req_create">Создать новое мероприятие</string>
+    <string name="nav_bar_events_title">Мероприятия</string>
+    <string name="nav_bar_tasks_title">Задачи</string>
+    <string name="nav_bar_manage_title">Управление</string>
+    <string name="nav_bar_profile_title">Профиль</string>
+
 </resources>
