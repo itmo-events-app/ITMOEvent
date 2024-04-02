@@ -5,7 +5,6 @@ import org.itmo.itmoevent.model.network.EventNetworkService
 import org.itmo.itmoevent.model.repository.MainEventsRepository
 
 class EventApplication : Application() {
-
     val recipeApi by lazy {
         EventNetworkService().eventApi
     }
