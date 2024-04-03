@@ -22,4 +22,6 @@
     <string name="event_filter_name">Название</string>
     <string name="event_filter_apply">Применить</string>
     <string name="event_filter_header">Фильтр мероприятий</string>
+    <string name="user_events_role_hint">Роль</string>
+    <string name="no_found_message">Не найдено</string>
 </resources>
