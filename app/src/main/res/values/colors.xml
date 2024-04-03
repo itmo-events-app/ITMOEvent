@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFFFF</color>
-    <color name="blue_100">#efefff</color>
-    <color name="blue_150">#4066A5FF</color>
+    <color name="blue_50">#F2F7FF</color>
+    <color name="blue_100">#E9F2FE</color>
+    <color name="blue_150">#D7E7FE</color>
     <color name="blue_200">#3387FF</color>
     <color name="blue_300">#0069FF</color>
     <color name="blue_400">#0054CC</color>
