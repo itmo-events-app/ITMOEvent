@@ -1,6 +1,7 @@
 package org.itmo.itmoevent.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
@@ -15,8 +16,13 @@ class MainEventsViewModel(private val eventsRepository: EventRepository) : ViewM
         emit(loaded)
     }
 
+    val isEventListLoading = MutableLiveData<Boolean>()
+
     private suspend fun loadEvents(): List<EventShort>? {
-        return eventsRepository.getAllEvents()
+        isEventListLoading.value = true
+        val loaded = eventsRepository.getAllEvents()
+        isEventListLoading.value = false
+        return loaded
     }
 
     class MainEventsViewModelFactory(
