@@ -3,6 +3,8 @@ package org.itmo.itmoevent.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -46,9 +48,23 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
 
         model.eventsLiveData.observe(this.viewLifecycleOwner) { eventList ->
             if (eventList == null) {
-                Toast.makeText(context, getString(R.string.no_found_message), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.no_found_message), Toast.LENGTH_LONG)
+                    .show()
             } else {
                 eventAdapter.eventList = eventList
+            }
+        }
+
+        model.isEventListLoading.observe(this.viewLifecycleOwner) { isLoading ->
+            var progressBarVisibility = GONE
+            var recyclerVisibility = VISIBLE
+            if (isLoading) {
+                progressBarVisibility = VISIBLE
+                recyclerVisibility = GONE
+            }
+            viewBinding?.run {
+                genEventsProgressBar.progressBar.visibility = progressBarVisibility
+                generalEventsRv.visibility = recyclerVisibility
             }
         }
 

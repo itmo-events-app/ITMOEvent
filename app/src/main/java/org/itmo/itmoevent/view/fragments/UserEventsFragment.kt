@@ -3,7 +3,10 @@ package org.itmo.itmoevent.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,6 +56,7 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
             userEventsRoleEdit.setOnItemClickListener { _, _, position, _ ->
                 model.roleNameIndex.value = position
             }
+            userEventsProgressBarRoleEvents.progressBar.visibility = GONE
 
             userEventsOrganizedRv.layoutManager = LinearLayoutManager(context)
             userEventsOrganizedRv.adapter = eventsAdapter
@@ -97,8 +101,44 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
                     eventsAdapter.eventList = events
                 }
             }
+
+            isEventListLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
+                viewBinding?.run {
+                    changeVisibilityDependOnLoadingStatus(
+                        isLoading,
+                        userEventsProgressBarRoleEvents.progressBar,
+                        userEventsOrganizedRv
+                    )
+                }
+            }
+
+            isInitDataLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
+                viewBinding?.run {
+                    changeVisibilityDependOnLoadingStatus(
+                        isLoading,
+                        userEventsProgressBarMain.progressBar,
+                        userEventsGroupContentAll
+                    )
+                }
+            }
+
         }
 
+    }
+
+    private fun changeVisibilityDependOnLoadingStatus(
+        isLoading: Boolean,
+        progressBar: ProgressBar,
+        view: View
+    ) {
+        var progressVisibility = GONE
+        var contentVisibility = VISIBLE
+        if (isLoading) {
+            progressVisibility = VISIBLE
+            contentVisibility = GONE
+        }
+        progressBar.visibility = progressVisibility
+        view.visibility = contentVisibility
     }
 
 }
