@@ -17,6 +17,7 @@ class EventNetworkService {
         .build()
 
     val eventApi = retrofit.create<EventApi>()
+    val rolesApi = retrofit.create<RoleApi>()
 
     companion object {
         private const val BASE_URL: String = "https://1c4b5df4-7222-41c0-a10b-8cdea728d4a1.mock.pstmn.io/"

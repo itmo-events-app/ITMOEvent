@@ -1,5 +1,6 @@
 package org.itmo.itmoevent.model.network
 
+import org.itmo.itmoevent.model.data.dto.EventRequestDto
 import org.itmo.itmoevent.model.data.dto.EventShortDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,5 +17,11 @@ interface EventApi {
         @Query("status") status: String?,
         @Query("format") format: String?
     ) : Response<List<EventShortDto>>
+
+    @GET("requests/")
+    suspend fun getEventRequests() : Response<List<EventRequestDto>>
+
+    @GET("events/my/")
+    suspend fun getUserEventsByRole(@Query("role") roleName: String?) : Response<List<EventShortDto>>
 
 }

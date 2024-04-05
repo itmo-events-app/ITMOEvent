@@ -22,7 +22,7 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
     private val model: MainEventsViewModel by viewModels {
         val application = requireActivity().application as? EventApplication
             ?: throw IllegalStateException("Application must be EventApplication implementation")
-        MainEventsViewModel.MainEventsViewModelFactory(application.mainEventsRepository)
+        MainEventsViewModel.MainEventsViewModelFactory(application.eventRepository)
     }
 
     override fun onCreateView(
@@ -46,7 +46,7 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
 
         model.eventsLiveData.observe(this.viewLifecycleOwner) { eventList ->
             if (eventList == null) {
-                Toast.makeText(context, "No events found", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.no_found_message), Toast.LENGTH_LONG).show()
             } else {
                 eventAdapter.eventList = eventList
             }
