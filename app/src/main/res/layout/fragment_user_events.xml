@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.UserEventsFragment">
+    tools:context=".view.fragments.UserEventsFragment"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -75,6 +76,32 @@
             app:layout_constraintTop_toBottomOf="@id/user_events_role_tl"
             tools:itemCount="4"
             tools:listitem="@layout/events_list_item" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/user_events_group_content_all"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="user_events_requests_header,user_events_requests_rv,user_events_role_header,user_events_role_tl,user_events_organized_rv" />
+
+        <include
+            android:id="@+id/user_events_progress_bar_main"
+            layout="@layout/progress_bar_main"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/user_events_progress_bar_role_events"
+            layout="@layout/progress_bar_main"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_events_role_tl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
