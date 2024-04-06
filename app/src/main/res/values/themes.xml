@@ -19,7 +19,9 @@
         <item name="colorSurfaceContainer">@color/blue_100</item>
         <item name="colorSecondaryContainer">@color/blue_150</item>
         <item name="colorOnSurface">@color/grey_500</item>
-        <item name="colorSurfaceContainerHighest">@color/blue_100</item>
+        <item name="colorSurfaceContainerHighest">@color/blue_150</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
 
         <item name="android:fontFamily">@font/golos</item>
 

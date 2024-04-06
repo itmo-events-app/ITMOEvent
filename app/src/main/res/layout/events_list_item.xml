@@ -7,8 +7,6 @@
     android:clickable="true"
     android:layout_marginBottom="12dp">
 
-<!--TODO: запись открыта/запись закрыта - это тэг. Специальная область для тэгов и внешний вид -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/event_item_desc"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@color/blue_100"
+            android:src="@color/blue_50"
             android:contentDescription="@string/event_item_image_desc"/>
 
         <ImageView

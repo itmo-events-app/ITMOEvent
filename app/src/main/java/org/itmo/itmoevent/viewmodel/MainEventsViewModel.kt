@@ -1,26 +1,32 @@
 package org.itmo.itmoevent.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import org.itmo.itmoevent.model.data.entity.EventShort
-import org.itmo.itmoevent.model.repository.MainEventsRepository
+import org.itmo.itmoevent.model.repository.EventRepository
 
 
-class MainEventsViewModel(private val eventsRepository: MainEventsRepository) : ViewModel() {
+class MainEventsViewModel(private val eventsRepository: EventRepository) : ViewModel() {
 
     val eventsLiveData: LiveData<List<EventShort>?> = liveData {
         val loaded = loadEvents()
         emit(loaded)
     }
 
+    val isEventListLoading = MutableLiveData<Boolean>()
+
     private suspend fun loadEvents(): List<EventShort>? {
-        return eventsRepository.getEvents()
+        isEventListLoading.value = true
+        val loaded = eventsRepository.getAllEvents()
+        isEventListLoading.value = false
+        return loaded
     }
 
     class MainEventsViewModelFactory(
-        private val repository: MainEventsRepository
+        private val repository: EventRepository
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
