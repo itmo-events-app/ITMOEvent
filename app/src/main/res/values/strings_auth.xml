@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="itmo_event">ITMO Event</string>
+    <string name="login_title">Вход</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="login_button">Войти</string>
+    <string name="sign_up_button">Зарегистрироваться</string>
+    <string name="registration_label">Регистрация</string>
+    <string name="name">Имя</string>
+    <string name="firstname">Фамилия</string>
+    <string name="check_password">Подтвердите пароль</string>
+</resources>

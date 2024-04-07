@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" >
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ITMOEvent" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -41,4 +41,5 @@
         <item name="textInputFilledExposedDropdownMenuStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
 
     </style>
+
 </resources>
