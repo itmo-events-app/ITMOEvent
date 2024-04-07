@@ -24,4 +24,21 @@
     <string name="event_filter_header">Фильтр мероприятий</string>
     <string name="user_events_role_hint">Роль</string>
     <string name="no_found_message">Не найдено</string>
+    <string name="event_desc_header">Описание</string>
+    <string name="event_desc_show_close_desc">Открыть/закрыть описание мероприятия</string>
+    <string name="event_details_header">Детали</string>
+    <string name="event_icon_show_close_details">Открыть/закрыть детали мероприятия</string>
+    <string name="event_details_time_hold_header">Проведение</string>
+    <string name="event_details_time_register_header">Регистрация</string>
+    <string name="event_details_time_prepare_header">Подготовка</string>
+    <string name="event_details_participants_max_header">Максимальное число участников</string>
+    <string name="event_details_age_header">Возраст участников от</string>
+    <string name="event_edit_btn">Редактировать</string>
+    <string name="event_image">Обложка мероприятия</string>
+    <string name="place_item_more_desc">Перейти к информации о площадке</string>
+    <string name="delete_action">Удалить</string>
+    <string name="event_subsection_activities">Активности</string>
+    <string name="event_subsection_organizers">Организаторы</string>
+    <string name="event_subsection_participants">Участники</string>
+    <string name="participants_mark_all_btn">Отметить всех</string>
 </resources>

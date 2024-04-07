@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/role_tl"
+    style="?textInputFilledExposedDropdownMenuStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:hint="@string/user_events_role_hint" >
+
+    <AutoCompleteTextView
+        android:id="@+id/role_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:textAppearance="?textAppearanceLabelMedium" />
+
+</com.google.android.material.textfield.TextInputLayout>
