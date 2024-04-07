@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="asd"
+                    android:text="@string/event_filter_header"
                     android:textAppearance="?textAppearanceBodySmall"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="asd"
+                    android:hint="@string/event_filter_date_from"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gen_events_filter_header_tv"
                     app:layout_constraintWidth_default="percent"
@@ -59,7 +59,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:hint="asd"
+                    android:hint="@string/event_filter_date_to"
                     app:layout_constraintStart_toEndOf="@id/gen_events_filter_from_tl"
                     app:layout_constraintTop_toTopOf="@id/gen_events_filter_from_tl"
                     app:layout_constraintWidth_default="percent"
@@ -79,7 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="asd"
+                    android:hint="@string/event_filter_status"
                     app:layout_constraintEnd_toEndOf="@id/gen_events_filter_from_tl"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gen_events_filter_from_tl">
@@ -98,7 +98,7 @@
                     style="?textInputFilledExposedDropdownMenuStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="asd"
+                    android:hint="@string/event_filter_format"
                     app:layout_constraintEnd_toEndOf="@id/gen_events_filter_to_tl"
                     app:layout_constraintStart_toStartOf="@id/gen_events_filter_to_tl"
                     app:layout_constraintTop_toTopOf="@id/gen_events_filter_status_tl">
@@ -117,7 +117,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="asde"
+                    android:hint="@string/event_filter_name"
                     app:layout_constraintEnd_toEndOf="@id/gen_events_filter_format_tl"
                     app:layout_constraintStart_toStartOf="@id/gen_events_filter_from_tl"
                     app:layout_constraintTop_toBottomOf="@id/gen_events_filter_status_tl">
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="asd"
+                    android:text="@string/event_filter_apply"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/gen_events_filter_name_tl" />
 

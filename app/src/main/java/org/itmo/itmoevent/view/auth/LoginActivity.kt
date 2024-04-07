@@ -2,14 +2,11 @@ package org.itmo.itmoevent.view.auth
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.ActivityLoginBinding
 import org.itmo.itmoevent.view.auth.fragments.LoginFragment
-import org.itmo.itmoevent.view.auth.fragments.RegistrationFragment
 
 
 class LoginActivity : AppCompatActivity() {
@@ -21,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
 
         replaceFragment(LoginFragment())
     }
-
 }
 
 fun AppCompatActivity.replaceFragment(fragment: Fragment){

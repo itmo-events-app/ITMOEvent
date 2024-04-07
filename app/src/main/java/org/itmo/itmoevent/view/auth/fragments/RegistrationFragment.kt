@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import org.itmo.itmoevent.R
-import org.itmo.itmoevent.databinding.FragmentLoginBinding
 import org.itmo.itmoevent.databinding.FragmentRegistrationBinding
 import org.itmo.itmoevent.view.auth.replaceFragment
 
