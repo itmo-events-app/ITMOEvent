@@ -43,4 +43,8 @@
         <item name="hintTextAppearance">?textAppearanceLabelMedium</item>
     </style>
 
+    <style name="ChipOutlineStyle" parent="Widget.Material3.Chip.Assist">
+        <item name="chipBackgroundColor">@color/blue_100</item>
+    </style>
+
 </resources>

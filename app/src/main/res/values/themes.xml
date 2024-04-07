@@ -19,9 +19,12 @@
         <item name="colorSurfaceContainer">@color/blue_100</item>
         <item name="colorSecondaryContainer">@color/blue_150</item>
         <item name="colorOnSurface">@color/grey_500</item>
+        <item name="colorOnSurfaceVariant">@color/grey_500</item>
         <item name="colorSurfaceContainerHighest">@color/blue_150</item>
         <item name="colorSurface">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="colorPrimaryContainer">@color/blue_150</item>
+        <item name="colorOnPrimaryContainer">@color/blue_500</item>
 
         <item name="android:fontFamily">@font/golos</item>
 
@@ -40,5 +43,6 @@
 
         <item name="textInputFilledExposedDropdownMenuStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
 
+        <item name="chipStyle">@style/ChipOutlineStyle</item>
     </style>
 </resources>
