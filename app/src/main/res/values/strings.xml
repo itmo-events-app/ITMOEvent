@@ -37,4 +37,8 @@
     <string name="event_image">Обложка мероприятия</string>
     <string name="place_item_more_desc">Перейти к информации о площадке</string>
     <string name="delete_action">Удалить</string>
+    <string name="event_subsection_activities">Активности</string>
+    <string name="event_subsection_organizers">Организаторы</string>
+    <string name="event_subsection_participants">Участники</string>
+    <string name="participants_mark_all_btn">Отметить всех</string>
 </resources>
