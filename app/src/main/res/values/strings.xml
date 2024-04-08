@@ -77,4 +77,11 @@
     <string name="edit_task_form_notify_time_label">Срок оповещения исполнителя</string>
     <string name="edit_task_form_activity_label">Активность</string>
     <string name="edit_task_form_executor_label">Исполнитель</string>
+    <string name="edit_orgs_add_org_header">Добавить организатора</string>
+    <string name="edit_orgs_add_org_user_label">Пользователь</string>
+    <string name="edit_orgs_add_org_role_label">Роль</string>
+    <string name="edit_orgs_add_org_btn">Добавить</string>
+    <string name="edit_orgs_remove_org_header">Удалить организаторов</string>
+    <string name="edit_orgs_remove_org_role_label">Роль</string>
+    <string name="remove_org_item_btn">Удалить</string>
 </resources>
