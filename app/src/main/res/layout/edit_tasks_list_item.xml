@@ -3,9 +3,9 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    style="?attr/materialCardViewElevatedStyle"
     android:layout_marginEnd="12dp"
     android:padding="16dp">
 
@@ -15,7 +15,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/edit_activities_item_title"
+            android:id="@+id/edit_tasks_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="2"
@@ -27,26 +27,36 @@
             tools:text="День карьеры" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/edit_activities_item_edit_btn"
+            android:id="@+id/edit_tasks_item_edit_btn"
             style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/edit_item_edit_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_activities_item_title" />
+            app:layout_constraintEnd_toEndOf="@id/edit_tasks_item_copy_btn"
+            app:layout_constraintStart_toStartOf="@id/edit_tasks_item_copy_btn"
+            app:layout_constraintTop_toBottomOf="@id/edit_tasks_item_title" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/edit_activities_item_delete_btn"
+            android:id="@+id/edit_tasks_item_delete_btn"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/red_400"
             android:text="@string/edit_item_delete_btn"
-            app:layout_constraintEnd_toEndOf="@id/edit_activities_item_edit_btn"
-            app:layout_constraintStart_toStartOf="@id/edit_activities_item_edit_btn"
-            app:layout_constraintTop_toBottomOf="@id/edit_activities_item_edit_btn" />
+            android:textColor="@color/red_400"
+            app:layout_constraintEnd_toEndOf="@id/edit_tasks_item_edit_btn"
+            app:layout_constraintStart_toStartOf="@id/edit_tasks_item_edit_btn"
+            app:layout_constraintTop_toBottomOf="@id/edit_tasks_item_copy_btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_tasks_item_copy_btn"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_tasks_item_copy_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_tasks_item_edit_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

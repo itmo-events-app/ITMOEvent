@@ -25,6 +25,7 @@
         <item name="android:colorBackground">@color/white</item>
         <item name="colorPrimaryContainer">@color/blue_150</item>
         <item name="colorOnPrimaryContainer">@color/blue_500</item>
+        <item name="colorSurfaceContainerLow">@color/blue_50</item>
 
         <item name="android:fontFamily">@font/golos</item>
 

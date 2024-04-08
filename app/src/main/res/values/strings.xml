@@ -63,9 +63,18 @@
     <string name="edit_save_btn">Сохранить</string>
     <string name="edit_activities_existing_header">Существующие активности</string>
     <string name="edit_activities_form_header">Создать/изменить активность</string>
-    <string name="edit_activities_form_clear_btn">Очистить</string>
-    <string name="edit_activities_form_cancel_btn">Отменить</string>
-    <string name="edit_activities_form_accept_btn">Добавить</string>
-    <string name="edit_activities_item_edit_btn">Изменить</string>
-    <string name="edit_activities_item_delete_btn">Удалить</string>
+    <string name="edit_form_clear_btn">Очистить</string>
+    <string name="edit_form_cancel_btn">Отменить</string>
+    <string name="edit_form_accept_btn">Добавить</string>
+    <string name="edit_item_edit_btn">Изменить</string>
+    <string name="edit_item_delete_btn">Удалить</string>
+    <string name="edit_tasks_existing_header">Существующие задачи</string>
+    <string name="edit_tasks_edit_header">Создать/изменить задачу</string>
+    <string name="edit_tasks_item_copy_btn">Копировать</string>
+    <string name="edit_task_form_title_label">Название задачи</string>
+    <string name="edit_task_form_desc_label">Описание задачи</string>
+    <string name="edit_task_form_deadline_label">Срок выполнения</string>
+    <string name="edit_task_form_notify_time_label">Срок оповещения исполнителя</string>
+    <string name="edit_task_form_activity_label">Активность</string>
+    <string name="edit_task_form_executor_label">Исполнитель</string>
 </resources>
