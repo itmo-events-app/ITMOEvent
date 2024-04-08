@@ -61,4 +61,11 @@
     <string name="edit_tab_orgs">Организаторы</string>
     <string name="edit_tab_tasks">Задачи</string>
     <string name="edit_save_btn">Сохранить</string>
+    <string name="edit_activities_existing_header">Существующие активности</string>
+    <string name="edit_activities_form_header">Создать/изменить активность</string>
+    <string name="edit_activities_form_clear_btn">Очистить</string>
+    <string name="edit_activities_form_cancel_btn">Отменить</string>
+    <string name="edit_activities_form_accept_btn">Добавить</string>
+    <string name="edit_activities_item_edit_btn">Изменить</string>
+    <string name="edit_activities_item_delete_btn">Удалить</string>
 </resources>
