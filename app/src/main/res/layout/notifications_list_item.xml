@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
+    android:id="@+id/notification_card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:clickable="true"
     app:cardCornerRadius="30dp"
     android:layout_marginBottom="12dp">
@@ -34,6 +35,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Текст сообщения текст сообщенния текст сооб..."
             android:gravity="start"
             style="@style/Text.Body1"

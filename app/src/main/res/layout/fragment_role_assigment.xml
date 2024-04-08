@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragments.RoleAssignmentFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/task_appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:title="Назначение ролей" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/role_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        android:text="Администратор"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/role_organizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        android:text="Организатор"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/role_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        android:text="Помощник"/>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/role_reader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        android:text="Читатель"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/role_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/role_item"
+        tools:itemCount="6"
+        app:layout_constraintBottom_toTopOf="@id/guideline_91"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_45" />
+
+
+
+</LinearLayout>

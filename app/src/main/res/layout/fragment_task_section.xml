@@ -24,9 +24,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/task_filter_card"
         style="?attr/materialCardViewFilledStyle"
@@ -86,6 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Мероприятие"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toStartOf="@id/task_activity_filter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toggleButton">
@@ -105,28 +103,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Активность"
+                android:layout_marginStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/task_events_filter"
                 app:layout_constraintTop_toBottomOf="@id/toggleButton">
-
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textAppearance="?textAppearanceLabelMedium"
-                    app:simpleItems="@array/activity_filter_options_array" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/task_user_filter"
-                style="?textInputFilledExposedDropdownMenuStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Пользователь"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/task_events_filter">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"

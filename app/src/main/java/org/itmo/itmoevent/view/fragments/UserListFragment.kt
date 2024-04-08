@@ -27,8 +27,8 @@ class UserListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = UserAdapter()
-        binding.userRecycler.adapter = adapter
-        binding.userRecycler.layoutManager = LinearLayoutManager(context)
+        binding.userlistRecycler.adapter = adapter
+        binding.userlistRecycler.layoutManager = LinearLayoutManager(context)
 
         //TODO получение листа -> livedata
         val useList = listOf<User>()

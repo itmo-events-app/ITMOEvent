@@ -3,10 +3,12 @@ package org.itmo.itmoevent.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.NotificationsListItemBinding.bind
 import org.itmo.itmoevent.model.data.entity.Notification
+import java.time.LocalDateTime
 
 
 class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationHolder>() {
@@ -17,8 +19,17 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         private val binding = bind(item)
 
         fun bind(notification: Notification) = with(binding) {
-            binding.theme.text = notification.title
-            binding.message.text = notification.description
+            theme.text = notification.title
+            val description = notification.description.trim().take(40) + "..."
+            message.text = description
+
+            itemView.setOnClickListener {
+                message.text = notification.description
+                if (notification.readTime == null) notification.readTime = LocalDateTime.now()
+                //TODO ПРОНЕСТИ НА БЭК ИЗМЕНЕНИЯ
+            }
+
+            if (notification.readTime != null) itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.grey_200))
         }
     }
 
@@ -35,40 +46,8 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         holder.bind(notificationsList[position])
     }
 
-    fun refresh(list: List<Notification>) {
-        notificationsList = list
+    fun refresh(list: List<Notification>?) {
+        notificationsList = list ?: emptyList()
         notifyDataSetChanged()
     }
 }
-
-//class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
-//
-//    var notificationList : List<Notification> = emptyList()
-//        set(value) {
-//            field = value
-//            notifyDataSetChanged()
-//        }
-//
-//    class NotificationViewHolder(val binding: NotificationsListItemBinding) : RecyclerView.ViewHolder(binding.root)
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
-//        val inflater = LayoutInflater.from(parent.context)
-//        val viewBinding = NotificationsListItemBinding.inflate(inflater, parent, false)
-//        return NotificationViewHolder(viewBinding)
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return notificationList.size
-//    }
-//
-//    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-//        holder.binding.run {
-//            val notification = notificationList[position]
-//            theme.text = notification.title
-//            message.text = notification.description
-//            holder.itemView.setOnClickListener {
-//
-//            }
-//        }
-//    }
-//}
