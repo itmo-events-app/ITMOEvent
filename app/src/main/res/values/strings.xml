@@ -41,4 +41,24 @@
     <string name="event_subsection_organizers">Организаторы</string>
     <string name="event_subsection_participants">Участники</string>
     <string name="participants_mark_all_btn">Отметить всех</string>
+    <string name="edit_event_image_label">Обложка:</string>
+    <string name="edit_event_image_load">Загрузить</string>
+    <string name="edit_event_title_label">Название</string>
+    <string name="edit_event_shrt_desc_label">Краткое описание</string>
+    <string name="edit_event_long_desc_label">Полное описание</string>
+    <string name="edit_event_time_hold_from_label">Начало проведения</string>
+    <string name="edit_event_time_hold_to_label">Конец проведения</string>
+    <string name="edit_event_time_register_from_label">Начало регистрации</string>
+    <string name="edit_event_time_register_to_label">Конец регистрации</string>
+    <string name="edit_event_time_prepare_from_label">Начало подготовки</string>
+    <string name="edit_event_time_prepare_to_label">Конец подготовки</string>
+    <string name="edit_event_place_label">Площадка</string>
+    <string name="edit_event_location_info_label">Информация о локации</string>
+    <string name="edit_event_participants_max_label">Число участников</string>
+    <string name="edit_event_age_label">Возраст до</string>
+    <string name="edit_tab_desc">Описание</string>
+    <string name="edit_tab_activities">Активности</string>
+    <string name="edit_tab_orgs">Организаторы</string>
+    <string name="edit_tab_tasks">Задачи</string>
+    <string name="edit_save_btn">Сохранить</string>
 </resources>
