@@ -8,7 +8,9 @@ import org.itmo.itmoevent.model.data.entity.EventShort
 import java.time.format.DateTimeFormatter
 
 
-class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(
+    private val onEventListClickListener: OnEventListClickListener
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     var eventList: List<EventShort> = emptyList()
         set(value) {
@@ -16,7 +18,8 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
             notifyDataSetChanged()
         }
 
-    class EventViewHolder(val binding: EventsListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class EventViewHolder(val binding: EventsListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -37,7 +40,15 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
             eventItemPlace.text = event.place
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             eventItemTime.text = event.start.format(formatter)
+
+            this.root.setOnClickListener {
+                onEventListClickListener.onEventClicked(event.id)
+            }
         }
+    }
+
+    interface OnEventListClickListener {
+        fun onEventClicked(eventId: Int)
     }
 
 }

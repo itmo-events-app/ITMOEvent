@@ -13,7 +13,7 @@ import org.itmo.itmoevent.databinding.FragmentEventSectionBinding
 
 class EventSectionFragment : Fragment(R.layout.fragment_event_section) {
     private var viewBinding: FragmentEventSectionBinding? = null
-    private val tabFragmentList = listOf(GeneralEventsFragment(), UserEventsFragment())
+    private val tabFragmentList: List<Fragment> = listOf(GeneralEventsFragment(), UserEventsFragment())
 
     override fun onCreateView(
         inflater: LayoutInflater,
