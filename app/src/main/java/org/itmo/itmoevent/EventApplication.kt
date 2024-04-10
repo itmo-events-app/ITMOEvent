@@ -18,6 +18,10 @@ class EventApplication : Application() {
         eventNetworkService.rolesApi
     }
 
+    private val placeApi by lazy {
+        eventNetworkService.placeApi
+    }
+
     val eventRepository by lazy {
         EventRepository(eventApi)
     }
