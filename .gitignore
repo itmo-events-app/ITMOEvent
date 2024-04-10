@@ -15,3 +15,7 @@
 local.properties
 /.idea/deploymentTargetDropDown.xml
 /openapi
+.idea/gradle.xml
+.idea/migrations.xml
+.idea/misc.xml
+api-docs.json
