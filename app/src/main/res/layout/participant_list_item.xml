@@ -30,6 +30,7 @@
         tools:text="example@mail.ru" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/participant_item_mark_switch"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:checked="true"

@@ -84,4 +84,5 @@
     <string name="edit_orgs_remove_org_header">Удалить организаторов</string>
     <string name="edit_orgs_remove_org_role_label">Роль</string>
     <string name="remove_org_item_btn">Удалить</string>
+    <string name="event_duration">%1$s - %2$s</string>
 </resources>
