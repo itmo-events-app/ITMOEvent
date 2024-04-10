@@ -54,7 +54,6 @@ class EventRepository(private val eventApi: EventApi) {
             entity.id,
             entity.title,
             entity.shortDesc,
-            entity.place,
             entity.status,
             LocalDateTime.ofInstant(entity.start.toInstant(), ZoneId.systemDefault()),
             LocalDateTime.ofInstant(entity.end.toInstant(), ZoneId.systemDefault()),
