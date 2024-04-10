@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.openapi.generator") version "7.4.0"
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -50,6 +52,28 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+}
+
+val basePackageName = "${android.namespace}.network"
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec.set("$rootDir/api-docs.json")
+    outputDir.set("$rootDir/openapi")
+    packageName.set(basePackageName)
+    apiPackage.set("${basePackageName}.api")
+    invokerPackage.set("${basePackageName}.invoker")
+    modelPackage.set("${basePackageName}.model")
+    configOptions.set(mapOf(
+        "library" to "jvm-retrofit2",
+        "serializationLibrary" to "kotlinx_serialization",
+        "useCoroutines" to "true",
+    ))
 }
