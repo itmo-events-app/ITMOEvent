@@ -60,9 +60,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             eventItemViewModel.eventId.observe(this) {
+                val argBundle = bundleOf(EventFragment.EVENT_ID_ARG to eventItemViewModel.eventId.value)
                 supportFragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
-                    .replace(R.id.main_fragment_container, EventFragment())
+                    .replace<EventFragment>(R.id.main_fragment_container, args = argBundle)
                     .addToBackStack(BACK_STACK_DETAILS_TAG)
                     .commit()
             }
