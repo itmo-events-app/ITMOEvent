@@ -3,10 +3,12 @@ package org.itmo.itmoevent
 import android.app.Application
 import org.itmo.itmoevent.model.network.EventNetworkService
 import org.itmo.itmoevent.model.network.NotificationApi
+import org.itmo.itmoevent.model.repository.EventActivityRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
 import org.itmo.itmoevent.model.repository.NotificationRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.model.repository.TaskRepository
 import org.itmo.itmoevent.model.repository.UserRepository
 
 class EventApplication : Application() {
@@ -29,6 +31,14 @@ class EventApplication : Application() {
         eventNetworkService.notificationApi
     }
 
+    private val taskApi by lazy {
+        eventNetworkService.taskApi
+    }
+
+    private val eventActivityApi by lazy {
+        eventNetworkService.eventActivityApi
+    }
+
     val eventRepository by lazy {
         EventRepository(eventApi)
     }
@@ -47,6 +57,14 @@ class EventApplication : Application() {
 
     val notificationRepository by lazy {
         NotificationRepository(notificationApi)
+    }
+
+    val taskRepository by lazy {
+        TaskRepository(taskApi)
+    }
+
+    val eventActivityRepository by lazy {
+        EventActivityRepository(eventActivityApi)
     }
 
 }

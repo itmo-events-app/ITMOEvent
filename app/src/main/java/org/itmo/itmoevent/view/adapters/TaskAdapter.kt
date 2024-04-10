@@ -46,8 +46,8 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun refresh(list: List<Task>) {
-        taskList = list
+    fun refresh(list: List<Task>?) {
+        taskList = list ?: emptyList()
         notifyDataSetChanged()
     }
 }

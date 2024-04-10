@@ -2,6 +2,7 @@ package org.itmo.itmoevent.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,26 +16,43 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
 
     private var notificationsList: List<Notification> = listOf()
 
-    class NotificationHolder(item: View): RecyclerView.ViewHolder(item) {
+    class NotificationHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val binding = bind(item)
 
         fun bind(notification: Notification) = with(binding) {
             theme.text = notification.title
-            val description = notification.description.trim().take(40) + "..."
+            val description = notification.description.take(40) + "..."
             message.text = description
 
-            itemView.setOnClickListener {
-                message.text = notification.description
+
+            notificationCard.setOnClickListener {
+                notification.isOpen = !notification.isOpen
+                if (notification.isOpen)
+                    message.text = notification.description
+                else
+                    message.text = description
                 if (notification.readTime == null) notification.readTime = LocalDateTime.now()
+                if (notification.readTime != null) notificationCard.setBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.grey_200
+                    )
+                )
                 //TODO ПРОНЕСТИ НА БЭК ИЗМЕНЕНИЯ
             }
 
-            if (notification.readTime != null) itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.grey_200))
+            if (notification.readTime != null) notificationCard.setBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.grey_200
+                )
+            )
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.notifications_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.notifications_list_item, parent, false)
         return NotificationHolder(view)
     }
 
@@ -50,4 +68,6 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         notificationsList = list ?: emptyList()
         notifyDataSetChanged()
     }
+
+
 }

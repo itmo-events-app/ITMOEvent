@@ -6,5 +6,6 @@ data class Notification(
     val id: Int,
     val title: String,
     val description: String,
-    var readTime: LocalDateTime? = null
+    var readTime: LocalDateTime? = null,
+    var isOpen: Boolean = false
 )

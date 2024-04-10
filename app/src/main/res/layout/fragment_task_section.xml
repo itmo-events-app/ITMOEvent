@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Фильтр задач"
+                android:text="@string/task_filter_header_text"
                 android:textAppearance="?textAppearanceBodySmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -56,24 +56,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                app:checkedButton="@+id/current"
+                app:singleSelection="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_filter_header"
                 app:layout_constraintBottom_toTopOf="@id/task_events_filter">
 
                 <Button
+                    android:textColor="@color/black"
                     android:id="@+id/current"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="186dp"
                     android:layout_height="wrap_content"
-                    android:text="Текущие" />
+                    android:text="@string/toggle_button_current_teext" />
 
                 <Button
+                    android:textColor="@color/black"
                     android:id="@+id/past"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="186dp"
                     android:layout_height="wrap_content"
-                    android:text="Прошедшие" />
+                    android:text="@string/toggle_button_prev_text" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -82,13 +86,14 @@
                 style="?textInputFilledExposedDropdownMenuStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Мероприятие"
+                android:hint="@string/task_events_filter_text"
                 android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toStartOf="@id/task_activity_filter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toggleButton">
 
                 <AutoCompleteTextView
+                    android:id="@+id/task_events_filter_select"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -102,13 +107,14 @@
                 style="?textInputFilledExposedDropdownMenuStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Активность"
+                android:hint="@string/task_activity_filter_text"
                 android:layout_marginStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/task_events_filter"
                 app:layout_constraintTop_toBottomOf="@id/toggleButton">
 
                 <AutoCompleteTextView
+                    android:id="@+id/task_activity_filter_select"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
