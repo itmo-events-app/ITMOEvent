@@ -8,18 +8,22 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentGeneralEventsBinding
 import org.itmo.itmoevent.view.adapters.EventAdapter
+import org.itmo.itmoevent.viewmodel.EventItemViewModel
 import org.itmo.itmoevent.viewmodel.MainEventsViewModel
 import java.lang.IllegalStateException
 
 
-class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
+class GeneralEventsFragment : Fragment(R.layout.fragment_general_events),
+    EventAdapter.OnEventListClickListener {
     private var viewBinding: FragmentGeneralEventsBinding? = null
+    private val eventItemViewModel: EventItemViewModel by activityViewModels()
 
     private val model: MainEventsViewModel by viewModels {
         val application = requireActivity().application as? EventApplication
@@ -39,7 +43,7 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val eventAdapter = EventAdapter()
+        val eventAdapter = EventAdapter(this)
 
         viewBinding?.run {
             generalEventsRv.adapter = eventAdapter
@@ -68,6 +72,10 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
             }
         }
 
+    }
+
+    override fun onEventClicked(eventId: Int) {
+        eventItemViewModel.selectEventItem(eventId)
     }
 
 }
