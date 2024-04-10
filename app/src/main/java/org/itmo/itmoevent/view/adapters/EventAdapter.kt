@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.databinding.EventsListItemBinding
 import org.itmo.itmoevent.model.data.entity.EventShort
+import org.itmo.itmoevent.view.util.DisplayDateFormats
 import java.time.format.DateTimeFormatter
 
 
@@ -37,8 +38,8 @@ class EventAdapter(
             eventItemHeader.text = event.title
             eventItemDesc.text = event.shortDesc
             eventItemStatus.text = event.status
-            eventItemPlace.text = event.place
-            val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
+//            eventItemPlace.text = event.shortDesc
+            val formatter = DateTimeFormatter.ofPattern(DisplayDateFormats.DATE_EVENT_SHORT)
             eventItemTime.text = event.start.format(formatter)
 
             this.root.setOnClickListener {
