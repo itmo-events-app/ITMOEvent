@@ -17,6 +17,7 @@ import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentTaskSectionBinding
 import org.itmo.itmoevent.model.data.entity.Task
+import org.itmo.itmoevent.view.adapters.OnTaskClickListener
 import org.itmo.itmoevent.view.adapters.TaskAdapter
 import org.itmo.itmoevent.viewmodel.TaskViewModel
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
@@ -24,7 +25,7 @@ import java.lang.IllegalStateException
 import java.time.LocalDateTime
 
 
-class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
+class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClickListener {
     private lateinit var binding: FragmentTaskSectionBinding
     private lateinit var adapter: TaskAdapter
 
@@ -49,7 +50,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = TaskAdapter()
+        adapter = TaskAdapter(this)
 
 //        model.taskLiveData.observe(this.viewLifecycleOwner) {
 //            adapter.refresh(it)
@@ -110,6 +111,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
         }
     }
 
+
+
     fun getTaskList(): List<Task> {
         val tasks = listOf(
             Task(1, 1, 2, "Task 1 description", "Pending", LocalDateTime.now().plusDays(2), 1, "Task 1", LocalDateTime.now().plusDays(1)),
@@ -123,6 +126,15 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
             return tasks.filter { it.deadline.isAfter(LocalDateTime.now()) }
         else
             return tasks.filter { it.deadline.isBefore(LocalDateTime.now()) }
+    }
+
+    override fun onTaskClick(taskId: Int) {
+        val bundle = Bundle().apply { putInt("taskId", taskId) }
+        val fragment = TaskDetailsFragment().apply { arguments = bundle }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 

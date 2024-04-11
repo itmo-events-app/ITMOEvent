@@ -31,7 +31,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
                     message.text = notification.description
                 else
                     message.text = description
-                if (notification.readTime == null) notification.readTime = LocalDateTime.now()
+                if (notification.readTime == null) notification.readTime = LocalDateTime.now() //TODO
                 if (notification.readTime != null) notificationCard.setBackgroundColor(
                     ContextCompat.getColor(
                         itemView.context,
