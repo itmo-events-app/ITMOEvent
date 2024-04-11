@@ -67,7 +67,7 @@
                     android:textColor="@color/black"
                     android:id="@+id/current"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="186dp"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="@string/toggle_button_current_teext" />
 
@@ -75,7 +75,7 @@
                     android:textColor="@color/black"
                     android:id="@+id/past"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="186dp"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="@string/toggle_button_prev_text" />
 

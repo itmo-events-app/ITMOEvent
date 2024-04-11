@@ -66,14 +66,18 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
             current.setOnClickListener {
                 toggleButton.check(R.id.current)
                 current.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_300))
+                current.setTextColor(Color.WHITE)
                 past.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                past.setTextColor(Color.BLACK)
                 adapter.refresh(getTaskList())
             }
 
             past.setOnClickListener {
                 toggleButton.check(R.id.past)
                 past.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_300))
+                past.setTextColor(Color.WHITE)
                 current.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+                current.setTextColor(Color.BLACK)
                 adapter.refresh(getTaskList())
             }
 
