@@ -8,6 +8,7 @@
     tools:context=".view.fragments.GeneralEventsFragment">
 
     <LinearLayout
+        android:id="@+id/gen_events_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -148,6 +149,7 @@
             android:layout_width="match_parent"
             layout="@layout/progress_bar_main"
             android:layout_marginTop="24dp"
+            android:visibility="gone"
             />
 
         <androidx.recyclerview.widget.RecyclerView
