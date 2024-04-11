@@ -6,18 +6,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import org.itmo.itmoevent.model.data.entity.Notification
 import org.itmo.itmoevent.model.data.entity.User
+import org.itmo.itmoevent.model.repository.AuthRepository
 import org.itmo.itmoevent.model.repository.NotificationRepository
 import org.itmo.itmoevent.model.repository.UserRepository
+import org.itmo.itmoevent.network.api.ProfileControllerApi
+import org.itmo.itmoevent.network.model.LoginRequest
+import org.itmo.itmoevent.network.model.ProfileResponse
+import retrofit2.Call
+import retrofit2.Response
 
 class UserNotificationsViewModel(
     private val userRepository: UserRepository,
-    private val notificationRepository: NotificationRepository
+    private val notificationRepository: NotificationRepository,
+    private val profileApi: ProfileControllerApi,
+    private val authApiRepository: AuthRepository
 ): ViewModel() {
 
 
-    val userLiveData: LiveData<User?> = liveData {
+    val userLiveData: LiveData<ProfileResponse?> = liveData {
+        //authApiRepository.login(LoginRequest("333666@niuitmo.ru", "PaSsWoRd1!"))
         val loaded = loadUser()
-        emit(loaded)
+        emit(loaded.body())
     }
 
     val notificationsLiveData: LiveData<List<Notification>?> = liveData {
@@ -37,9 +46,8 @@ class UserNotificationsViewModel(
         emit(loaded)
     }
 
-    private suspend fun loadUser(): User? {
-        //TODO ОТ КУДА БРАТЬ ID ОНО ДОЛЖНО БЫТЬ ОБЩИМ ВО ВСЕМ ПРИЛОЖЕНИИ
-        return userRepository.getUserById(0)
+    private suspend fun loadUser(): Response<ProfileResponse> {
+        return profileApi.getUserInfo()
     }
 
     private suspend fun loadNotifications(): List<Notification>? {
@@ -49,13 +57,17 @@ class UserNotificationsViewModel(
 
     class UserNotificationsViewModelFactory(
         private val userRepository: UserRepository,
-        private val notificationRepository: NotificationRepository
+        private val notificationRepository: NotificationRepository,
+        private val profileControllerApi: ProfileControllerApi,
+        private val authApiRepository: AuthRepository
     ): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(UserNotificationsViewModel::class.java)) {
                 return UserNotificationsViewModel(
                     userRepository,
-                    notificationRepository
+                    notificationRepository,
+                    profileControllerApi,
+                    authApiRepository
                 ) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")

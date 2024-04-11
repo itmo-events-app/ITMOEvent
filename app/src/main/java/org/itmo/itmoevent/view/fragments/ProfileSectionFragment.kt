@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentProfileSectionBinding
 import org.itmo.itmoevent.model.data.entity.Notification
+import org.itmo.itmoevent.network.api.ProfileControllerApi
+import org.itmo.itmoevent.network.infrastructure.ApiClient
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
 import org.itmo.itmoevent.view.adapters.UserAdapter
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
@@ -26,7 +30,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             ?: throw IllegalStateException("Application must be EventApplication implementation")
         UserNotificationsViewModel.UserNotificationsViewModelFactory(
             application.userRepository,
-            application.notificationRepository
+            application.notificationRepository,
+            application.profileApi,
+            application.authApiRepository
         )
     }
 
@@ -86,6 +92,10 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
         model.notificationsLiveData.observe(this.viewLifecycleOwner) {
             adapter.refresh(it)
+        }
+
+        model.userLiveData.observe(this.viewLifecycleOwner){
+            binding.fio.text = "${it?.name} ${it?.surname}"
         }
 
         binding.run {

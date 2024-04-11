@@ -50,7 +50,7 @@ data class ProfileResponse (
     val userInfo: kotlin.collections.List<UserInfoResponse>? = null,
 
     @Contextual @SerialName(value = "lastLoginDate")
-    val lastLoginDate: java.time.OffsetDateTime? = null,
+    val lastLoginDate: java.time.LocalDateTime? = null,
 
     @SerialName(value = "enablePushNotifications")
     val enablePushNotifications: kotlin.Boolean? = null,

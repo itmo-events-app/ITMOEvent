@@ -141,7 +141,7 @@ class ApiClient(
 
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(baseUrlKey, "http://hell.server:8080")
+            System.getProperties().getProperty(baseUrlKey, "http://95.216.146.187:8080")
         }
     }
 }

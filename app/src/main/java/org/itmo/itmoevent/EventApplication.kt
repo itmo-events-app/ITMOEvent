@@ -2,7 +2,7 @@ package org.itmo.itmoevent
 
 import android.app.Application
 import org.itmo.itmoevent.model.network.EventNetworkService
-import org.itmo.itmoevent.model.network.NotificationApi
+import org.itmo.itmoevent.model.repository.AuthRepository
 import org.itmo.itmoevent.model.repository.EventActivityRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
@@ -11,9 +11,24 @@ import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
 import org.itmo.itmoevent.model.repository.UserRepository
 
+
 class EventApplication : Application() {
 
-    private val eventNetworkService = EventNetworkService()
+//    lateinit var sessionManager: SessionManager
+
+    private val eventNetworkService = EventNetworkService(null)
+
+    val profileApi by lazy {
+        eventNetworkService.profileApi
+    }
+
+    val authApi by lazy {
+        eventNetworkService.authApi
+    }
+
+    val authApiRepository by lazy {
+        AuthRepository(authApi, null)
+    }
 
     private val eventApi by lazy {
         eventNetworkService.eventApi
