@@ -52,4 +52,5 @@
     <string name="edit_new_password_text">Введите текущий пароль</string>
     <string name="edit_new_password_twice_text">Введите текущий пароль повторно</string>
     <string name="notifications_title_text">Уведомления</string>
+    <string name="exit_button_text">Выход</string>
 </resources>

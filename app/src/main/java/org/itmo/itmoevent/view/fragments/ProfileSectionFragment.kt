@@ -68,7 +68,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
 
         binding.run {
-            exitProfileButton.setOnClickListener {
+            exitButton.setOnClickListener {
                 tokenViewModel.deleteToken()
             }
 
@@ -92,7 +92,8 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editProfileButton.setOnClickListener {
-                editFio.visibility = View.VISIBLE
+                editName.visibility = View.VISIBLE
+                editSurname.visibility =View.VISIBLE
                 editEmailText.visibility = View.VISIBLE
                 fio.visibility = View.GONE
                 emailText.visibility  =View.GONE
@@ -103,10 +104,12 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             editProfileButtonConfirm.setOnClickListener {
                 //TODO допилить условия для проверки имени и почты
                 if (true) {
-                    fio.text = editFio.text
+                    val newFio = editName.text.toString() + " " + editSurname.text.toString()
+                    fio.text = newFio
                     emailText.text = editEmailText.text
                 }
-                editFio.visibility = View.GONE
+                editName.visibility = View.GONE
+                editSurname.visibility = View.GONE
                 editEmailText.visibility = View.GONE
                 fio.visibility = View.VISIBLE
                 emailText.visibility  =View.VISIBLE

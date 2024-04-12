@@ -53,9 +53,9 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
             userEventsRequestsRv.layoutManager = LinearLayoutManager(context)
             userEventsRequestsRv.adapter = requestsAdapter
 
-            userEventsRoleEdit.setOnItemClickListener { _, _, position, _ ->
-                model.roleNameIndex.value = position
-            }
+//            userEventsRoleEdit.setOnItemClickListener { _, _, position, _ ->
+//                model.roleNameIndex.value = position
+//            }
             userEventsProgressBarRoleEvents.progressBar.visibility = GONE
 
             userEventsOrganizedRv.layoutManager = LinearLayoutManager(context)
@@ -63,66 +63,66 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
             eventsAdapter.eventList = listOf()
         }
 
-        model.run {
-            eventRequestList.observe(this@UserEventsFragment.viewLifecycleOwner) { eventRequests ->
-                if (eventRequests.isNullOrEmpty()) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.no_found_message),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    requestsAdapter.eventRequests = eventRequests
-                }
-            }
+//        model.run {
+//            eventRequestList.observe(this@UserEventsFragment.viewLifecycleOwner) { eventRequests ->
+//                if (eventRequests.isNullOrEmpty()) {
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.no_found_message),
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                } else {
+//                    requestsAdapter.eventRequests = eventRequests
+//                }
+//            }
+//
+//            rolesList.observe(this@UserEventsFragment.viewLifecycleOwner) { roles ->
+//                if (roles.isNullOrEmpty()) {
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.no_found_message),
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                } else {
+//                    (viewBinding?.userEventsRoleEdit as? MaterialAutoCompleteTextView)?.setSimpleItems(
+//                        roles.toTypedArray()
+//                    )
+//                }
+//            }
+//
+//            roleEventList.observe(this@UserEventsFragment.viewLifecycleOwner) { events ->
+//                if (events.isNullOrEmpty()) {
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.no_found_message),
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                } else {
+//                    eventsAdapter.eventList = events
+//                }
+//            }
+//
+//            isEventListLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
+//                viewBinding?.run {
+//                    changeVisibilityDependOnLoadingStatus(
+//                        isLoading,
+//                        userEventsProgressBarRoleEvents.progressBar,
+//                        userEventsOrganizedRv
+//                    )
+//                }
+//            }
+//
+//            isInitDataLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
+//                viewBinding?.run {
+//                    changeVisibilityDependOnLoadingStatus(
+//                        isLoading,
+//                        userEventsProgressBarMain.progressBar,
+//                        userEventsGroupContentAll
+//                    )
+//                }
+//            }
 
-            rolesList.observe(this@UserEventsFragment.viewLifecycleOwner) { roles ->
-                if (roles.isNullOrEmpty()) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.no_found_message),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    (viewBinding?.userEventsRoleEdit as? MaterialAutoCompleteTextView)?.setSimpleItems(
-                        roles.toTypedArray()
-                    )
-                }
-            }
-
-            roleEventList.observe(this@UserEventsFragment.viewLifecycleOwner) { events ->
-                if (events.isNullOrEmpty()) {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.no_found_message),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    eventsAdapter.eventList = events
-                }
-            }
-
-            isEventListLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
-                viewBinding?.run {
-                    changeVisibilityDependOnLoadingStatus(
-                        isLoading,
-                        userEventsProgressBarRoleEvents.progressBar,
-                        userEventsOrganizedRv
-                    )
-                }
-            }
-
-            isInitDataLoading.observe(this@UserEventsFragment.viewLifecycleOwner) { isLoading ->
-                viewBinding?.run {
-                    changeVisibilityDependOnLoadingStatus(
-                        isLoading,
-                        userEventsProgressBarMain.progressBar,
-                        userEventsGroupContentAll
-                    )
-                }
-            }
-
-        }
+//        }
 
     }
 
