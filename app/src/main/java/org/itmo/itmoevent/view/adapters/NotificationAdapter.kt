@@ -9,17 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.NotificationsListItemBinding.bind
 import org.itmo.itmoevent.model.data.entity.Notification
+import org.itmo.itmoevent.network.model.NotificationResponse
 import java.time.LocalDateTime
 
 
 class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationHolder>() {
 
-    private var notificationsList: List<Notification> = listOf()
+    private var notificationsList: List<NotificationResponse> = listOf()
 
     class NotificationHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val binding = bind(item)
 
-        fun bind(notification: Notification) = with(binding) {
+        fun bind(notification: NotificationResponse) = with(binding) {
             theme.text = notification.title
             val description = notification.description.take(40) + "..."
             message.text = description
@@ -64,7 +65,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         holder.bind(notificationsList[position])
     }
 
-    fun refresh(list: List<Notification>?) {
+    fun refresh(list: List<NotificationResponse>?) {
         notificationsList = list ?: emptyList()
         notifyDataSetChanged()
     }

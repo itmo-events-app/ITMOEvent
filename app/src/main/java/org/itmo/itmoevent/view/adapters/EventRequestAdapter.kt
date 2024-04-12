@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import org.itmo.itmoevent.databinding.EventsListCreateReqItemBinding
-import org.itmo.itmoevent.model.data.entity.EventRequest
+import org.itmo.itmoevent.network.model.EventRequest
 
 class EventRequestAdapter : RecyclerView.Adapter<EventRequestAdapter.RequestViewHolder>() {
     var eventRequests: List<EventRequest> = emptyList()

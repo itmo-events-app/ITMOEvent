@@ -3,6 +3,7 @@ package org.itmo.itmoevent.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.ActivityMainBinding
 import org.itmo.itmoevent.view.fragments.EventSectionFragment
@@ -10,6 +11,7 @@ import org.itmo.itmoevent.view.fragments.ManagementSectionFragment
 import org.itmo.itmoevent.view.fragments.ProfileSectionFragment
 import org.itmo.itmoevent.view.fragments.TaskSectionFragment
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var viewBinding: ActivityMainBinding? = null

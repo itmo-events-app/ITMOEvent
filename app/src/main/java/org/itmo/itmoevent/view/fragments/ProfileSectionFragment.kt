@@ -1,40 +1,31 @@
 package org.itmo.itmoevent.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.itmo.itmoevent.EventApplication
+import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentProfileSectionBinding
-import org.itmo.itmoevent.model.data.entity.Notification
-import org.itmo.itmoevent.network.api.ProfileControllerApi
-import org.itmo.itmoevent.network.infrastructure.ApiClient
+import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
-import org.itmo.itmoevent.view.adapters.UserAdapter
+import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
+import org.itmo.itmoevent.viewmodel.TokenViewModel
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
-import java.lang.IllegalStateException
 
 
+@AndroidEntryPoint
 class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     private lateinit var binding: FragmentProfileSectionBinding
     private lateinit var adapter: NotificationAdapter
 
-    private val model: UserNotificationsViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        UserNotificationsViewModel.UserNotificationsViewModelFactory(
-            application.userRepository,
-            application.notificationRepository,
-            application.profileApi,
-            application.authApiRepository
-        )
-    }
+    private val viewModel: UserNotificationsViewModel by viewModels()
+    private val tokenViewModel: TokenViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,53 +43,36 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
         binding.run {
             notificationRecycler.adapter = adapter
             notificationRecycler.layoutManager = LinearLayoutManager(context)
-            //TODO ЭТО ДЛЯ ТЕСТА
-            adapter.refresh(listOf(
-                Notification(
-                    0,
-                    "Таскай стулья",
-                    "Просим вас заняться перемещением 10 стульев, находящихся в комнате А, в комнату B. Пожалуйста, обеспечьте аккуратное расположение каждого стула в новом месте, чтобы создать уютную обстановку. Наше задание будет считаться завершенным только после того, как все стулья будут успешно перенесены и установлены в комнате B, готовые к использованию."
-                    ),
-                Notification(1,
-                    "Поднять платину",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                    ),
-                Notification(2,
-                    "Поднять платину1",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(3,
-                    "Поднять платину2",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(4,
-                    "Поднять платину3",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(5,
-                    "Поднять платину4",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(6,
-                    "Поднять платину5",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(7,
-                    "Поднять платину6",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                )
-            ))
         }
 
-        model.notificationsLiveData.observe(this.viewLifecycleOwner) {
+        viewModel.notificationsLiveData.observe(this.viewLifecycleOwner) {
             adapter.refresh(it)
         }
 
-        model.userLiveData.observe(this.viewLifecycleOwner){
-            binding.fio.text = "${it?.name} ${it?.surname}"
+        viewModel.getUserInfo(object: CoroutinesErrorHandler {
+            override fun onError(message: String) {
+                Log.d("api", message)
+            }
+        })
+
+        viewModel.profileResponse.observe(this.viewLifecycleOwner){
+            when(it){
+                is ApiResponse.Failure -> Log.d("aoi_error", it.toString())
+                ApiResponse.Loading -> Log.d("api_loading", it.toString())
+                is ApiResponse.Success -> {
+                    binding.fio.text = "${it.data.name} ${it.data.surname}"
+                    binding.emailText.text = it.data.userInfo!![0].login
+                }
+            }
         }
 
+
         binding.run {
+            exitProfileButton.setOnClickListener {
+                tokenViewModel.deleteToken()
+            }
+
+
             //Кнопка смены пароля
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE

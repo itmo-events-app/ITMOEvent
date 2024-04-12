@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.databinding.EventsListItemBinding
-import org.itmo.itmoevent.model.data.entity.EventShort
+import org.itmo.itmoevent.network.model.EventResponse
 import java.time.format.DateTimeFormatter
 
 
 class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
-    var eventList: List<EventShort> = emptyList()
+    var eventList: List<EventResponse> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -32,11 +32,11 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
         holder.binding.run {
             val event = eventList[position]
             eventItemHeader.text = event.title
-            eventItemDesc.text = event.shortDesc
-            eventItemStatus.text = event.status
-            eventItemPlace.text = event.place
+            eventItemDesc.text = event.shortDescription
+            eventItemStatus.text = event.status!!.value
+//            eventItemPlace.text = event.placeId
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
-            eventItemTime.text = event.start.format(formatter)
+            eventItemTime.text = event.startDate!!.format(formatter)
         }
     }
 
