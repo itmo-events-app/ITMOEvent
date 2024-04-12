@@ -28,15 +28,15 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section) {
     private lateinit var binding: FragmentTaskSectionBinding
     private lateinit var adapter: TaskAdapter
 
-    private val model: TaskViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        TaskViewModel.TaskViewModelFactory(
-            application.taskRepository,
-            application.eventRepository,
-            application.eventActivityRepository
-        )
-    }
+//    private val model: TaskViewModel by viewModels {
+//        val application = requireActivity().application as? EventApplication
+//            ?: throw IllegalStateException("Application must be EventApplication implementation")
+//        TaskViewModel.TaskViewModelFactory(
+//            application.taskRepository,
+//            application.eventRepository,
+//            application.eventActivityRepository
+//        )
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

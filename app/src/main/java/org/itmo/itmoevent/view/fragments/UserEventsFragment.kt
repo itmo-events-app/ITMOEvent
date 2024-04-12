@@ -24,15 +24,15 @@ import java.lang.IllegalStateException
 class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
     private var viewBinding: FragmentUserEventsBinding? = null
 
-    private val model: UserEventsViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        UserEventsViewModel.UserEventsViewModelFactory(
-            application.eventRequestRepository,
-            application.roleRepository,
-            application.eventRepository
-        )
-    }
+//    private val model: UserEventsViewModel by viewModels {
+//        val application = requireActivity().application as? EventApplication
+//            ?: throw IllegalStateException("Application must be EventApplication implementation")
+//        UserEventsViewModel.UserEventsViewModelFactory(
+//            application.eventRequestRepository,
+//            application.roleRepository,
+//            application.eventRepository
+//        )
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

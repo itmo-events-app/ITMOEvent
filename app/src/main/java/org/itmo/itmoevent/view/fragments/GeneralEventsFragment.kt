@@ -21,11 +21,11 @@ import java.lang.IllegalStateException
 class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
     private var viewBinding: FragmentGeneralEventsBinding? = null
 
-    private val model: MainEventsViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        MainEventsViewModel.MainEventsViewModelFactory(application.eventRepository)
-    }
+//    private val model: MainEventsViewModel by viewModels {
+//        val application = requireActivity().application as? EventApplication
+//            ?: throw IllegalStateException("Application must be EventApplication implementation")
+//        MainEventsViewModel.MainEventsViewModelFactory(application.eventRepository)
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,27 +46,27 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events) {
             generalEventsRv.layoutManager = LinearLayoutManager(context)
         }
 
-        model.eventsLiveData.observe(this.viewLifecycleOwner) { eventList ->
-            if (eventList == null) {
-                Toast.makeText(context, getString(R.string.no_found_message), Toast.LENGTH_LONG)
-                    .show()
-            } else {
-                eventAdapter.eventList = eventList
-            }
-        }
-
-        model.isEventListLoading.observe(this.viewLifecycleOwner) { isLoading ->
-            var progressBarVisibility = GONE
-            var recyclerVisibility = VISIBLE
-            if (isLoading) {
-                progressBarVisibility = VISIBLE
-                recyclerVisibility = GONE
-            }
-            viewBinding?.run {
-                genEventsProgressBar.progressBar.visibility = progressBarVisibility
-                generalEventsRv.visibility = recyclerVisibility
-            }
-        }
+//        model.eventsLiveData.observe(this.viewLifecycleOwner) { eventList ->
+//            if (eventList == null) {
+//                Toast.makeText(context, getString(R.string.no_found_message), Toast.LENGTH_LONG)
+//                    .show()
+//            } else {
+//                eventAdapter.eventList = eventList
+//            }
+//        }
+//
+//        model.isEventListLoading.observe(this.viewLifecycleOwner) { isLoading ->
+//            var progressBarVisibility = GONE
+//            var recyclerVisibility = VISIBLE
+//            if (isLoading) {
+//                progressBarVisibility = VISIBLE
+//                recyclerVisibility = GONE
+//            }
+//            viewBinding?.run {
+//                genEventsProgressBar.progressBar.visibility = progressBarVisibility
+//                generalEventsRv.visibility = recyclerVisibility
+//            }
+//        }
 
     }
 
