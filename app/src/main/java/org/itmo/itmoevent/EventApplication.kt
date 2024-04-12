@@ -1,12 +1,14 @@
 package org.itmo.itmoevent
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import org.itmo.itmoevent.model.network.EventNetworkService
 import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 
+@HiltAndroidApp
 class EventApplication : Application() {
 
     private val eventNetworkService = EventNetworkService()
