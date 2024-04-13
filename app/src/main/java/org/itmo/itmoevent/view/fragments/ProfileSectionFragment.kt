@@ -87,7 +87,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
         })
 
-        viewModel._profileResponse.observe(this.viewLifecycleOwner){
+        viewModel.profileResponse.observe(this.viewLifecycleOwner){
             when(it){
                 is ApiResponse.Failure -> Log.d("aoi_error", it.toString())
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())

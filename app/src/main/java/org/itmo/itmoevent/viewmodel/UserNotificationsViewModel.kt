@@ -20,7 +20,7 @@ class UserNotificationsViewModel @Inject constructor(
 ): BaseViewModel() {
 
     // ProfileRepository
-    val _profileResponse = MutableLiveData<ApiResponse<ProfileResponse>>()
+    private val _profileResponse = MutableLiveData<ApiResponse<ProfileResponse>>()
     val profileResponse = _profileResponse
 
     // NotificationRepository
