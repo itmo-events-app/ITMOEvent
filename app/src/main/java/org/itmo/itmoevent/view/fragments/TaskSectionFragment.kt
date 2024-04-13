@@ -3,6 +3,7 @@ package org.itmo.itmoevent.view.fragments
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,31 +14,27 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentTaskSectionBinding
 import org.itmo.itmoevent.model.data.entity.Task
+import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.OnTaskClickListener
 import org.itmo.itmoevent.view.adapters.TaskAdapter
+import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
 import org.itmo.itmoevent.viewmodel.TaskViewModel
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
 import java.lang.IllegalStateException
 import java.time.LocalDateTime
 
 
+@AndroidEntryPoint
 class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClickListener {
     private lateinit var binding: FragmentTaskSectionBinding
     private lateinit var adapter: TaskAdapter
 
-    private val model: TaskViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        TaskViewModel.TaskViewModelFactory(
-            application.taskRepository,
-            application.eventRepository,
-            application.eventActivityRepository
-        )
-    }
+    private val model: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +57,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
 
             taskRecycler.adapter = adapter
             taskRecycler.layoutManager = LinearLayoutManager(context)
-            adapter.refresh(getTaskList())
+//            adapter.refresh(getTaskList())
 
             current.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_300))
 
@@ -70,7 +67,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                 current.setTextColor(Color.WHITE)
                 past.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 past.setTextColor(Color.BLACK)
-                adapter.refresh(getTaskList())
+//                adapter.refresh(getTaskList())
             }
 
             past.setOnClickListener {
@@ -79,17 +76,36 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                 past.setTextColor(Color.WHITE)
                 current.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 current.setTextColor(Color.BLACK)
-                adapter.refresh(getTaskList())
+//                adapter.refresh(getTaskList())
             }
 
             // TODO НОРМАЛЬНО ПОЛУЧАТЬ ИВЕНТЫ
-            val events = listOf("все","Ивент 1", "Ивент 2", "Ивент 3")
-            val eventsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, events)
+            //val events = listOf("все","Ивент 1", "Ивент 2", "Ивент 3")
+            //val eventsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, events)
 
+            model.taskListShowWhereAssignee(object: CoroutinesErrorHandler {
+                override fun onError(message: String) {
+                    Log.d("api", message)
+                }
+            })
 
+            model.taskListResponse.observe(viewLifecycleOwner) {
+                when (it) {
+                    is ApiResponse.Failure -> {}
+                    ApiResponse.Loading -> {}
+                    is ApiResponse.Success -> {
+                        adapter.refresh(it.data)
 
-            taskEventsFilterSelect.setAdapter(eventsAdapter)
-            taskActivityFilter.visibility = View.GONE
+                        val eventTitleList: List<String> = it.data.map {
+                            it.event!!.eventTitle
+                        }.filterNotNull()
+
+                        val eventsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, eventTitleList)
+                        taskEventsFilterSelect.setAdapter(eventsAdapter)
+                        taskActivityFilter.visibility = View.GONE
+                    }
+                }
+            }
 
             taskEventsFilterSelect.setOnItemClickListener { parent, view, positions, id ->
                 val event = (view as TextView).text.toString() //фильтр ивента тут
