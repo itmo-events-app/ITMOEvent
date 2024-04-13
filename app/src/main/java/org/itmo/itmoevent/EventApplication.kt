@@ -1,9 +1,11 @@
 package org.itmo.itmoevent
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import org.itmo.itmoevent.model.network.EventNetworkService
 import org.itmo.itmoevent.model.network.NotificationApi
 import org.itmo.itmoevent.model.repository.EventActivityRepository
+import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
 import org.itmo.itmoevent.model.repository.NotificationRepository
@@ -11,6 +13,7 @@ import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
 import org.itmo.itmoevent.model.repository.UserRepository
 
+@HiltAndroidApp
 class EventApplication : Application() {
 
     private val eventNetworkService = EventNetworkService()
@@ -39,6 +42,10 @@ class EventApplication : Application() {
         eventNetworkService.eventActivityApi
     }
 
+    private val placeApi by lazy {
+        eventNetworkService.placeApi
+    }
+
     val eventRepository by lazy {
         EventRepository(eventApi)
     }
@@ -49,6 +56,10 @@ class EventApplication : Application() {
 
     val roleRepository by lazy {
         RoleRepository(roleApi)
+    }
+
+    val eventDetailsRepository by lazy {
+        EventDetailsRepository(eventApi, placeApi)
     }
 
     val userRepository by lazy {

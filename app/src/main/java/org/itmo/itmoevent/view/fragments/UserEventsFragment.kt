@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -17,11 +18,13 @@ import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentUserEventsBinding
 import org.itmo.itmoevent.view.adapters.EventRequestAdapter
 import org.itmo.itmoevent.view.adapters.EventAdapter
+import org.itmo.itmoevent.viewmodel.EventItemViewModel
 import org.itmo.itmoevent.viewmodel.UserEventsViewModel
 import java.lang.IllegalStateException
 
 
-class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
+class UserEventsFragment : Fragment(R.layout.fragment_user_events),
+    EventAdapter.OnEventListClickListener {
     private var viewBinding: FragmentUserEventsBinding? = null
 
     private val model: UserEventsViewModel by viewModels {
@@ -33,6 +36,9 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
             application.eventRepository
         )
     }
+
+    private val eventItemViewModel: EventItemViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +53,7 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
         super.onViewCreated(view, savedInstanceState)
 
         val requestsAdapter = EventRequestAdapter()
-        val eventsAdapter = EventAdapter()
+        val eventsAdapter = EventAdapter(this)
 
         viewBinding?.run {
             userEventsRequestsRv.layoutManager = LinearLayoutManager(context)
@@ -139,6 +145,10 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events) {
         }
         progressBar.visibility = progressVisibility
         view.visibility = contentVisibility
+    }
+
+    override fun onEventClicked(eventId: Int) {
+        eventItemViewModel.selectEventItem(eventId)
     }
 
 }

@@ -5,10 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.databinding.EventsListItemBinding
 import org.itmo.itmoevent.model.data.entity.EventShort
+import org.itmo.itmoevent.view.util.DisplayDateFormats
 import java.time.format.DateTimeFormatter
 
 
-class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(
+    private val onEventListClickListener: OnEventListClickListener
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     var eventList: List<EventShort> = emptyList()
         set(value) {
@@ -16,7 +19,8 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
             notifyDataSetChanged()
         }
 
-    class EventViewHolder(val binding: EventsListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class EventViewHolder(val binding: EventsListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -34,10 +38,18 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
             eventItemHeader.text = event.title
             eventItemDesc.text = event.shortDesc
             eventItemStatus.text = event.status
-            eventItemPlace.text = event.place
-            val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
+//            eventItemPlace.text = event.shortDesc
+            val formatter = DateTimeFormatter.ofPattern(DisplayDateFormats.DATE_EVENT_SHORT)
             eventItemTime.text = event.start.format(formatter)
+
+            this.root.setOnClickListener {
+                onEventListClickListener.onEventClicked(event.id)
+            }
         }
+    }
+
+    interface OnEventListClickListener {
+        fun onEventClicked(eventId: Int)
     }
 
 }
