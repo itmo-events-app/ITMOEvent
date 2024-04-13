@@ -49,10 +49,10 @@ data class EventRequest (
     val placeId: kotlin.Int,
 
     @Contextual @SerialName(value = "startDate")
-    val startDate: java.time.OffsetDateTime,
+    val startDate: java.time.LocalDateTime,
 
     @Contextual @SerialName(value = "endDate")
-    val endDate: java.time.OffsetDateTime,
+    val endDate: java.time.LocalDateTime,
 
     @SerialName(value = "title")
     val title: kotlin.String,
@@ -70,10 +70,10 @@ data class EventRequest (
     val status: EventRequest.Status,
 
     @Contextual @SerialName(value = "registrationStart")
-    val registrationStart: java.time.OffsetDateTime,
+    val registrationStart: java.time.LocalDateTime,
 
     @Contextual @SerialName(value = "registrationEnd")
-    val registrationEnd: java.time.OffsetDateTime,
+    val registrationEnd: java.time.LocalDateTime,
 
     @SerialName(value = "participantLimit")
     val participantLimit: kotlin.Int,
@@ -85,10 +85,10 @@ data class EventRequest (
     val participantAgeHighest: kotlin.Int,
 
     @Contextual @SerialName(value = "preparingStart")
-    val preparingStart: java.time.OffsetDateTime,
+    val preparingStart: java.time.LocalDateTime,
 
     @Contextual @SerialName(value = "preparingEnd")
-    val preparingEnd: java.time.OffsetDateTime,
+    val preparingEnd: java.time.LocalDateTime,
 
     @Contextual @SerialName(value = "image")
     val image: java.io.File,

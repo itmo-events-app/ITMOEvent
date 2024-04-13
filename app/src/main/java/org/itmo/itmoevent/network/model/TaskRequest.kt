@@ -46,10 +46,10 @@ data class TaskRequest (
     val description: kotlin.String,
 
     @Contextual @SerialName(value = "deadline")
-    val deadline: java.time.OffsetDateTime,
+    val deadline: java.time.LocalDateTime,
 
     @Contextual @SerialName(value = "reminder")
-    val reminder: java.time.OffsetDateTime,
+    val reminder: java.time.LocalDateTime,
 
     @SerialName(value = "assigneeId")
     val assigneeId: kotlin.Int? = null,

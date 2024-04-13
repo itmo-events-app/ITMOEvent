@@ -47,7 +47,7 @@ data class NotificationResponse (
     val seen: kotlin.Boolean? = null,
 
     @Contextual @SerialName(value = "sent_time")
-    val sentTime: java.time.OffsetDateTime? = null,
+    val sentTime: java.time.LocalDateTime? = null,
 
     @SerialName(value = "link")
     val link: kotlin.String? = null
