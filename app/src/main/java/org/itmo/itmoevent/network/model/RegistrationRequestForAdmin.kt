@@ -46,7 +46,7 @@ data class RegistrationRequestForAdmin (
     val status: RegistrationRequestForAdmin.Status? = null,
 
     @Contextual @SerialName(value = "sentTime")
-    val sentTime: java.time.OffsetDateTime? = null
+    val sentTime: java.time.LocalDateTime? = null
 
 ) {
 

@@ -63,13 +63,13 @@ data class TaskResponse (
     val place: PlaceShortDataResponse? = null,
 
     @Contextual @SerialName(value = "creationTime")
-    val creationTime: java.time.OffsetDateTime? = null,
+    val creationTime: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "deadline")
-    val deadline: java.time.OffsetDateTime? = null,
+    val deadline: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "reminder")
-    val reminder: java.time.OffsetDateTime? = null
+    val reminder: java.time.LocalDateTime? = null
 
 ) {
 

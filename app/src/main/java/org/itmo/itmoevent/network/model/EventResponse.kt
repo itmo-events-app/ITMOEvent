@@ -52,10 +52,10 @@ data class EventResponse (
     val placeId: kotlin.Int? = null,
 
     @Contextual @SerialName(value = "startDate")
-    val startDate: java.time.OffsetDateTime? = null,
+    val startDate: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "endDate")
-    val endDate: java.time.OffsetDateTime? = null,
+    val endDate: java.time.LocalDateTime? = null,
 
     @SerialName(value = "title")
     val title: kotlin.String? = null,
@@ -73,10 +73,10 @@ data class EventResponse (
     val status: EventResponse.Status? = null,
 
     @Contextual @SerialName(value = "registrationStart")
-    val registrationStart: java.time.OffsetDateTime? = null,
+    val registrationStart: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "registrationEnd")
-    val registrationEnd: java.time.OffsetDateTime? = null,
+    val registrationEnd: java.time.LocalDateTime? = null,
 
     @SerialName(value = "parent")
     val parent: kotlin.Int? = null,
@@ -91,10 +91,10 @@ data class EventResponse (
     val participantAgeHighest: kotlin.Int? = null,
 
     @Contextual @SerialName(value = "preparingStart")
-    val preparingStart: java.time.OffsetDateTime? = null,
+    val preparingStart: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "preparingEnd")
-    val preparingEnd: java.time.OffsetDateTime? = null
+    val preparingEnd: java.time.LocalDateTime? = null
 
 ) {
 
