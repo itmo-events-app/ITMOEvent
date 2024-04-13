@@ -46,17 +46,22 @@ class MainActivity : AppCompatActivity() {
 
             viewBinding?.run {
                 mainBottomNavBar.setOnItemSelectedListener { item ->
-                    supportFragmentManager.popBackStack(
-                        BACK_STACK_TAB_TAG,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
-                    navFragmentsMap[item.itemId]?.run {
-                        supportFragmentManager.beginTransaction()
+                    val selectedFragment = navFragmentsMap[item.itemId]
+
+                    val currentFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container)
+
+                    if (selectedFragment != currentFragment) {
+                        val transaction = supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
-                            .replace(R.id.main_fragment_container, this)
-                            .addToBackStack(BACK_STACK_TAB_TAG)
-                            .commit()
+                            .replace(R.id.main_fragment_container, selectedFragment!!)
+
+                        if (currentFragment != null) {
+                            transaction.addToBackStack(null)
+                        }
+
+                        transaction.commit()
                     }
+
                     true
                 }
             }

@@ -7,29 +7,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.TaskItemBinding
-import org.itmo.itmoevent.model.data.entity.Task
+import org.itmo.itmoevent.network.model.TaskResponse
 import java.time.format.DateTimeFormatter
 
 class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapter<TaskAdapter.TaskHolder>() {
 
-    private var taskList: List<Task> = listOf()
+    private var taskList: List<TaskResponse> = listOf()
 
     class TaskHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = TaskItemBinding.bind(item)
 
-        fun bind(task: Task, listener: OnTaskClickListener) = with(binding) {
-            binding.taskName.text = task.name
+        fun bind(task: TaskResponse, listener: OnTaskClickListener) = with(binding) {
+            binding.taskName.text = task.title
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
-            val text = "До " + task.deadline.format(formatter)
+            val text = "До " + task.deadline!!.format(formatter)
             binding.taskDeadline.text = text
-            binding.taskStatus.text = task.status
+            binding.taskStatus.text = task.taskStatus!!.name
             binding.taskEventName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
             binding.taskEventActivityName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
             itemView.setOnClickListener {
                 //TODO Переход на страницу таски
             }
             taskCardClicker.setOnClickListener {
-                listener.onTaskClick(task.id)
+                listener.onTaskClick(task.id!!)
             }
         }
     }
@@ -50,7 +50,7 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun refresh(list: List<Task>?) {
+    fun refresh(list: List<TaskResponse>?) {
         taskList = list ?: emptyList()
         notifyDataSetChanged()
     }

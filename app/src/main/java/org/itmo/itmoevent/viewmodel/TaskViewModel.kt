@@ -1,55 +1,39 @@
 package org.itmo.itmoevent.viewmodel
 
+import androidx.datastore.preferences.protobuf.Api
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Task
 import org.itmo.itmoevent.model.repository.EventActivityRepository
-import org.itmo.itmoevent.model.repository.EventRepository
-import org.itmo.itmoevent.model.repository.TaskRepository
+import org.itmo.itmoevent.network.model.ProfileResponse
+import org.itmo.itmoevent.network.model.TaskResponse
+import org.itmo.itmoevent.network.repository.EventRepository
+import org.itmo.itmoevent.network.repository.TaskRepository
+import org.itmo.itmoevent.network.util.ApiResponse
+import javax.inject.Inject
 
-class TaskViewModel(
+@HiltViewModel
+class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val eventRepository: EventRepository,
-    private val eventActivityRepository: EventActivityRepository
-): ViewModel() {
+    private val eventRepository: EventRepository
+) : BaseViewModel() {
 
-    val taskLiveData: LiveData<List<Task>?> = liveData {
-        val loaded = loadTask()
-        emit(loaded)
+    private val _taskListResponse = MutableLiveData<ApiResponse<List<TaskResponse>>>()
+    val taskListResponse = _taskListResponse
+
+    fun taskListShowWhereAssignee(coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _taskListResponse,
+        coroutinesErrorHandler
+    ) {
+        taskRepository.taskListShowWhereAssignee()
     }
 
-    private suspend fun loadTask(): List<Task>? {
-        return taskRepository.getTasks()
-    }
-
-    val eventsLiveData: LiveData<List<EventShort>?> = liveData {
-        val loaded = loadEvents()
-        emit(loaded)
-    }
-
-    private suspend fun loadEvents(): List<EventShort>? {
-        return eventRepository.getAllEvents()
-    }
-
-
-    class TaskViewModelFactory(
-        private val taskRepository: TaskRepository,
-        private val eventRepository: EventRepository,
-        private val eventActivityRepository: EventActivityRepository
-    ) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
-                return TaskViewModel(
-                    taskRepository,
-                    eventRepository,
-                    eventActivityRepository
-                ) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
 }
