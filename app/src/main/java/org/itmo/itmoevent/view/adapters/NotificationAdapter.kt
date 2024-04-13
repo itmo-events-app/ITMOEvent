@@ -26,11 +26,10 @@ class NotificationAdapter(
     class NotificationHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val binding = bind(item)
 
-        fun bind(notification: Notification) = with(binding) {
+        fun bind(notification: Notification, onNotificationClickListener: OnNotificationClickListener) = with(binding) {
             theme.text = notification.title
             val description = (notification.description?.take(40) ?: "") + "..."
             message.text = description
-
 
             notificationCard.setOnClickListener {
                 notification.isOpen = !notification.isOpen
@@ -49,6 +48,8 @@ class NotificationAdapter(
                         R.color.grey_200
                     )
                 )
+
+                onNotificationClickListener.onNotificationClicked(notification.id!!)
             }
 
             if (notification.seen!!) notificationCard.setBackgroundColor(
@@ -71,10 +72,7 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
-        holder.bind(notificationsList[position])
-        holder.itemView.setOnClickListener {
-            onNotificationClickListener.onNotificationClicked(notificationsList[position].id!!)
-        }
+        holder.bind(notificationsList[position], onNotificationClickListener)
     }
 
     @SuppressLint("NotifyDataSetChanged")
