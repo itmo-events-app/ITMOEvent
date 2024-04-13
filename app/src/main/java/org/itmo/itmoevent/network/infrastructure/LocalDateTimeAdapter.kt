@@ -19,6 +19,6 @@ object LocalDateTimeAdapter : KSerializer<LocalDateTime> {
     }
 
     override fun deserialize(decoder: Decoder): LocalDateTime {
-        return LocalDateTime.parse(decoder.decodeString(), DateTimeFormatter.ISO_LOCAL_DATE)
+        return LocalDateTime.parse(decoder.decodeString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 }
