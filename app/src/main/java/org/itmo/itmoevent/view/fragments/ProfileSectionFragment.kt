@@ -50,11 +50,11 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             notificationRecycler.layoutManager = LinearLayoutManager(context)
         }
 
-//        viewModel.getAllNotifications(0, 15, object : CoroutinesErrorHandler {
-//            override fun onError(message: String) {
-//                Log.d("api", message)
-//            }
-//        })
+        viewModel.getAllNotifications(0, 15, object : CoroutinesErrorHandler {
+            override fun onError(message: String) {
+                Log.d("api", message)
+            }
+        })
 
         viewModel.allNotificationsResponse.observe(this.viewLifecycleOwner) {
             when (it) {
@@ -62,16 +62,17 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 ApiResponse.Loading -> {//TODO ЭКРАН ЗАГРУКЗКИ
                 }
                 is ApiResponse.Success -> {
+                    Log.d("podsos", it.data.toString())
                     adapter.refresh(it.data)
                 }
             }
         }
 
-//        viewModel.getUserInfo(object: CoroutinesErrorHandler {
-//            override fun onError(message: String) {
-//                Log.d("api", message)
-//            }
-//        })
+        viewModel.getUserInfo(object: CoroutinesErrorHandler {
+            override fun onError(message: String) {
+                Log.d("api", message)
+            }
+        })
 
         viewModel.profileResponse.observe(this.viewLifecycleOwner){
             when(it){
@@ -79,7 +80,11 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())
                 is ApiResponse.Success -> {
                     binding.fio.text = "${it.data.name} ${it.data.surname}"
-                    binding.emailText.text = it.data.userInfo!![0].login
+                    binding.editName.setText(it.data.name)
+                    binding.editSurname.setText(it.data.surname)
+                    val email = it.data.userInfo!![0].login
+                    binding.editEmailText.setText(email)
+                    binding.emailText.text = email
                 }
             }
         }

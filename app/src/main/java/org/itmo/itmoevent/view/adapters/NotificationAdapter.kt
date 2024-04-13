@@ -1,9 +1,12 @@
 package org.itmo.itmoevent.view.adapters
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
@@ -74,9 +77,14 @@ class NotificationAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun refresh(list: List<NotificationResponse>?) {
-        if (list == null) notificationsList = emptyList() else
+        if (list == null) {
+            notificationsList = emptyList()
+        } else {
+            Log.d("FFFFF", "UUUUUUCK")
             notificationsList = list.map { mapNotificationResponseToNotification(it) }
+        }
         notifyDataSetChanged()
     }
 
