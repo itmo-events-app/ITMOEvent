@@ -13,4 +13,7 @@
     <string name="check_password">Подтвердите пароль</string>
     <string name="forgot_password_label">Восстановление пароля</string>
     <string name="forgot_password_info">Введите свой адрес электронной почты, и мы вышлем вам ссылку, чтобы создать новый пароль</string>
+    <string name="send_reset_password">Отправить</string>
+    <string name="to_login_fragment">На главную</string>
+    <string name="registration_confirm_info">Заявка на регистрацию успешно создана. Ожидайте письма с потдверждением для входа.</string>
 </resources>
