@@ -35,8 +35,8 @@ fun<T> apiRequestFlow(call: suspend () -> Response<T>): Flow<ApiResponse<T>> = f
                     val errorJson = JSONObject(errorString)
                     if (errorJson.has("errors")) {
                         val errorsArray = errorJson.getJSONArray("errors")
-                        if (errorsArray.length() > 0) {
-                            val errorMessage = errorsArray.getString(0)
+                        for (i in 0 until errorsArray.length()) {
+                            val errorMessage = errorsArray.getString(i)
                             emit(ApiResponse.Failure(errorMessage, 400))
                         }
                     }
