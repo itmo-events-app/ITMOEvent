@@ -32,7 +32,7 @@ class UserListFragment : Fragment() {
 
         //TODO получение листа -> livedata
         val useList = listOf<User>()
-        adapter.refresh(useList)
+        //adapter.refresh(useList)
     }
 
     companion object {

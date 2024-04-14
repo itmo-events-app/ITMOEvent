@@ -1,64 +1,112 @@
 package org.itmo.itmoevent.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
-import org.itmo.itmoevent.model.data.entity.Notification
-import org.itmo.itmoevent.model.data.entity.User
-import org.itmo.itmoevent.model.repository.NotificationRepository
-import org.itmo.itmoevent.model.repository.UserRepository
+import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import org.itmo.itmoevent.network.model.NotificationResponse
+import org.itmo.itmoevent.network.model.NotificationSettingsRequest
+import org.itmo.itmoevent.network.model.ProfileResponse
+import org.itmo.itmoevent.network.model.UserChangeLoginRequest
+import org.itmo.itmoevent.network.model.UserChangeNameRequest
+import org.itmo.itmoevent.network.model.UserChangePasswordRequest
+import org.itmo.itmoevent.network.repository.NotificationRepository
+import org.itmo.itmoevent.network.repository.ProfileRepository
+import org.itmo.itmoevent.network.util.ApiResponse
+import javax.inject.Inject
 
-class UserNotificationsViewModel(
-    private val userRepository: UserRepository,
-    private val notificationRepository: NotificationRepository
-): ViewModel() {
+@HiltViewModel
+class UserNotificationsViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val notificationRepository: NotificationRepository,
+): BaseViewModel() {
+
+    // ProfileRepository
+    private val _profileResponse = MutableLiveData<ApiResponse<ProfileResponse>>()
+    val profileResponse = _profileResponse
+
+    // NotificationRepository
+    private val _allNotificationsResponse = MutableLiveData<ApiResponse<List<NotificationResponse>>>()
+    val allNotificationsResponse = _allNotificationsResponse
+
+    private val _allAsSeenNotificationsResponse = MutableLiveData<ApiResponse<List<NotificationResponse>>>()
+    val allAsSeenNotificationsResponse = _allAsSeenNotificationsResponse
+
+    private val _oneAsSeenNotificationResponse = MutableLiveData<ApiResponse<NotificationResponse>>()
+    val oneAsSeenNotificationResponse = _oneAsSeenNotificationResponse
 
 
-    val userLiveData: LiveData<User?> = liveData {
-        val loaded = loadUser()
-        emit(loaded)
+    fun changeLogin(userChangeLoginRequest: UserChangeLoginRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    ) {
+        profileRepository.changeLogin(userChangeLoginRequest)
     }
 
-    val notificationsLiveData: LiveData<List<Notification>?> = liveData {
-//        val loaded = loadNotifications()
-        //TODO FIX API
-        val loaded = listOf(
-            Notification(
-                0,
-                "Таскай стулья",
-                "Просим вас заняться перемещением 10 стульев, находящихся в комнате А, в комнату B. Пожалуйста, обеспечьте аккуратное расположение каждого стула в новом месте, чтобы создать уютную обстановку. Наше задание будет считаться завершенным только после того, как все стулья будут успешно перенесены и установлены в комнате B, готовые к использованию."
-            ),
-            Notification(1,
-                "Поднять платину",
-                "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-            )
-        )
-        emit(loaded)
+    fun changeName(userChangeNameRequest: UserChangeNameRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    ) {
+        profileRepository.changeName(userChangeNameRequest)
     }
 
-    private suspend fun loadUser(): User? {
-        //TODO ОТ КУДА БРАТЬ ID ОНО ДОЛЖНО БЫТЬ ОБЩИМ ВО ВСЕМ ПРИЛОЖЕНИИ
-        return userRepository.getUserById(0)
+    fun changePassword(userChangePasswordRequest: UserChangePasswordRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    ) {
+        profileRepository.changePassword(userChangePasswordRequest)
     }
 
-    private suspend fun loadNotifications(): List<Notification>? {
-        //TODO ОТ КУДА БРАТЬ ID ОНО ДОЛЖНО БЫТЬ ОБЩИМ ВО ВСЕМ ПРИЛОЖЕНИИ
-        return notificationRepository.getUserNotificationsByUserId(0)
+    fun getUserInfo(coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _profileResponse,
+        coroutinesErrorHandler
+    ) {
+        profileRepository.getUserInfo()
     }
 
-    class UserNotificationsViewModelFactory(
-        private val userRepository: UserRepository,
-        private val notificationRepository: NotificationRepository
-    ): ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(UserNotificationsViewModel::class.java)) {
-                return UserNotificationsViewModel(
-                    userRepository,
-                    notificationRepository
-                ) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
+
+    fun updateNotifications(notificationSettingsRequest: NotificationSettingsRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    ) {
+        profileRepository.updateNotifications(notificationSettingsRequest)
     }
+
+    fun getAllNotifications(page: Int, size: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _allNotificationsResponse,
+        coroutinesErrorHandler
+    ) {
+        notificationRepository.getAllNotifications(page, size)
+    }
+
+    fun setAllAsSeenNotifications(page: Int, size: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _allAsSeenNotificationsResponse,
+        coroutinesErrorHandler
+    ) {
+        notificationRepository.setAllAsSeenNotifications(page, size)
+    }
+
+    fun setOneAsSeenNotification(notificationId: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _oneAsSeenNotificationResponse,
+        coroutinesErrorHandler
+    ) {
+        notificationRepository.setOneAsSeenNotification(notificationId)
+    }
+
+//    val notificationsLiveData: LiveData<List<Notification>?> = liveData {
+////        val loaded = loadNotifications()
+//        //TODO FIX API
+//        val loaded = listOf(
+//            Notification(
+//                0,
+//                "Таскай стулья",
+//                "Просим вас заняться перемещением 10 стульев, находящихся в комнате А, в комнату B. Пожалуйста, обеспечьте аккуратное расположение каждого стула в новом месте, чтобы создать уютную обстановку. Наше задание будет считаться завершенным только после того, как все стулья будут успешно перенесены и установлены в комнате B, готовые к использованию."
+//            ),
+//            Notification(1,
+//                "Поднять платину",
+//                "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
+//            )
+//        )
+//        emit(loaded)
+//    }
+
+
 }

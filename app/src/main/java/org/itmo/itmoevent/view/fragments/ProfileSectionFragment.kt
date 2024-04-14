@@ -1,34 +1,39 @@
 package org.itmo.itmoevent.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.itmo.itmoevent.EventApplication
+import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentProfileSectionBinding
-import org.itmo.itmoevent.model.data.entity.Notification
+import org.itmo.itmoevent.network.model.NotificationSettingsRequest
+import org.itmo.itmoevent.network.model.UserChangeLoginRequest
+import org.itmo.itmoevent.network.model.UserChangeNameRequest
+import org.itmo.itmoevent.network.model.UserChangePasswordRequest
+import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
-import org.itmo.itmoevent.view.adapters.UserAdapter
+import org.itmo.itmoevent.view.auth.LoginActivity
+import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
+import org.itmo.itmoevent.viewmodel.TokenViewModel
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
-import java.lang.IllegalStateException
 
 
+@AndroidEntryPoint
 class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     private lateinit var binding: FragmentProfileSectionBinding
     private lateinit var adapter: NotificationAdapter
 
-    private val model: UserNotificationsViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        UserNotificationsViewModel.UserNotificationsViewModelFactory(
-            application.userRepository,
-            application.notificationRepository
-        )
-    }
+    private val viewModel: UserNotificationsViewModel by viewModels()
+    private val tokenViewModel: TokenViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,53 +47,80 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = NotificationAdapter()
+        adapter = NotificationAdapter(object : NotificationAdapter.OnNotificationClickListener {
+            override fun onNotificationClicked(notificationId: Int) {
+                showShortToast(notificationId.toString())
+                viewModel.setOneAsSeenNotification(notificationId, object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
+            }
+        })
         binding.run {
             notificationRecycler.adapter = adapter
             notificationRecycler.layoutManager = LinearLayoutManager(context)
-            //TODO ЭТО ДЛЯ ТЕСТА
-            adapter.refresh(listOf(
-                Notification(
-                    0,
-                    "Таскай стулья",
-                    "Просим вас заняться перемещением 10 стульев, находящихся в комнате А, в комнату B. Пожалуйста, обеспечьте аккуратное расположение каждого стула в новом месте, чтобы создать уютную обстановку. Наше задание будет считаться завершенным только после того, как все стулья будут успешно перенесены и установлены в комнате B, готовые к использованию."
-                    ),
-                Notification(1,
-                    "Поднять платину",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                    ),
-                Notification(2,
-                    "Поднять платину1",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(3,
-                    "Поднять платину2",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(4,
-                    "Поднять платину3",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(5,
-                    "Поднять платину4",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(6,
-                    "Поднять платину5",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                ),
-                Notification(7,
-                    "Поднять платину6",
-                    "Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам. Плотину надо поднять, рычагом. Я его дам. Канал нужно завалить камнем, камень я не дам."
-                )
-            ))
         }
 
-        model.notificationsLiveData.observe(this.viewLifecycleOwner) {
-            adapter.refresh(it)
+        viewModel.getAllNotifications(0, 15, object : CoroutinesErrorHandler {
+            override fun onError(message: String) {
+                Log.d("api", message)
+            }
+        })
+
+        viewModel.allNotificationsResponse.observe(this.viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Failure -> Toast.makeText(requireContext(), "Проблемы с соединением", Toast.LENGTH_SHORT).show()
+                ApiResponse.Loading -> {
+                    //TODO ЭКРАН ЗАГРУКЗКИ
+                }
+                is ApiResponse.Success -> {
+                    Log.d("podsos", it.data.toString())
+                    adapter.refresh(it.data)
+                }
+            }
         }
+
+        viewModel.getUserInfo(object: CoroutinesErrorHandler {
+            override fun onError(message: String) {
+                Log.d("api", message)
+            }
+        })
+
+        viewModel.profileResponse.observe(this.viewLifecycleOwner){
+            when(it){
+                is ApiResponse.Failure -> Log.d("aoi_error", it.toString())
+                ApiResponse.Loading -> Log.d("api_loading", it.toString())
+                is ApiResponse.Success -> {
+                    binding.fio.text = "${it.data.name} ${it.data.surname}"
+                    binding.editName.setText(it.data.name)
+                    binding.editSurname.setText(it.data.surname)
+                    val email = it.data.userInfo!![0].login
+                    binding.editEmailText.setText(email)
+                    binding.emailText.text = email
+                    binding.mailSwitch.isChecked = it.data.enableEmailNotifications!!
+                }
+            }
+        }
+
 
         binding.run {
+            exitButton.setOnClickListener {
+                tokenViewModel.deleteToken()
+                val intent = Intent(activity as AppCompatActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+
+
+            mailSwitch.setOnCheckedChangeListener {_,isChecked ->
+                viewModel.updateNotifications(NotificationSettingsRequest(isChecked, false), object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
+            }
+
             //Кнопка смены пароля
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE
@@ -99,37 +131,106 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editPasswordButtonConfirm.setOnClickListener {
+                val oldPassword = editCurrentPassword.text.toString()
+                val newPassword = editNewPassword.text.toString()
+                val newPasswordTwice = editNewPasswordTwice.text.toString()
+                viewModel.changePassword(UserChangePasswordRequest(oldPassword, newPassword, newPasswordTwice), object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
                 editCurrentPassword.visibility = View.GONE
                 editNewPassword.visibility = View.GONE
                 editNewPasswordTwice.visibility = View.GONE
                 editPasswordButtonConfirm.visibility = View.GONE
                 editPasswordButton.visibility = View.VISIBLE
-                //TODO Поменять пароль на бэке или где он там
             }
 
             editProfileButton.setOnClickListener {
-                editFio.visibility = View.VISIBLE
+                editName.visibility = View.VISIBLE
+                editSurname.visibility =View.VISIBLE
                 editEmailText.visibility = View.VISIBLE
-                fio.visibility = View.GONE
-                emailText.visibility  =View.GONE
+                fio.visibility = View.INVISIBLE
+                emailText.visibility  =View.INVISIBLE
                 editProfileButtonConfirm.visibility = View.VISIBLE
                 editProfileButton.visibility = View.GONE
             }
 
             editProfileButtonConfirm.setOnClickListener {
-                //TODO допилить условия для проверки имени и почты
-                if (true) {
-                    fio.text = editFio.text
-                    emailText.text = editEmailText.text
+                var isOk = true
+                val oldName = fio.text.toString().substringBefore(" ")
+                val oldSurname = fio.text.toString().substringAfter(" ")
+                val newName = editName.text.toString()
+                val newSurname = editSurname.text.toString()
+                val newLogin = editEmailText.text.toString()
+                val newFio = "$newName $newSurname"
+
+                if (fio.text.toString() != newFio)  {
+
+                    if (!checkName(newName, newSurname)) {
+                        isOk = false
+                        editName.setText(oldName)
+                        editSurname.setText(oldSurname)
+                        showShortToast("Некорректное имя пользователя")
+                    } else {
+                        fio.text = newFio
+                        viewModel.changeName(
+                            UserChangeNameRequest(newName, newSurname),
+                            object : CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                    }
                 }
-                editFio.visibility = View.GONE
-                editEmailText.visibility = View.GONE
-                fio.visibility = View.VISIBLE
-                emailText.visibility  =View.VISIBLE
-                editProfileButton.visibility = View.VISIBLE
-                editProfileButtonConfirm.visibility = View.GONE
-                //TODO ОТПРАВИТЬ НА БЭК
+
+                if (emailText.text.toString() != newLogin) {
+
+                    if (!checkLogin(newLogin)) {
+                        isOk = false
+                        editEmailText.setText(emailText.text)
+                        showShortToast("Некорректная почта")
+                    } else {
+                        emailText.text = editEmailText.text
+
+                        viewModel.changeLogin(
+                            UserChangeLoginRequest(
+                                UserChangeLoginRequest.Type.EMAIL,
+                                newLogin
+                            ), object : CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                    }
+                }
+
+                if (isOk) {
+                    editName.visibility = View.GONE
+                    editSurname.visibility = View.GONE
+                    editEmailText.visibility = View.GONE
+                    fio.visibility = View.VISIBLE
+                    emailText.visibility = View.VISIBLE
+                    editProfileButton.visibility = View.VISIBLE
+                    editProfileButtonConfirm.visibility = View.GONE
+                }
             }
         }
+    }
+
+    private fun showShortToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun checkName(name: String, surname: String): Boolean {
+        return name.matches("[а-яА-Я]+".toRegex()) && surname.matches("[а-яА-Я]+".toRegex())
+    }
+
+    private fun checkLogin(login: String): Boolean {
+        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
     }
 }

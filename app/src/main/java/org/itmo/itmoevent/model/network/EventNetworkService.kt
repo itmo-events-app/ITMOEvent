@@ -22,8 +22,9 @@ class EventNetworkService {
     val notificationApi = retrofit.create<NotificationApi>()
     val taskApi = retrofit.create<TaskApi>()
     val eventActivityApi = retrofit.create<EventActivityApi>()
+    val placeApi = retrofit.create<PlaceApi>()
 
     companion object {
-        private const val BASE_URL: String = "https://1c4b5df4-7222-41c0-a10b-8cdea728d4a1.mock.pstmn.io/"
+        private const val BASE_URL: String = "https://2249b66f-a980-4584-8175-80b3cfa34b4b.mock.pstmn.io/"
     }
 }

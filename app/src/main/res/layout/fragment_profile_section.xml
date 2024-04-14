@@ -19,68 +19,108 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:title="Профиль" />
+            app:title="Профиль">
+
+            <Button
+                android:id="@+id/exit_button"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/red_100"
+                android:text="@string/exit_button_text"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <TextView
-        android:id="@+id/fio"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_info_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.profile_fio"
-        android:text="@string/fio_tools_text"
-        app:layout_constraintTop_toBottomOf="@id/guideline_05"
-        app:layout_constraintBottom_toTopOf="@id/email_text"
-        app:layout_constraintStart_toEndOf="@id/guideline_v05"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
+        app:layout_constraintTop_toBottomOf="@id/profile_appbar_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/edit_fio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.profile_fio"
-        android:text="@string/fio_tools_text"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/guideline_05"
-        app:layout_constraintBottom_toTopOf="@id/email_text"
-        app:layout_constraintStart_toEndOf="@id/guideline_v05"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
+        <TextView
+            android:id="@+id/fio"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.profile_fio"
+            android:text="@string/fio_tools_text"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.clickable"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/mail_tools_text"
-        android:textIsSelectable="true"
-        app:layout_constraintTop_toBottomOf="@id/fio"
-        app:layout_constraintBottom_toTopOf="@id/guideline_20"
-        app:layout_constraintStart_toEndOf="@id/guideline_v05"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.profile_fio"
+            android:maxLength="20"
+            android:text="Фридкин"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/fio"
+            app:layout_constraintBottom_toBottomOf="@id/fio"
+            app:layout_constraintEnd_toStartOf="@id/edit_surname"
+            app:layout_constraintStart_toStartOf="@id/fio"/>
 
-    <EditText
-        android:id="@+id/edit_email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/Text.clickable"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/mail_tools_text"
-        android:visibility="gone"
-        android:textIsSelectable="true"
-        app:layout_constraintTop_toBottomOf="@id/fio"
-        app:layout_constraintBottom_toTopOf="@id/guideline_20"
-        app:layout_constraintStart_toEndOf="@id/guideline_v05"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
+        <EditText
+            android:id="@+id/edit_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.profile_fio"
+            android:maxLength="20"
+            android:text="Даниил"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/fio"
+            app:layout_constraintBottom_toBottomOf="@id/fio"
+            app:layout_constraintStart_toEndOf="@id/edit_name"
+            app:layout_constraintEnd_toEndOf="@id/fio"/>
+
+        <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.clickable"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/mail_tools_text"
+            android:textIsSelectable="true"
+            app:layout_constraintTop_toBottomOf="@id/fio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/edit_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text.clickable"
+            android:text="@string/mail_tools_text"
+            android:visibility="gone"
+            android:textIsSelectable="true"
+            android:maxLength="30"
+            app:layout_constraintTop_toTopOf="@id/email_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/email_text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/mail_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/switch_tools_text"
         android:textAppearance="@style/Text.Body1"
-        app:layout_constraintTop_toBottomOf="@id/guideline_20"
+        app:layout_constraintTop_toBottomOf="@id/profile_info_group"
         app:layout_constraintStart_toEndOf="@id/guideline_v05"
         app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
 
@@ -184,6 +224,7 @@
         android:id="@+id/notifications_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/notifications_title_text"
         android:textAppearance="@style/Text.Header2"
         app:layout_constraintTop_toBottomOf="@id/button_block"
@@ -210,7 +251,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1"/>
+        app:layout_constraintGuide_percent="0.15"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_20"
