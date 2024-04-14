@@ -3,15 +3,15 @@ package org.itmo.itmoevent.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputLayout
 import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentGeneralEventsBinding
@@ -56,6 +56,17 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events),
             generalEventsRv.adapter = eventAdapter
             generalEventsRv.layoutManager = LinearLayoutManager(context)
 
+            genEventsFilterBtn.setOnClickListener {
+                model.filterInputTitleLiveData.value = genEventsFilterNameTl.editText?.text.toString()
+                model.filterInputDateStartLiveData.value = genEventsFilterFromTl.editText?.text.toString()
+                model.filterInputDateEndLiveData.value = genEventsFilterToTl.editText?.text.toString()
+                model.filterInputFormatLiveData.value = genEventsFilterFormatTl.editText?.text.toString()
+                model.filterInputStatusLiveData.value = genEventsFilterStatusTl.editText?.text.toString()
+
+                model.submitFilterForm()
+            }
+
+
             model.eventsLiveData.observe(this@GeneralEventsFragment.viewLifecycleOwner) { eventList ->
                 if (eventList == null) {
                     Toast.makeText(
@@ -64,6 +75,7 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events),
                         Toast.LENGTH_LONG
                     )
                         .show()
+                    eventAdapter.eventList = emptyList()
                 } else {
                     eventAdapter.eventList = eventList
                 }
@@ -76,30 +88,31 @@ class GeneralEventsFragment : Fragment(R.layout.fragment_general_events),
 
             model.disabledFunctionsLiveData.observe(this@GeneralEventsFragment.viewLifecycleOwner) { disabledFunctions ->
                 val funcViewMap = getFuncViewMap(this)
-                if (disabledFunctions == null) {
-                    showShortToast("Не удалось загрузить привилегии")
-                } else {
-                    disabledFunctions.forEach { func ->
-                        val viewToHide = funcViewMap[func]
-                        if (viewToHide != null) {
-                            viewToHide.isVisible = false
-                        }
+                disabledFunctions.forEach { func ->
+                    val viewToHide = funcViewMap[func]
+                    if (viewToHide != null) {
+                        viewToHide.isVisible = false
                     }
                 }
             }
 
-            model.isPrivilegesLoading.observe(this@GeneralEventsFragment.viewLifecycleOwner) { isLoading ->
-                generalEventsRv.isVisible = !isLoading
-            }
+            handleBaseInputByLiveData(model.filterResultDateStartLiveData, genEventsFilterFromTl)
+            handleBaseInputByLiveData(model.filterResultDateEndLiveData, genEventsFilterToTl)
+            handleBaseInputByLiveData(model.filterResultTitleLiveData, genEventsFilterNameTl)
+
         }
     }
 
-    private fun showShortToast(text: String) {
-        Toast.makeText(
-            context,
-            text,
-            Toast.LENGTH_LONG
-        ).show()
+    private fun handleBaseInputByLiveData(liveData: LiveData<MainEventsViewModel.InputResult>, textInputLayout: TextInputLayout) {
+        liveData.observe(this.viewLifecycleOwner) { result ->
+            when (result) {
+                is MainEventsViewModel.InputResult.Error ->
+                    textInputLayout.error = result.text
+                is MainEventsViewModel.InputResult.Success -> {
+                    textInputLayout.error = null
+                }
+            }
+        }
     }
 
     private fun getFuncViewMap(binding: FragmentGeneralEventsBinding): Map<Function, View> = mapOf(

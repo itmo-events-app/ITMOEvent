@@ -121,7 +121,7 @@
                     android:hint="@string/event_filter_name"
                     app:layout_constraintEnd_toEndOf="@id/gen_events_filter_format_tl"
                     app:layout_constraintStart_toStartOf="@id/gen_events_filter_from_tl"
-                    app:layout_constraintTop_toBottomOf="@id/gen_events_filter_status_tl">
+                    app:layout_constraintTop_toBottomOf="@id/gen_events_filter_format_tl">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"

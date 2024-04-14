@@ -14,7 +14,6 @@ data class Event(
     val format: String,
     val regStart: LocalDateTime,
     val regEnd: LocalDateTime,
-    val parent: Int,
     val participantLimit: Int,
     val participantAgeLowest: Int,
     val participantAgeHighest: Int,

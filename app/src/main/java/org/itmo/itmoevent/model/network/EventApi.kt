@@ -14,11 +14,11 @@ import java.util.Date
 
 interface EventApi {
 
-    @GET("/api/events/")
+    @GET("/api/events")
     suspend fun getEvents(
         @Query("title") title: String?,
-        @Query("from") from: Date?,
-        @Query("to") to: Date?,
+        @Query("startDate") from: Date?,
+        @Query("endDate") to: Date?,
         @Query("status") status: String?,
         @Query("format") format: String?
     ): Response<List<EventShortDto>>
@@ -26,10 +26,10 @@ interface EventApi {
     @GET("requests/")
     suspend fun getEventRequests(): Response<List<EventRequestDto>>
 
-    @GET("events/my/")
-    suspend fun getUserEventsByRole(@Query("role") roleName: String?): Response<List<EventShortDto>>
+    @GET("/api/roles/{id}/events")
+    suspend fun getUserEventsByRole(@Path("id") roleId: Int): Response<List<EventShortDto>>
 
-    @GET("/api/events/")
+    @GET("/api/events")
     suspend fun getEventActivities(@Query("parentId") eventId: Int): Response<List<EventShortDto>>
 
     @GET("/api/events/{id}/participants/list")

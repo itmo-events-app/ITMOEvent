@@ -5,11 +5,12 @@ import org.itmo.itmoevent.model.data.dto.RoleDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RoleApi {
 
     @GET("api/roles/organizational")
-    suspend fun getOrganisationalRoles() : Response<List<RoleDto>>
+    suspend fun getOrganisationalRoles(@Query("eventId") id: Int = 1) : Response<List<RoleDto>>
 
     @GET("/api/profile/system-privileges")
     suspend fun getUserSystemPrivileges() : Response<List<PrivilegeDto>>
