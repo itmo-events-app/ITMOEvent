@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 class NotificationRepository(private val notificationApi: NotificationControllerApi) {
 
-    fun getAllNotifications(@Query("page") page: Int, @Query("size") size: Int) = apiRequestFlow {
-        notificationApi.getAllNotifications(page, size)
+    fun getNotifications(@Query("page") page: Int, @Query("size") size: Int) = apiRequestFlow {
+        notificationApi.getNotifications(page, size)
     }
 
     fun setAllAsSeenNotifications(@Query("page") page: Int, @Query("size") size: Int) =

@@ -16,6 +16,7 @@
 package org.itmo.itmoevent.network.model
 
 import org.itmo.itmoevent.network.model.EventShortDataResponse
+import org.itmo.itmoevent.network.model.FileDataResponse
 import org.itmo.itmoevent.network.model.PlaceShortDataResponse
 import org.itmo.itmoevent.network.model.UserShortDataResponse
 
@@ -36,6 +37,7 @@ import kotlinx.serialization.Contextual
  * @param creationTime 
  * @param deadline 
  * @param reminder 
+ * @param fileData 
  */
 @Serializable
 
@@ -69,7 +71,10 @@ data class TaskResponse (
     val deadline: java.time.LocalDateTime? = null,
 
     @Contextual @SerialName(value = "reminder")
-    val reminder: java.time.LocalDateTime? = null
+    val reminder: java.time.LocalDateTime? = null,
+
+    @SerialName(value = "fileData")
+    val fileData: kotlin.collections.List<FileDataResponse>? = null
 
 ) {
 
