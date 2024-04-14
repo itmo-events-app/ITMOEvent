@@ -18,6 +18,10 @@ class EventNetworkService {
 
     val eventApi = retrofit.create<EventApi>()
     val rolesApi = retrofit.create<RoleApi>()
+    val userApi = retrofit.create<UserApi>()
+    val notificationApi = retrofit.create<NotificationApi>()
+    val taskApi = retrofit.create<TaskApi>()
+    val eventActivityApi = retrofit.create<EventActivityApi>()
     val placeApi = retrofit.create<PlaceApi>()
 
     companion object {

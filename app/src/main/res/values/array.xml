@@ -9,4 +9,28 @@
         <item>Дистанционно</item>
         <item>Очно</item>
     </string-array>
+
+    <string-array name="event_filter_options_array">
+        <item>Все</item>
+        <item>Мероприятия 1</item>
+        <item>Мероприятия 2</item>
+    </string-array>
+
+    <string-array name="activity_filter_options_array">
+        <item>Все</item>
+        <item>Активность 1</item>
+        <item>Активность 2</item>
+    </string-array>
+
+    <string-array name="user_filter_options_array">
+        <item>Мои задачи</item>
+        <item>Все задачи</item>
+    </string-array>
+
+    <string-array name="task_status_options_array">
+        <item>Новая</item>
+        <item>В работе</item>
+        <item>Просрочено</item>
+        <item>Выполнено</item>
+    </string-array>
 </resources>
