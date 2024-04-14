@@ -15,6 +15,9 @@ class AuthViewModel @Inject constructor(
 ): BaseViewModel() {
 
     private val _loginResponse = MutableLiveData<ApiResponse<String>>()
+    private val _registerResponse = MutableLiveData<ApiResponse<Unit>>()
+
+    val registerResponse = _registerResponse
     val loginResponse = _loginResponse
 
 
@@ -26,7 +29,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun register(registrationUserRequest: RegistrationUserRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
-        MutableLiveData(),
+        _registerResponse,
         coroutinesErrorHandler
     ) {
         authRepository.register(registrationUserRequest)
