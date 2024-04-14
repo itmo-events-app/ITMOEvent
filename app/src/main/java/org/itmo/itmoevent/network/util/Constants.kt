@@ -41,21 +41,18 @@ fun<T> apiRequestFlow(call: suspend () -> Response<T>): Flow<ApiResponse<T>> = f
                         }
                     }
                 } catch (e: JSONException) {
-                    // Если не удалось разобрать JSON, продолжаем обработку строковой ошибки
+                    // Попытка разбора строки ошибки в формате "код_ошибки СТАТУС_ОШИБКИ "Сообщение_об_ошибке""
+                    val pattern = Regex("""(\d+) ([A-Z_]+) "(.+)"""")
+                    val matchResult = pattern.find(errorString)
+                    if (matchResult != null && matchResult.groupValues.size >= 4) {
+                        val status = matchResult.groupValues[2]
+                        val errorMessage = matchResult.groupValues[3]
+                        emit(ApiResponse.Failure(errorMessage, status.toIntOrNull() ?: 400))
+                    } else {
+                        // Если строка ошибки не соответствует ни одному из форматов, отправляем общее сообщение об ошибке
+                        emit(ApiResponse.Failure("Unknown error", 400))
+                    }
                 }
-
-                // Попытка разбора строки ошибки в формате "код_ошибки СТАТУС_ОШИБКИ "Сообщение_об_ошибке""
-                val pattern = Regex("""(\d+) ([A-Z_]+) "(.+)"""")
-                val matchResult = pattern.find(errorString)
-                if (matchResult != null && matchResult.groupValues.size >= 4) {
-                    val status = matchResult.groupValues[2]
-                    val errorMessage = matchResult.groupValues[3]
-                    emit(ApiResponse.Failure(errorMessage, status.toIntOrNull() ?: 400))
-                } else {
-                    // Если строка ошибки не соответствует ни одному из форматов, отправляем общее сообщение об ошибке
-                    emit(ApiResponse.Failure("Unknown error", 400))
-                }
-
             }
         }
     } catch (e: Exception) {
