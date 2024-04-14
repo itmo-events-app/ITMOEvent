@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 import org.itmo.itmoevent.network.model.CreateEventRequest
 import org.itmo.itmoevent.network.model.EventRequest
 import org.itmo.itmoevent.network.model.EventResponse
+import org.itmo.itmoevent.network.model.PaginatedResponse
 import org.itmo.itmoevent.network.model.UserRoleResponse
 
 import okhttp3.MultipartBody
@@ -137,10 +138,10 @@ interface EventControllerApi {
      * @param endDate Дата окончания мероприятия (optional)
      * @param status Статус мероприятия (optional)
      * @param format Формат мероприятия (optional)
-     * @return [kotlin.collections.List<EventResponse>]
+     * @return [PaginatedResponse]
      */
     @GET("api/events")
-    suspend fun getAllOrFilteredEvents(@Query("page") page: kotlin.Int? = 0, @Query("size") size: kotlin.Int? = 15, @Query("parentId") parentId: kotlin.Int? = null, @Query("title") title: kotlin.String? = null, @Query("startDate") startDate: java.time.OffsetDateTime? = null, @Query("endDate") endDate: java.time.OffsetDateTime? = null, @Query("status") status: StatusGetAllOrFilteredEvents? = null, @Query("format") format: FormatGetAllOrFilteredEvents? = null): Response<kotlin.collections.List<EventResponse>>
+    suspend fun getAllOrFilteredEvents(@Query("page") page: kotlin.Int? = 0, @Query("size") size: kotlin.Int? = 15, @Query("parentId") parentId: kotlin.Int? = null, @Query("title") title: kotlin.String? = null, @Query("startDate") startDate: java.time.OffsetDateTime? = null, @Query("endDate") endDate: java.time.OffsetDateTime? = null, @Query("status") status: StatusGetAllOrFilteredEvents? = null, @Query("format") format: FormatGetAllOrFilteredEvents? = null): Response<PaginatedResponse>
 
     /**
      * Получение мероприятия по id

@@ -141,7 +141,7 @@ interface RoleControllerApi {
      * Responses:
      *  - 200: OK
      *
-     * @param id 
+     * @param id ID роли
      * @return [kotlin.collections.List<EventResponse>]
      */
     @GET("api/roles/{id}/events")
@@ -183,6 +183,17 @@ interface RoleControllerApi {
      */
     @GET("api/roles/{id}")
     suspend fun getRoleById(@Path("id") id: kotlin.Int): Response<RoleResponse>
+
+    /**
+     * Получение списка системных ролей
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @return [kotlin.collections.List<RoleResponse>]
+     */
+    @GET("api/roles/system")
+    suspend fun getSystemRoles(): Response<kotlin.collections.List<RoleResponse>>
 
     /**
      * Лишение пользователя роли Помощник
