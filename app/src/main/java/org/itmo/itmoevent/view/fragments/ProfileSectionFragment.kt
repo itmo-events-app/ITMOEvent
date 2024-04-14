@@ -70,10 +70,10 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
         viewModel.changePasswordResponse.observe(this.viewLifecycleOwner) {
             when (it) {
-                is ApiResponse.Failure -> showShortToast(it.errorMessage)
+                is ApiResponse.Failure -> showLongToast(it.errorMessage)
                 ApiResponse.Loading -> {}
                 is ApiResponse.Success -> {
-                    showShortToast("Пароль успешно изменен")
+                    showLongToast("Пароль успешно изменен")
                 }
             }
         }
@@ -131,7 +131,6 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 })
             }
 
-            //Кнопка смены пароля
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE
                 editNewPassword.visibility = View.VISIBLE
@@ -141,6 +140,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editPasswordButtonConfirm.setOnClickListener {
+                editCurrentPassword.clearFocus()
+                editNewPassword.clearFocus()
+                editNewPasswordTwice.clearFocus()
                 val oldPassword = editCurrentPassword.text.toString()
                 val newPassword = editNewPassword.text.toString()
                 val newPasswordTwice = editNewPasswordTwice.text.toString()
@@ -170,6 +172,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editProfileButtonConfirm.setOnClickListener {
+                editName.clearFocus()
+                editSurname.clearFocus()
+                editEmailText.clearFocus()
                 var isOk = true
                 val oldName = fio.text.toString().substringBefore(" ")
                 val oldSurname = fio.text.toString().substringAfter(" ")
@@ -239,6 +244,14 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
         ).show()
     }
 
+    private fun showLongToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     private fun checkName(name: String, surname: String): Boolean {
         return name.matches("[а-яА-Я]+".toRegex()) && surname.matches("[а-яА-Я]+".toRegex())
     }
@@ -246,4 +259,5 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     private fun checkLogin(login: String): Boolean {
         return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
     }
+
 }

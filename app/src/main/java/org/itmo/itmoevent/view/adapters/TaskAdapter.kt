@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.TaskItemBinding
@@ -28,6 +29,16 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
                 TaskResponse.TaskStatus.DONE -> "Выполнено"
                 else -> ""
             }
+
+            val statusColor = when(task.taskStatus) {
+                TaskResponse.TaskStatus.DONE -> R.color.green_400
+                TaskResponse.TaskStatus.EXPIRED -> R.color.red_400
+                else -> R.color.blue_400
+            }
+
+            taskStatus.setTextColor(ContextCompat.getColor(itemView.context, statusColor))
+
+
             taskDeadline.text = text
             taskStatus.text = currentStatus
             taskEventName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
