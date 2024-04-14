@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withTimeoutOrNull
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Response
 
 fun<T> apiRequestFlow(call: suspend () -> Response<T>): Flow<ApiResponse<T>> = flow {
@@ -30,9 +32,16 @@ fun<T> apiRequestFlow(call: suspend () -> Response<T>): Flow<ApiResponse<T>> = f
                     Log.println(Log.VERBOSE, "api", errorJsonString)
 
                     try {
-                        val errorJson = Gson().fromJson(errorJsonString, JsonObject::class.java)
-                        emit(ApiResponse.Failure(errorJson.toString(), response.code()))
-                    } catch (e: JsonSyntaxException) {
+                        val errorJson = JSONObject(errorJsonString)
+                        val errorsArray = errorJson.getJSONArray("errors")
+
+                        if (errorsArray.length() > 0) {
+                            val errorMessage = errorsArray.getString(0)
+                            emit(ApiResponse.Failure(errorMessage, response.code()))
+                        } else {
+                            emit(ApiResponse.Failure("Unknown error", response.code()))
+                        }
+                    } catch (e: JSONException) {
                         emit(ApiResponse.Failure("Failed to parse error JSON", response.code()))
                     }
                 }
