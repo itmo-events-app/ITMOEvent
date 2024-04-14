@@ -23,6 +23,9 @@ class UserNotificationsViewModel @Inject constructor(
     private val _profileResponse = MutableLiveData<ApiResponse<ProfileResponse>>()
     val profileResponse = _profileResponse
 
+    private val _changePasswordResponse = MutableLiveData<ApiResponse<Unit>>()
+    val changePasswordResponse = _changePasswordResponse
+
     // NotificationRepository
     private val _allNotificationsResponse = MutableLiveData<ApiResponse<List<NotificationResponse>>>()
     val allNotificationsResponse = _allNotificationsResponse
@@ -49,7 +52,7 @@ class UserNotificationsViewModel @Inject constructor(
     }
 
     fun changePassword(userChangePasswordRequest: UserChangePasswordRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
-        MutableLiveData(),
+        _changePasswordResponse,
         coroutinesErrorHandler
     ) {
         profileRepository.changePassword(userChangePasswordRequest)

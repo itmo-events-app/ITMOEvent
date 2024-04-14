@@ -58,6 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
+
             android:id="@+id/task_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +68,8 @@
             android:gravity="start"
             style="@style/Text.Header3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/task_name"/>
 
         <TextView
             android:id="@+id/task_status"

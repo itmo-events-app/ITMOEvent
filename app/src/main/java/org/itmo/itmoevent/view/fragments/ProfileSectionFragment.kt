@@ -68,6 +68,16 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
         })
 
+        viewModel.changePasswordResponse.observe(this.viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Failure -> showShortToast(it.errorMessage)
+                ApiResponse.Loading -> {}
+                is ApiResponse.Success -> {
+                    showShortToast("Пароль успешно изменен")
+                }
+            }
+        }
+
         viewModel.allNotificationsResponse.observe(this.viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Failure -> Toast.makeText(requireContext(), "Проблемы с соединением", Toast.LENGTH_SHORT).show()
@@ -139,6 +149,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                         Log.d("api", message)
                     }
                 })
+                editCurrentPassword.setText("")
+                editNewPassword.setText("")
+                editNewPasswordTwice.setText("")
                 editCurrentPassword.visibility = View.GONE
                 editNewPassword.visibility = View.GONE
                 editNewPasswordTwice.visibility = View.GONE
