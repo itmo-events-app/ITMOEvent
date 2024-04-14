@@ -2,6 +2,8 @@ package org.itmo.itmoevent.network.util
 
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,8 +26,15 @@ fun<T> apiRequestFlow(call: suspend () -> Response<T>): Flow<ApiResponse<T>> = f
             } else {
                 response.errorBody()?.let { error ->
                     error.close()
-                    Log.println(Log.VERBOSE,"api", error.string())
-                    emit(ApiResponse.Failure(error.string(), response.code()))
+                    val errorJsonString = error.string()
+                    Log.println(Log.VERBOSE, "api", errorJsonString)
+
+                    try {
+                        val errorJson = Gson().fromJson(errorJsonString, JsonObject::class.java)
+                        emit(ApiResponse.Failure(errorJson.toString(), response.code()))
+                    } catch (e: JsonSyntaxException) {
+                        emit(ApiResponse.Failure("Failed to parse error JSON", response.code()))
+                    }
                 }
             }
         } catch (e: Exception) {
