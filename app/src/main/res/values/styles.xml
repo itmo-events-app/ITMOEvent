@@ -43,8 +43,19 @@
         <item name="hintTextAppearance">?textAppearanceLabelMedium</item>
     </style>
 
-    <style name="ChipOutlineStyle" parent="Widget.Material3.Chip.Assist">
-        <item name="chipBackgroundColor">@color/blue_100</item>
+    <style name="roundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Text.profile_fio">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.clickable">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/blue_300</item>
     </style>
 
 </resources>

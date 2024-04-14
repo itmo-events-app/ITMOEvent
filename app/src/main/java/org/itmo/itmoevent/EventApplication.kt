@@ -2,10 +2,14 @@ package org.itmo.itmoevent
 
 import android.app.Application
 import org.itmo.itmoevent.model.network.EventNetworkService
-import org.itmo.itmoevent.model.repository.EventDetailsRepository
+import org.itmo.itmoevent.model.network.NotificationApi
+import org.itmo.itmoevent.model.repository.EventActivityRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
+import org.itmo.itmoevent.model.repository.NotificationRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.model.repository.TaskRepository
+import org.itmo.itmoevent.model.repository.UserRepository
 
 class EventApplication : Application() {
 
@@ -19,8 +23,20 @@ class EventApplication : Application() {
         eventNetworkService.rolesApi
     }
 
-    private val placeApi by lazy {
-        eventNetworkService.placeApi
+    private val userApi by lazy {
+        eventNetworkService.userApi
+    }
+
+    private val notificationApi by lazy {
+        eventNetworkService.notificationApi
+    }
+
+    private val taskApi by lazy {
+        eventNetworkService.taskApi
+    }
+
+    private val eventActivityApi by lazy {
+        eventNetworkService.eventActivityApi
     }
 
     val eventRepository by lazy {
@@ -35,8 +51,20 @@ class EventApplication : Application() {
         RoleRepository(roleApi)
     }
 
-    val eventDetailsRepository by lazy {
-        EventDetailsRepository(eventApi, placeApi)
+    val userRepository by lazy {
+        UserRepository(userApi)
+    }
+
+    val notificationRepository by lazy {
+        NotificationRepository(notificationApi)
+    }
+
+    val taskRepository by lazy {
+        TaskRepository(taskApi)
+    }
+
+    val eventActivityRepository by lazy {
+        EventActivityRepository(eventActivityApi)
     }
 
 }
