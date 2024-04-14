@@ -6,11 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.itmo.itmoevent.EventApplication
+import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.ActivityMainBinding
 import org.itmo.itmoevent.view.fragments.EventFragment
@@ -21,6 +21,7 @@ import org.itmo.itmoevent.view.fragments.TaskSectionFragment
 import org.itmo.itmoevent.viewmodel.EventItemViewModel
 import java.lang.IllegalStateException
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var viewBinding: ActivityMainBinding? = null
@@ -65,17 +66,22 @@ class MainActivity : AppCompatActivity() {
                 if (savedInstanceState == null) {
                     viewBinding?.run {
                         mainBottomNavBar.setOnItemSelectedListener { item ->
-                            supportFragmentManager.popBackStack(
-                                BACK_STACK_TAB_TAG,
-                                FragmentManager.POP_BACK_STACK_INCLUSIVE
-                            )
-                            navFragmentsMap[item.itemId]?.run {
-                                supportFragmentManager.beginTransaction()
+                            val selectedFragment = navFragmentsMap[item.itemId]
+
+                            val currentFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container)
+
+                            if (selectedFragment != currentFragment) {
+                                val transaction = supportFragmentManager.beginTransaction()
                                     .setReorderingAllowed(true)
-                                    .replace(R.id.main_fragment_container, this)
-                                    .addToBackStack(BACK_STACK_TAB_TAG)
-                                    .commit()
+                                    .replace(R.id.main_fragment_container, selectedFragment!!)
+
+                                if (currentFragment != null) {
+                                    transaction.addToBackStack(null)
+                                }
+
+                                transaction.commit()
                             }
+
                             true
                         }
                     }
@@ -93,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
 
     }
 
