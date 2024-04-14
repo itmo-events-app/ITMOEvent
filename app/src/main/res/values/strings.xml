@@ -49,8 +49,8 @@
     <string name="edit_profile_button_confirm_text">Редактировать профиль</string>
     <string name="edit_password_button_confirm_text">Смена пароля</string>
     <string name="edit_current_password_text">Введите текущий пароль</string>
-    <string name="edit_new_password_text">Введите текущий пароль</string>
-    <string name="edit_new_password_twice_text">Введите текущий пароль повторно</string>
+    <string name="edit_new_password_text">Введите новый пароль</string>
+    <string name="edit_new_password_twice_text">Введите новый пароль повторно</string>
     <string name="notifications_title_text">Уведомления</string>
     <string name="event_desc_header">Описание</string>
     <string name="event_desc_show_close_desc">Открыть/закрыть описание мероприятия</string>

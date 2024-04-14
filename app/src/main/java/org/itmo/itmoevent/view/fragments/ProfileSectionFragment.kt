@@ -18,8 +18,8 @@ import org.itmo.itmoevent.databinding.FragmentProfileSectionBinding
 import org.itmo.itmoevent.network.model.NotificationSettingsRequest
 import org.itmo.itmoevent.network.model.UserChangeLoginRequest
 import org.itmo.itmoevent.network.model.UserChangeNameRequest
+import org.itmo.itmoevent.network.model.UserChangePasswordRequest
 import org.itmo.itmoevent.network.util.ApiResponse
-import org.itmo.itmoevent.view.MainActivity
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
 import org.itmo.itmoevent.view.auth.LoginActivity
 import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
@@ -131,12 +131,19 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editPasswordButtonConfirm.setOnClickListener {
+                val oldPassword = editCurrentPassword.text.toString()
+                val newPassword = editNewPassword.text.toString()
+                val newPasswordTwice = editNewPasswordTwice.text.toString()
+                viewModel.changePassword(UserChangePasswordRequest(oldPassword, newPassword, newPasswordTwice), object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
                 editCurrentPassword.visibility = View.GONE
                 editNewPassword.visibility = View.GONE
                 editNewPasswordTwice.visibility = View.GONE
                 editPasswordButtonConfirm.visibility = View.GONE
                 editPasswordButton.visibility = View.VISIBLE
-                //TODO Поменять пароль на бэке или где он там
             }
 
             editProfileButton.setOnClickListener {
@@ -150,34 +157,63 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editProfileButtonConfirm.setOnClickListener {
-                //TODO допилить условия для проверки имени и почты
-                val name = editName.text.toString()
-                val surname = editSurname.text.toString()
-                val login = editEmailText.text.toString()
-                val newFio = "$name $surname"
-                if (fio.text.toString() == newFio && emailText.text.toString() == login) {
-                    fio.text = newFio
-                    emailText.text = editEmailText.text
+                var isOk = true
+                val oldName = fio.text.toString().substringBefore(" ")
+                val oldSurname = fio.text.toString().substringAfter(" ")
+                val newName = editName.text.toString()
+                val newSurname = editSurname.text.toString()
+                val newLogin = editEmailText.text.toString()
+                val newFio = "$newName $newSurname"
 
-                    viewModel.changeName(UserChangeNameRequest(name, surname), object : CoroutinesErrorHandler {
-                        override fun onError(message: String) {
-                            Log.d("api", message)
-                        }
-                    })
-                    viewModel.changeLogin(UserChangeLoginRequest(UserChangeLoginRequest.Type.EMAIL, login), object : CoroutinesErrorHandler {
-                        override fun onError(message: String) {
-                            Log.d("api", message)
-                        }
-                    })
+                if (fio.text.toString() != newFio)  {
+
+                    if (!checkName(newName, newSurname)) {
+                        isOk = false
+                        editName.setText(oldName)
+                        editSurname.setText(oldSurname)
+                        showShortToast("Некорректное имя пользователя")
+                    } else {
+                        fio.text = newFio
+                        viewModel.changeName(
+                            UserChangeNameRequest(newName, newSurname),
+                            object : CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                    }
                 }
-                editName.visibility = View.GONE
-                editSurname.visibility = View.GONE
-                editEmailText.visibility = View.GONE
-                fio.visibility = View.VISIBLE
-                emailText.visibility  =View.VISIBLE
-                editProfileButton.visibility = View.VISIBLE
-                editProfileButtonConfirm.visibility = View.GONE
-                //TODO ОТПРАВИТЬ НА БЭК
+
+                if (emailText.text.toString() != newLogin) {
+
+                    if (!checkLogin(newLogin)) {
+                        isOk = false
+                        editEmailText.setText(emailText.text)
+                        showShortToast("Некорректная почта")
+                    } else {
+                        emailText.text = editEmailText.text
+
+                        viewModel.changeLogin(
+                            UserChangeLoginRequest(
+                                UserChangeLoginRequest.Type.EMAIL,
+                                newLogin
+                            ), object : CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                    }
+                }
+
+                if (isOk) {
+                    editName.visibility = View.GONE
+                    editSurname.visibility = View.GONE
+                    editEmailText.visibility = View.GONE
+                    fio.visibility = View.VISIBLE
+                    emailText.visibility = View.VISIBLE
+                    editProfileButton.visibility = View.VISIBLE
+                    editProfileButtonConfirm.visibility = View.GONE
+                }
             }
         }
     }
@@ -186,7 +222,15 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
         Toast.makeText(
             context,
             text,
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun checkName(name: String, surname: String): Boolean {
+        return name.matches("[а-яА-Я]+".toRegex()) && surname.matches("[а-яА-Я]+".toRegex())
+    }
+
+    private fun checkLogin(login: String): Boolean {
+        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
     }
 }

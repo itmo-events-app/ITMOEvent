@@ -29,11 +29,28 @@ class TaskViewModel @Inject constructor(
     private val _taskListResponse = MutableLiveData<ApiResponse<List<TaskResponse>>>()
     val taskListResponse = _taskListResponse
 
+    private val _taskResponse = MutableLiveData<ApiResponse<TaskResponse>>()
+    val taskResponse = _taskResponse
+
     fun taskListShowWhereAssignee(coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
         _taskListResponse,
         coroutinesErrorHandler
     ) {
         taskRepository.taskListShowWhereAssignee()
+    }
+
+    fun taskGet(taskId: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _taskResponse,
+        coroutinesErrorHandler
+    ) {
+        taskRepository.taskGet(taskId)
+    }
+
+    fun taskSetStatus(taskId: Int, newStatus: String, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    ) {
+        taskRepository.taskSetStatus(taskId, newStatus)
     }
 
 }

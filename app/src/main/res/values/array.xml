@@ -28,10 +28,9 @@
     </string-array>
 
     <string-array name="task_status_options_array">
-        <item>Выдано</item>
-        <item>Выполняется</item>
-        <item></item>
-        <item>Выполнено</item>
+        <item>Новая</item>
+        <item>В работе</item>
         <item>Просрочено</item>
+        <item>Выполнено</item>
     </string-array>
 </resources>

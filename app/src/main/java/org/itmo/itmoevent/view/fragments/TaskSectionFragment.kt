@@ -19,6 +19,7 @@ import org.itmo.itmoevent.EventApplication
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentTaskSectionBinding
 import org.itmo.itmoevent.model.data.entity.Task
+import org.itmo.itmoevent.network.model.TaskResponse
 import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.OnTaskClickListener
 import org.itmo.itmoevent.view.adapters.TaskAdapter
@@ -35,6 +36,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
     private lateinit var adapter: TaskAdapter
 
     private val model: TaskViewModel by viewModels()
+    private var taskList: List<TaskResponse> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,15 +51,10 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
         super.onViewCreated(view, savedInstanceState)
         adapter = TaskAdapter(this)
 
-//        model.taskLiveData.observe(this.viewLifecycleOwner) {
-//            adapter.refresh(it)
-//        }
-
         binding.run {
 
             taskRecycler.adapter = adapter
             taskRecycler.layoutManager = LinearLayoutManager(context)
-//            adapter.refresh(getTaskList())
 
             current.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_300))
 
@@ -67,7 +64,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                 current.setTextColor(Color.WHITE)
                 past.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 past.setTextColor(Color.BLACK)
-//                adapter.refresh(getTaskList())
+                adapter.refresh(taskTimeFilter(taskList))
             }
 
             past.setOnClickListener {
@@ -76,12 +73,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                 past.setTextColor(Color.WHITE)
                 current.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
                 current.setTextColor(Color.BLACK)
-//                adapter.refresh(getTaskList())
+                adapter.refresh(taskTimeFilter(taskList))
             }
-
-            // TODO НОРМАЛЬНО ПОЛУЧАТЬ ИВЕНТЫ
-            //val events = listOf("все","Ивент 1", "Ивент 2", "Ивент 3")
-            //val eventsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, events)
 
             model.taskListShowWhereAssignee(object: CoroutinesErrorHandler {
                 override fun onError(message: String) {
@@ -94,11 +87,12 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                     is ApiResponse.Failure -> {}
                     ApiResponse.Loading -> {}
                     is ApiResponse.Success -> {
-                        adapter.refresh(it.data)
+                        taskList = it.data
+                        adapter.refresh(taskTimeFilter(it.data))
 
-                        val eventTitleList: List<String> = it.data.map {
+                        val eventTitleList: List<String> = listOf("Все мероприятия") + it.data.map {
                             it.event!!.eventTitle
-                        }.filterNotNull()
+                        }.filterNotNull().distinct()
 
                         val eventsAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, eventTitleList)
                         taskEventsFilterSelect.setAdapter(eventsAdapter)
@@ -123,7 +117,6 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                     }
 
                 }
-                val tasks = getTaskList()
                 //TODO ПОЛУЧИТЬ СПИСОК С ФИЛЬТРОМ
                 Toast.makeText(requireContext(), event, Toast.LENGTH_SHORT).show()
 
@@ -133,19 +126,12 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
 
 
 
-    fun getTaskList(): List<Task> {
-        val tasks = listOf(
-            Task(1, 1, 2, "Task 1 description", "Pending", LocalDateTime.now().plusDays(2), 1, "Task 1", LocalDateTime.now().plusDays(1)),
-            Task(2, 2, 1, "Task 2 description", "Completed", LocalDateTime.now().minusDays(3), 2, "Task 2", LocalDateTime.now().minusDays(2)),
-            Task(3, 1, 2, "Task 3 description", "In Progress", LocalDateTime.now().plusDays(1), 3, "Task 3", LocalDateTime.now().plusDays(1)),
-            Task(4, 2, 1, "Task 4 description", "Pending", LocalDateTime.now().minusDays(4), 4, "Task 4", LocalDateTime.now().minusDays(3)),
-            Task(5, 1, 2, "Task 5 description", "Completed", LocalDateTime.now().plusDays(2), 5, "Task 5", LocalDateTime.now().plusDays(2))
-        )
+    private fun taskTimeFilter(tasks: List<TaskResponse>): List<TaskResponse> {
 
         if (binding.toggleButton.checkedButtonId == binding.current.id)
-            return tasks.filter { it.deadline.isAfter(LocalDateTime.now()) }
+            return tasks.filter { it.deadline!!.isAfter(LocalDateTime.now()) }
         else
-            return tasks.filter { it.deadline.isBefore(LocalDateTime.now()) }
+            return tasks.filter { it.deadline!!.isBefore(LocalDateTime.now()) }
     }
 
     override fun onTaskClick(taskId: Int) {
