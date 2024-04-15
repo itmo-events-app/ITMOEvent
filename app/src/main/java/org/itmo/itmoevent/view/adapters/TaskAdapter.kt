@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.TaskItemBinding
@@ -18,13 +19,30 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
         private val binding = TaskItemBinding.bind(item)
 
         fun bind(task: TaskResponse, listener: OnTaskClickListener) = with(binding) {
-            binding.taskName.text = task.title
+            taskName.text = task.title
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             val text = "До " + task.deadline!!.format(formatter)
-            binding.taskDeadline.text = text
-            binding.taskStatus.text = task.taskStatus!!.name
-            binding.taskEventName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
-            binding.taskEventActivityName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
+            val currentStatus = when(task.taskStatus) {
+                TaskResponse.TaskStatus.NEW -> "Новая"
+                TaskResponse.TaskStatus.IN_PROGRESS -> "В работе"
+                TaskResponse.TaskStatus.EXPIRED -> "Просрочено"
+                TaskResponse.TaskStatus.DONE -> "Выполнено"
+                else -> ""
+            }
+
+            val statusColor = when(task.taskStatus) {
+                TaskResponse.TaskStatus.DONE -> R.color.green_400
+                TaskResponse.TaskStatus.EXPIRED -> R.color.red_400
+                else -> R.color.blue_400
+            }
+
+            taskStatus.setTextColor(ContextCompat.getColor(itemView.context, statusColor))
+
+
+            taskDeadline.text = text
+            taskStatus.text = currentStatus
+            taskEventName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
+            taskEventActivityName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
             itemView.setOnClickListener {
                 //TODO Переход на страницу таски
             }

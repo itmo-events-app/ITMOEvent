@@ -64,21 +64,31 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             notificationRecycler.layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.getAllNotifications(0, 15, object : CoroutinesErrorHandler {
+        viewModel.getNotifications(0, 15, object : CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
             }
         })
 
-        viewModel.allNotificationsResponse.observe(this.viewLifecycleOwner) {
+        viewModel.changePasswordResponse.observe(this.viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Failure -> showLongToast(it.errorMessage)
+                ApiResponse.Loading -> {}
+                is ApiResponse.Success -> {
+                    showLongToast("Пароль успешно изменен")
+                }
+            }
+        }
+
+        viewModel.notificationsResponse.observe(this.viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Failure -> Toast.makeText(requireContext(), "Проблемы с соединением", Toast.LENGTH_SHORT).show()
                 ApiResponse.Loading -> {
                     //TODO ЭКРАН ЗАГРУКЗКИ
                 }
                 is ApiResponse.Success -> {
-                    Log.d("podsos", it.data.toString())
-                    adapter.refresh(it.data)
+                    adapter.refresh(it.data.content)
+
                 }
             }
         }
@@ -122,7 +132,6 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 })
             }
 
-            //Кнопка смены пароля
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE
                 editNewPassword.visibility = View.VISIBLE
@@ -132,6 +141,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editPasswordButtonConfirm.setOnClickListener {
+                editCurrentPassword.clearFocus()
+                editNewPassword.clearFocus()
+                editNewPasswordTwice.clearFocus()
                 val oldPassword = editCurrentPassword.text.toString()
                 val newPassword = editNewPassword.text.toString()
                 val newPasswordTwice = editNewPasswordTwice.text.toString()
@@ -140,6 +152,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                         Log.d("api", message)
                     }
                 })
+                editCurrentPassword.setText("")
+                editNewPassword.setText("")
+                editNewPasswordTwice.setText("")
                 editCurrentPassword.visibility = View.GONE
                 editNewPassword.visibility = View.GONE
                 editNewPasswordTwice.visibility = View.GONE
@@ -158,6 +173,9 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
 
             editProfileButtonConfirm.setOnClickListener {
+                editName.clearFocus()
+                editSurname.clearFocus()
+                editEmailText.clearFocus()
                 var isOk = true
                 val oldName = fio.text.toString().substringBefore(" ")
                 val oldSurname = fio.text.toString().substringAfter(" ")
@@ -227,6 +245,14 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
         ).show()
     }
 
+    private fun showLongToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     private fun checkName(name: String, surname: String): Boolean {
         return name.matches("[а-яА-Я]+".toRegex()) && surname.matches("[а-яА-Я]+".toRegex())
     }
@@ -234,4 +260,5 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     private fun checkLogin(login: String): Boolean {
         return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
     }
+
 }

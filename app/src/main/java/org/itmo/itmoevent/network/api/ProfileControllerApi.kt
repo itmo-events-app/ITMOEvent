@@ -8,7 +8,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 import org.itmo.itmoevent.network.model.NotificationSettingsRequest
+import org.itmo.itmoevent.network.model.PaginatedResponseUserSystemRoleResponse
 import org.itmo.itmoevent.network.model.PrivilegeResponse
+import org.itmo.itmoevent.network.model.PrivilegeWithHasOrganizerRolesResponse
 import org.itmo.itmoevent.network.model.ProfileResponse
 import org.itmo.itmoevent.network.model.UserChangeLoginRequest
 import org.itmo.itmoevent.network.model.UserChangeNameRequest
@@ -52,6 +54,20 @@ interface ProfileControllerApi {
     suspend fun changePassword(@Body userChangePasswordRequest: UserChangePasswordRequest): Response<Unit>
 
     /**
+     * Получение списка пользователей в системе
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param searchQuery Строка для поиска по имени и фамилии (optional, default to "")
+     * @param page Номер страницы, с которой начать показ пользователей (optional, default to 0)
+     * @param size Число пользователей на странице (optional, default to 10)
+     * @return [PaginatedResponseUserSystemRoleResponse]
+     */
+    @GET("api/profile/all-system-users")
+    suspend fun getAllUsers(@Query("searchQuery") searchQuery: kotlin.String? = "", @Query("page") page: kotlin.Int? = 0, @Query("size") size: kotlin.Int? = 10): Response<PaginatedResponseUserSystemRoleResponse>
+
+    /**
      * Получение списка всех привилегий пользователя в данном мероприятии
      * 
      * Responses:
@@ -80,10 +96,10 @@ interface ProfileControllerApi {
      * Responses:
      *  - 200: OK
      *
-     * @return [kotlin.collections.List<PrivilegeResponse>]
+     * @return [PrivilegeWithHasOrganizerRolesResponse]
      */
     @GET("api/profile/system-privileges")
-    suspend fun getUserSystemPrivileges(): Response<kotlin.collections.List<PrivilegeResponse>>
+    suspend fun getUserSystemPrivileges(): Response<PrivilegeWithHasOrganizerRolesResponse>
 
     /**
      * Обновление настроек уведомлений

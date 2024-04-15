@@ -7,10 +7,37 @@ import okhttp3.RequestBody
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+import org.itmo.itmoevent.network.model.FileDataResponse
 import org.itmo.itmoevent.network.model.TaskRequest
 import org.itmo.itmoevent.network.model.TaskResponse
+import org.itmo.itmoevent.network.model.UploadFilesRequest
 
 interface TaskControllerApi {
+    /**
+     * Удаление файлов из задачи
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param id ID задачи
+     * @param requestBody 
+     * @return [Unit]
+     */
+    @DELETE("api/tasks/{id}/files")
+    suspend fun deleteFiles(@Path("id") id: kotlin.Int, @Body requestBody: kotlin.collections.List<kotlin.String>): Response<Unit>
+
+    /**
+     * Получение списка имен файлов задачи
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param id ID задачи
+     * @return [kotlin.collections.List<FileDataResponse>]
+     */
+    @GET("api/tasks/{id}/files")
+    suspend fun getFileNames(@Path("id") id: kotlin.Int): Response<kotlin.collections.List<FileDataResponse>>
+
     /**
      * Создание задачи
      * 
@@ -128,7 +155,7 @@ interface TaskControllerApi {
      * @return [kotlin.collections.List<TaskResponse>]
      */
     @GET("api/tasks/event/{eventId}")
-    suspend fun taskListShowInEvent(@Path("eventId") eventId: kotlin.Int, @Query("assigneeId") assigneeId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowInEvent? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null, @Query("subEventTasksGet") subEventTasksGet: kotlin.Boolean? = false, @Query("personalTasksGet") personalTasksGet: kotlin.Boolean? = false, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
+    suspend fun taskListShowInEvent(@Path("eventId") eventId: kotlin.Int, @Query("assigneeId") assigneeId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowInEvent? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null, @Query("subEventTasksGet") subEventTasksGet: kotlin.Boolean? = false, @Query("personalTasksGet") personalTasksGet: kotlin.Boolean? = false, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
 
 
     /**
@@ -157,7 +184,7 @@ interface TaskControllerApi {
      * @return [kotlin.collections.List<TaskResponse>]
      */
     @GET("api/tasks/where-assignee")
-    suspend fun taskListShowWhereAssignee(@Query("eventId") eventId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowWhereAssignee? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
+    suspend fun taskListShowWhereAssignee(@Query("eventId") eventId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowWhereAssignee? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
 
     /**
      * Назначение исполнителя задачи
@@ -197,5 +224,18 @@ interface TaskControllerApi {
      */
     @PUT("api/tasks/{id}/assignee")
     suspend fun taskTakeOn(@Path("id") id: kotlin.Int): Response<TaskResponse>
+
+    /**
+     * Добавление файлов к задаче
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param id ID задачи
+     * @param uploadFilesRequest  (optional)
+     * @return [kotlin.collections.List<kotlin.String>]
+     */
+    @PUT("api/tasks/{id}/files")
+    suspend fun uploadFiles(@Path("id") id: kotlin.Int, @Body uploadFilesRequest: UploadFilesRequest? = null): Response<kotlin.collections.List<kotlin.String>>
 
 }

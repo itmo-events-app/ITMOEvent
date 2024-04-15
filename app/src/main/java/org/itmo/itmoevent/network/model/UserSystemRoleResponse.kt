@@ -24,21 +24,18 @@ import kotlinx.serialization.Contextual
  * 
  *
  * @param id 
- * @param email 
  * @param name 
  * @param surname 
- * @param status 
- * @param sentTime 
+ * @param login 
+ * @param type 
+ * @param role 
  */
 @Serializable
 
-data class RegistrationRequestForAdmin (
+data class UserSystemRoleResponse (
 
     @SerialName(value = "id")
     val id: kotlin.Int? = null,
-
-    @SerialName(value = "email")
-    val email: kotlin.String? = null,
 
     @SerialName(value = "name")
     val name: kotlin.String? = null,
@@ -46,24 +43,25 @@ data class RegistrationRequestForAdmin (
     @SerialName(value = "surname")
     val surname: kotlin.String? = null,
 
-    @SerialName(value = "status")
-    val status: RegistrationRequestForAdmin.Status? = null,
+    @SerialName(value = "login")
+    val login: kotlin.String? = null,
 
-    @Contextual @SerialName(value = "sentTime")
-    val sentTime: java.time.LocalDateTime? = null
+    @SerialName(value = "type")
+    val type: UserSystemRoleResponse.Type? = null,
+
+    @SerialName(value = "role")
+    val role: kotlin.String? = null
 
 ) {
 
     /**
      * 
      *
-     * Values: NEW,APPROVED,DECLINED
+     * Values: EMAIL
      */
     @Serializable
-    enum class Status(val value: kotlin.String) {
-        @SerialName(value = "NEW") NEW("NEW"),
-        @SerialName(value = "APPROVED") APPROVED("APPROVED"),
-        @SerialName(value = "DECLINED") DECLINED("DECLINED");
+    enum class Type(val value: kotlin.String) {
+        @SerialName(value = "EMAIL") EMAIL("EMAIL");
     }
 }
 

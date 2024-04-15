@@ -2,6 +2,7 @@ package org.itmo.itmoevent.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.itmo.itmoevent.network.model.NotificationPageResponse
 import org.itmo.itmoevent.network.model.NotificationResponse
 import org.itmo.itmoevent.network.model.NotificationSettingsRequest
 import org.itmo.itmoevent.network.model.ProfileResponse
@@ -23,9 +24,12 @@ class UserNotificationsViewModel @Inject constructor(
     private val _profileResponse = MutableLiveData<ApiResponse<ProfileResponse>>()
     val profileResponse = _profileResponse
 
+    private val _changePasswordResponse = MutableLiveData<ApiResponse<Unit>>()
+    val changePasswordResponse = _changePasswordResponse
+
     // NotificationRepository
-    private val _allNotificationsResponse = MutableLiveData<ApiResponse<List<NotificationResponse>>>()
-    val allNotificationsResponse = _allNotificationsResponse
+    private val _notificationsResponse = MutableLiveData<ApiResponse<NotificationPageResponse>>()
+    val notificationsResponse = _notificationsResponse
 
     private val _allAsSeenNotificationsResponse = MutableLiveData<ApiResponse<List<NotificationResponse>>>()
     val allAsSeenNotificationsResponse = _allAsSeenNotificationsResponse
@@ -49,7 +53,7 @@ class UserNotificationsViewModel @Inject constructor(
     }
 
     fun changePassword(userChangePasswordRequest: UserChangePasswordRequest, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
-        MutableLiveData(),
+        _changePasswordResponse,
         coroutinesErrorHandler
     ) {
         profileRepository.changePassword(userChangePasswordRequest)
@@ -70,11 +74,11 @@ class UserNotificationsViewModel @Inject constructor(
         profileRepository.updateNotifications(notificationSettingsRequest)
     }
 
-    fun getAllNotifications(page: Int, size: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
-        _allNotificationsResponse,
+    fun getNotifications(page: Int, size: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+        _notificationsResponse,
         coroutinesErrorHandler
     ) {
-        notificationRepository.getAllNotifications(page, size)
+        notificationRepository.getNotifications(page, size)
     }
 
     fun setAllAsSeenNotifications(page: Int, size: Int, coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
