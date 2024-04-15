@@ -62,7 +62,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             notificationRecycler.layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.getAllNotifications(0, 15, object : CoroutinesErrorHandler {
+        viewModel.getNotifications(0, 15, object : CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
             }
@@ -78,15 +78,15 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
         }
 
-        viewModel.allNotificationsResponse.observe(this.viewLifecycleOwner) {
+        viewModel.notificationsResponse.observe(this.viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Failure -> Toast.makeText(requireContext(), "Проблемы с соединением", Toast.LENGTH_SHORT).show()
                 ApiResponse.Loading -> {
                     //TODO ЭКРАН ЗАГРУКЗКИ
                 }
                 is ApiResponse.Success -> {
-                    Log.d("podsos", it.data.toString())
-                    adapter.refresh(it.data)
+                    adapter.refresh(it.data.content)
+
                 }
             }
         }

@@ -64,7 +64,7 @@ class LoginFragment : Fragment() {
 
         binding.loginButton.setOnClickListener {
             viewModel.login(
-                LoginRequest("admin_mail@itmo.ru", "password"),
+                LoginRequest("fridkin@niuitmo.ru", "PaSsWoRd1!"),
                 object: CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api_error", message)

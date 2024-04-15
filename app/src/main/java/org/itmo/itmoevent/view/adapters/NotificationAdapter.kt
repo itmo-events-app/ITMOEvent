@@ -37,27 +37,17 @@ class NotificationAdapter(
                     message.text = notification.description
                 else
                     message.text = description
-                if (!notification.seen!!) {
-                    notification.seen = true
 
-
-                }
-                if (notification.seen!!) notificationCard.setBackgroundColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.grey_200
-                    )
-                )
+                notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
 
                 onNotificationClickListener.onNotificationClicked(notification.id!!)
             }
 
-            if (notification.seen!!) notificationCard.setBackgroundColor(
-                ContextCompat.getColor(
-                    itemView.context,
-                    R.color.grey_200
-                )
-            )
+            if (notification.seen == true) {
+                Log.d("notification", notification.toString())
+                notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
+            }
+
         }
     }
 
@@ -80,7 +70,7 @@ class NotificationAdapter(
         if (list == null) {
             notificationsList = emptyList()
         } else {
-            Log.d("FFFFF", "UUUUUUCK")
+            notificationsList = emptyList()
             notificationsList = list.map { mapNotificationResponseToNotification(it) }
         }
         notifyDataSetChanged()

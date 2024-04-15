@@ -155,7 +155,7 @@ interface TaskControllerApi {
      * @return [kotlin.collections.List<TaskResponse>]
      */
     @GET("api/tasks/event/{eventId}")
-    suspend fun taskListShowInEvent(@Path("eventId") eventId: kotlin.Int, @Query("assigneeId") assigneeId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowInEvent? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null, @Query("subEventTasksGet") subEventTasksGet: kotlin.Boolean? = false, @Query("personalTasksGet") personalTasksGet: kotlin.Boolean? = false, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
+    suspend fun taskListShowInEvent(@Path("eventId") eventId: kotlin.Int, @Query("assigneeId") assigneeId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowInEvent? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null, @Query("subEventTasksGet") subEventTasksGet: kotlin.Boolean? = false, @Query("personalTasksGet") personalTasksGet: kotlin.Boolean? = false, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
 
 
     /**
@@ -184,7 +184,7 @@ interface TaskControllerApi {
      * @return [kotlin.collections.List<TaskResponse>]
      */
     @GET("api/tasks/where-assignee")
-    suspend fun taskListShowWhereAssignee(@Query("eventId") eventId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowWhereAssignee? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
+    suspend fun taskListShowWhereAssignee(@Query("eventId") eventId: kotlin.Int? = null, @Query("assignerId") assignerId: kotlin.Int? = null, @Query("taskStatus") taskStatus: TaskStatusTaskListShowWhereAssignee? = null, @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null, @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null, @Query("page") page: kotlin.Int? = 0, @Query("pageSize") pageSize: kotlin.Int? = 50): Response<kotlin.collections.List<TaskResponse>>
 
     /**
      * Назначение исполнителя задачи

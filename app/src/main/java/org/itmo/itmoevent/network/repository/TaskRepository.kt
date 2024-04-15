@@ -45,8 +45,8 @@ class TaskRepository(private val taskApi: TaskControllerApi) {
         @Query("assigneeId") assigneeId: Int? = null,
         @Query("assignerId") assignerId: Int? = null,
         @Query("taskStatus") taskStatus: TaskControllerApi.TaskStatusTaskListShowInEvent? = null,
-        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null,
-        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null,
+        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null,
+        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null,
         @Query("subEventTasksGet") subEventTasksGet: Boolean? = false,
         @Query("personalTasksGet") personalTasksGet: Boolean? = false,
         @Query("page") page: Int? = 0,
@@ -70,8 +70,8 @@ class TaskRepository(private val taskApi: TaskControllerApi) {
         @Query("eventId") eventId: Int? = null,
         @Query("assignerId") assignerId: Int? = null,
         @Query("taskStatus") taskStatus: TaskControllerApi.TaskStatusTaskListShowWhereAssignee? = null,
-        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.OffsetDateTime? = null,
-        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.OffsetDateTime? = null,
+        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null,
+        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null,
         @Query("page") page: Int? = 0,
         @Query("pageSize") pageSize: Int? = 50
     ) = apiRequestFlow {

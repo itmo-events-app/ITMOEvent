@@ -7,7 +7,7 @@ data class Notification(
     val id: Int?,
     val title: String?,
     val description: String?,
-    var seen: Boolean? = null,
+    var seen: Boolean? = false,
     var isOpen: Boolean = false
 )
 
