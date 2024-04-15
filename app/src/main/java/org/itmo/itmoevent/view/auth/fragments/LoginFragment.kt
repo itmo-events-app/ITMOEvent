@@ -68,8 +68,7 @@ class LoginFragment : Fragment() {
             when(it) {
                 is ApiResponse.Failure -> {
                     Log.d("api_error", it.errorMessage)
-                    showShortToast(it.errorMessage)
-
+                    showShortToast("Ошибка входа")
                 }
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())
                 is ApiResponse.Success -> {
@@ -154,7 +153,7 @@ class LoginFragment : Fragment() {
 
 
     private fun checkLogin(login: String): Boolean {
-        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
+        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru$".toRegex())
     }
 
     private fun checkPassword(password: String): Boolean {
