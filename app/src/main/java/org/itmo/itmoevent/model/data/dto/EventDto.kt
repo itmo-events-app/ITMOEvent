@@ -14,7 +14,6 @@ data class EventDto(
     val format: String,
     val registrationStart: Date,
     val registrationEnd: Date,
-    val parent: Int,
     val participantLimit: Int,
     val participantAgeLowest: Int,
     val participantAgeHighest: Int,

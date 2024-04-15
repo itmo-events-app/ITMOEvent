@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.UserEventsFragment"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".view.fragments.UserEventsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,6 +33,12 @@
             app:layout_constraintTop_toBottomOf="@id/user_events_requests_header"
             tools:itemCount="3"
             tools:listitem="@layout/events_list_create_req_item" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/user_events_group_requests"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="user_events_requests_header,user_events_requests_rv" />
 
         <TextView
             android:id="@+id/user_events_role_header"
@@ -78,10 +84,27 @@
             tools:listitem="@layout/events_list_item" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/user_events_group_role_events"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="user_events_organized_rv,user_events_role_tl,user_events_role_header" />
+
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/user_events_group_content_all"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:constraint_referenced_ids="user_events_requests_header,user_events_requests_rv,user_events_role_header,user_events_role_tl,user_events_organized_rv" />
+
+        <include
+            android:id="@+id/user_events_progress_bar_role_events"
+            layout="@layout/progress_bar_main"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_events_role_tl"
+            />
 
         <include
             android:id="@+id/user_events_progress_bar_main"
@@ -92,16 +115,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/user_events_progress_bar_role_events"
-            layout="@layout/progress_bar_main"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_events_role_tl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

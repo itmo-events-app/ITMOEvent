@@ -23,6 +23,7 @@ import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
 import org.itmo.itmoevent.view.auth.LoginActivity
 import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
+import org.itmo.itmoevent.viewmodel.MainViewModel
 import org.itmo.itmoevent.viewmodel.TokenViewModel
 import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
 
@@ -34,6 +35,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
     private val viewModel: UserNotificationsViewModel by viewModels()
     private val tokenViewModel: TokenViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,8 +119,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
         binding.run {
             exitButton.setOnClickListener {
                 tokenViewModel.deleteToken()
-                val intent = Intent(activity as AppCompatActivity, LoginActivity::class.java)
-                startActivity(intent)
+                mainViewModel.exit()
             }
 
 

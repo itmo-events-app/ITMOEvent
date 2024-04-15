@@ -389,6 +389,18 @@
                 app:layout_constraintTop_toBottomOf="@id/event_subsection_participants_rv"
                />
 
+            <include
+                android:id="@+id/event_subsections_progress_bar"
+                layout="@layout/progress_bar_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                />
+
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/event_subsection_participants_group"
                 android:layout_width="0dp"

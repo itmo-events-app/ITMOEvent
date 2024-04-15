@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="event_status_array">
-        <item>Завершено</item>
-        <item>В процессе</item>
-        <item>Отменено</item>
+        <item>DRAFT</item>
+        <item>PUBLISHED</item>
+        <item>COMPLETED</item>
+        <item>CANCELED</item>
     </string-array>
     <string-array name="event_format_array">
-        <item>Дистанционно</item>
-        <item>Очно</item>
+        <item>ONLINE</item>
+        <item>OFFLINE</item>
+        <item>HYBRID</item>
     </string-array>
 
     <string-array name="event_filter_options_array">
