@@ -114,5 +114,6 @@
     <string name="remove_org_item_btn">Удалить</string>
     <string name="event_duration">%1$s - %2$s</string>
     <string name="exit_button_text">Выход</string>
+    <string name="input_message_too_long">Сторока слишком длинная</string>
     <string name="reset_password_confirm_info">Заявка на восстановление отправлена</string>
 </resources>

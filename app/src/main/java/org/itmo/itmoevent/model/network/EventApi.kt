@@ -1,6 +1,7 @@
 package org.itmo.itmoevent.model.network
 
 import org.itmo.itmoevent.model.data.dto.EventDto
+import org.itmo.itmoevent.model.data.dto.EventListDto
 import org.itmo.itmoevent.model.data.dto.EventRequestDto
 import org.itmo.itmoevent.model.data.dto.EventShortDto
 import org.itmo.itmoevent.model.data.dto.ParticipantDto
@@ -14,23 +15,23 @@ import java.util.Date
 
 interface EventApi {
 
-    @GET("/api/events/")
+    @GET("/api/events")
     suspend fun getEvents(
         @Query("title") title: String?,
-        @Query("from") from: Date?,
-        @Query("to") to: Date?,
+        @Query("startDate") from: Date?,
+        @Query("endDate") to: Date?,
         @Query("status") status: String?,
         @Query("format") format: String?
-    ): Response<List<EventShortDto>>
+    ): Response<EventListDto>
 
     @GET("requests/")
     suspend fun getEventRequests(): Response<List<EventRequestDto>>
 
-    @GET("events/my/")
-    suspend fun getUserEventsByRole(@Query("role") roleName: String?): Response<List<EventShortDto>>
+    @GET("/api/roles/{id}/events")
+    suspend fun getUserEventsByRole(@Path("id") roleId: Int): Response<List<EventShortDto>>
 
-    @GET("/api/events/")
-    suspend fun getEventActivities(@Query("parentId") eventId: Int): Response<List<EventShortDto>>
+    @GET("/api/events")
+    suspend fun getEventActivities(@Query("parentId") eventId: Int): Response<EventListDto>
 
     @GET("/api/events/{id}/participants/list")
     suspend fun getEventParticipants(@Path("id") eventId: Int): Response<List<ParticipantDto>>

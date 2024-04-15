@@ -18,12 +18,15 @@ class EventRepository(private val eventApi: EventApi) {
         format: String? = null
     ): List<EventShort>? {
         return try {
+            Log.i("retrofit", "Try to load events")
             val response = eventApi.getEvents(title, from, to, status, format)
             if (response.isSuccessful) {
-                response.body()?.map {
+                response.body()?.items?.map {
+                    Log.i("retrofit", "Events loaded correctly: $it")
                     mapEventShortDtoToEntity(it)
                 }
             } else {
+                Log.i("retrofit", "Events: ${response.code()}, ${response.message()}")
                 null
             }
         } catch (ex: Exception) {
@@ -33,10 +36,12 @@ class EventRepository(private val eventApi: EventApi) {
     }
 
 
-    suspend fun getUserEventsByRole(roleName: String? = null): List<EventShort>? {
+    suspend fun getUserEventsByRole(roleId: Int): List<EventShort>? {
         return try {
-            val response = eventApi.getUserEventsByRole(roleName)
+            Log.i("retrofit", "Try to load user events, roleId = $roleId")
+            val response = eventApi.getUserEventsByRole(roleId)
             if (response.isSuccessful) {
+                Log.i("retrofit", "User events loaded correctly: ${response.body()}")
                 response.body()?.map {
                     mapEventShortDtoToEntity(it)
                 }
@@ -55,9 +60,14 @@ class EventRepository(private val eventApi: EventApi) {
             entity.title,
             entity.shortDesc,
             entity.status,
-            LocalDateTime.ofInstant(entity.start.toInstant(), ZoneId.systemDefault()),
-            LocalDateTime.ofInstant(entity.end.toInstant(), ZoneId.systemDefault()),
+            getLocalDateTime(entity.start),
+            getLocalDateTime(entity.end),
             entity.format
         )
 
+    private fun getLocalDateTime(date: Date?) : LocalDateTime? {
+        return date?.let {
+            LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        }
+    }
 }
