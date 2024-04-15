@@ -57,6 +57,7 @@ class LoginFragment : Fragment() {
         tokenViewModel.token.observe(viewLifecycleOwner) { token ->
            if (token != null) {
                startActivity(Intent(activity, MainActivity::class.java))
+               exit()
            } else {
                binding.progressBar.visibility = View.GONE
                binding.loginLayoutForm.visibility = View.VISIBLE
@@ -75,7 +76,7 @@ class LoginFragment : Fragment() {
                     tokenViewModel.saveToken(it.data)
                     val intent = Intent(activity as AppCompatActivity, MainActivity::class.java)
                     startActivity(intent)
-                    requireActivity().finish()
+                    exit()
                 }
             }
         }
@@ -145,6 +146,10 @@ class LoginFragment : Fragment() {
             text,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun exit() {
+        requireActivity().finish()
     }
 
 

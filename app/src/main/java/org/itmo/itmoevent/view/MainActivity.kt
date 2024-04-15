@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ import org.itmo.itmoevent.view.fragments.EventSectionFragment
 import org.itmo.itmoevent.view.fragments.ManagementSectionFragment
 import org.itmo.itmoevent.view.fragments.ProfileSectionFragment
 import org.itmo.itmoevent.view.fragments.TaskSectionFragment
-import org.itmo.itmoevent.viewmodel.EventItemViewModel
+import org.itmo.itmoevent.viewmodel.MainViewModel
 import java.lang.IllegalStateException
 
 @AndroidEntryPoint
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         R.id.nav_item_profile to ProfileSectionFragment()
     )
 
-    private val eventItemViewModel: EventItemViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,29 +67,24 @@ class MainActivity : AppCompatActivity() {
                 if (savedInstanceState == null) {
                     viewBinding?.run {
                         mainBottomNavBar.setOnItemSelectedListener { item ->
-                            val selectedFragment = navFragmentsMap[item.itemId]
-
-                            val currentFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container)
-
-                            if (selectedFragment != currentFragment) {
-                                val transaction = supportFragmentManager.beginTransaction()
+                            supportFragmentManager.popBackStack(
+                                BACK_STACK_TAB_TAG,
+                                FragmentManager.POP_BACK_STACK_INCLUSIVE
+                            )
+                            navFragmentsMap[item.itemId]?.run {
+                                supportFragmentManager.beginTransaction()
                                     .setReorderingAllowed(true)
-                                    .replace(R.id.main_fragment_container, selectedFragment!!)
-
-                                if (currentFragment != null) {
-                                    transaction.addToBackStack(null)
-                                }
-
-                                transaction.commit()
+                                    .replace(R.id.main_fragment_container, this)
+                                    .addToBackStack(BACK_STACK_TAB_TAG)
+                                    .commit()
                             }
-
                             true
                         }
                     }
 
-                    eventItemViewModel.eventId.observe(this@MainActivity) {
+                    mainViewModel.eventId.observe(this@MainActivity) {
                         val argBundle =
-                            bundleOf(EventFragment.EVENT_ID_ARG to eventItemViewModel.eventId.value)
+                            bundleOf(EventFragment.EVENT_ID_ARG to mainViewModel.eventId.value)
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace<EventFragment>(R.id.main_fragment_container, args = argBundle)
@@ -97,9 +93,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                mainViewModel.exitIntended.observe(this@MainActivity) {
+                    this@MainActivity.finish()
+                }
+
             }
         }
-
 
     }
 
