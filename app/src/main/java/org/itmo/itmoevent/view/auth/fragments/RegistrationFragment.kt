@@ -103,7 +103,7 @@ class RegistrationFragment : Fragment() {
                     }
 
                 } else {
-                    binding.password.error = null
+                    binding.checkPassword.error = null
                 }
 
 
