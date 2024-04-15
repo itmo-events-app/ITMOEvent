@@ -96,10 +96,10 @@ class RegistrationFragment : Fragment() {
                     binding.password.error = null
                 }
                 if (password != passwordCheck || passwordCheck == "") {
-                    if (password == "") {
+                    if (passwordCheck == "") {
                         binding.checkPassword.error = "Пустое поле"
                     } else {
-                        binding.checkPassword.error = "Некорректное потдтверждение пароля"
+                        binding.checkPassword.error = "Некорректное подтверждение пароля"
                     }
 
                 } else {
