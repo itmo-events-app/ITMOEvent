@@ -21,7 +21,7 @@ import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.view.adapters.EventRequestAdapter
 import org.itmo.itmoevent.view.adapters.EventAdapter
 import org.itmo.itmoevent.viewmodel.ContentItemLiveDataProvider
-import org.itmo.itmoevent.viewmodel.EventItemViewModel
+import org.itmo.itmoevent.viewmodel.MainViewModel
 import org.itmo.itmoevent.viewmodel.UserEventsViewModel
 import java.lang.IllegalStateException
 
@@ -30,17 +30,17 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events),
     EventAdapter.OnEventListClickListener {
     private var viewBinding: FragmentUserEventsBinding? = null
 
-    private val model: UserEventsViewModel by viewModels {
-        val application = requireActivity().application as? EventApplication
-            ?: throw IllegalStateException("Application must be EventApplication implementation")
-        UserEventsViewModel.UserEventsViewModelFactory(
-            application.eventRequestRepository,
-            application.roleRepository,
-            application.eventRepository
-        )
-    }
+//    private val model: UserEventsViewModel by viewModels {
+//        val application = requireActivity().application as? EventApplication
+//            ?: throw IllegalStateException("Application must be EventApplication implementation")
+//        UserEventsViewModel.UserEventsViewModelFactory(
+//            application.eventRequestRepository,
+//            application.roleRepository,
+//            application.eventRepository
+//        )
+//    }
 
-    private val eventItemViewModel: EventItemViewModel by activityViewModels()
+    private val eventItemViewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -54,6 +54,16 @@ class UserEventsFragment : Fragment(R.layout.fragment_user_events),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val model: UserEventsViewModel by viewModels {
+            val application = requireActivity().application as? EventApplication
+                ?: throw IllegalStateException("Application must be EventApplication implementation")
+            UserEventsViewModel.UserEventsViewModelFactory(
+                application.eventRequestRepository,
+                application.roleRepository,
+                application.eventRepository
+            )
+        }
 
         val requestsAdapter = EventRequestAdapter()
         val eventsAdapter = EventAdapter(this)

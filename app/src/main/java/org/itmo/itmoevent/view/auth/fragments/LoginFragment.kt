@@ -57,6 +57,7 @@ class LoginFragment : Fragment() {
         tokenViewModel.token.observe(viewLifecycleOwner) { token ->
            if (token != null) {
                startActivity(Intent(activity, MainActivity::class.java))
+               exit()
            } else {
                binding.progressBar.visibility = View.GONE
                binding.loginLayoutForm.visibility = View.VISIBLE
@@ -67,15 +68,14 @@ class LoginFragment : Fragment() {
             when(it) {
                 is ApiResponse.Failure -> {
                     Log.d("api_error", it.errorMessage)
-                    showShortToast(it.errorMessage)
-
+                    showShortToast("Ошибка входа")
                 }
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())
                 is ApiResponse.Success -> {
                     tokenViewModel.saveToken(it.data)
                     val intent = Intent(activity as AppCompatActivity, MainActivity::class.java)
                     startActivity(intent)
-                    requireActivity().finish()
+                    exit()
                 }
             }
         }
@@ -147,9 +147,13 @@ class LoginFragment : Fragment() {
         ).show()
     }
 
+    private fun exit() {
+        requireActivity().finish()
+    }
+
 
     private fun checkLogin(login: String): Boolean {
-        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
+        return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru$".toRegex())
     }
 
     private fun checkPassword(password: String): Boolean {
