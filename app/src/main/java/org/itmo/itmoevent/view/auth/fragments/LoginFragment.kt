@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -76,6 +75,7 @@ class LoginFragment : Fragment() {
                     tokenViewModel.saveToken(it.data)
                     val intent = Intent(activity as AppCompatActivity, MainActivity::class.java)
                     startActivity(intent)
+                    requireActivity().finish()
                 }
             }
         }
@@ -98,6 +98,7 @@ class LoginFragment : Fragment() {
 //                    binding.password.error = null
 //                }
             } else {
+                Toast.makeText(context, "Загрузка", Toast.LENGTH_SHORT).show()
                 viewModel.login(
 //                LoginRequest("333d666@niuitmo.ru", "PaSsWoRd1!"),
                     LoginRequest(email, password),
