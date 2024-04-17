@@ -116,4 +116,8 @@
     <string name="exit_button_text">Выход</string>
     <string name="input_message_too_long">Сторока слишком длинная</string>
     <string name="reset_password_confirm_info">Заявка на восстановление отправлена</string>
+    <string name="place_name_label">Название</string>
+    <string name="place_address_label">Адрес</string>
+    <string name="place_room_label">Комната</string>
+    <string name="place_desc_label">Описание</string>
 </resources>
