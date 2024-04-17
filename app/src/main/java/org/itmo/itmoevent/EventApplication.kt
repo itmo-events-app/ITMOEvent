@@ -8,6 +8,7 @@ import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
 import org.itmo.itmoevent.model.repository.NotificationRepository
+import org.itmo.itmoevent.model.repository.PlaceRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
 import org.itmo.itmoevent.model.repository.UserRepository
@@ -77,7 +78,11 @@ class EventApplication : Application() {
     }
 
     val eventActivityRepository by lazy {
-        EventActivityRepository(eventActivityApi)
+        EventActivityRepository(eventApi)
+    }
+
+    val placeRepository by lazy {
+        PlaceRepository(placeApi)
     }
 
     val tokenManager by lazy {

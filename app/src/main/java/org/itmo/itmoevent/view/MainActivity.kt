@@ -14,9 +14,11 @@ import org.itmo.itmoevent.EventApplication
 import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.ActivityMainBinding
+import org.itmo.itmoevent.view.fragments.ActivityFragment
 import org.itmo.itmoevent.view.fragments.EventFragment
 import org.itmo.itmoevent.view.fragments.EventSectionFragment
 import org.itmo.itmoevent.view.fragments.ManagementSectionFragment
+import org.itmo.itmoevent.view.fragments.PlaceFragment
 import org.itmo.itmoevent.view.fragments.ProfileSectionFragment
 import org.itmo.itmoevent.view.fragments.TaskSectionFragment
 import org.itmo.itmoevent.viewmodel.MainViewModel
@@ -88,6 +90,26 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace<EventFragment>(R.id.main_fragment_container, args = argBundle)
+                            .addToBackStack(BACK_STACK_DETAILS_TAG)
+                            .commit()
+                    }
+
+                    mainViewModel.activityId.observe(this@MainActivity) {
+                        val argBundle =
+                            bundleOf(ActivityFragment.ACTIVITY_ID_ARG to mainViewModel.activityId.value)
+                        supportFragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace<ActivityFragment>(R.id.main_fragment_container, args = argBundle)
+                            .addToBackStack(BACK_STACK_DETAILS_TAG)
+                            .commit()
+                    }
+
+                    mainViewModel.placeId.observe(this@MainActivity) { id ->
+                        val argBundle =
+                            bundleOf(PlaceFragment.PLACE_ID_ARG to id)
+                        supportFragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace<PlaceFragment>(R.id.main_fragment_container, args = argBundle)
                             .addToBackStack(BACK_STACK_DETAILS_TAG)
                             .commit()
                     }
