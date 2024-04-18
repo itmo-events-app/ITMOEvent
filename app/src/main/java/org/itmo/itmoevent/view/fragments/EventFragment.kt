@@ -3,22 +3,17 @@ package org.itmo.itmoevent.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.GONE
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import org.itmo.itmoevent.EventApplication
-import org.itmo.itmoevent.R
+import org.itmo.itmoevent.databinding.EventInfoBinding
 import org.itmo.itmoevent.databinding.FragmentEventBinding
+import org.itmo.itmoevent.databinding.PlaceItemBinding
 import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
@@ -27,38 +22,42 @@ import org.itmo.itmoevent.model.data.entity.UserRole
 import org.itmo.itmoevent.view.adapters.EventAdapter
 import org.itmo.itmoevent.view.adapters.ParticipantAdapter
 import org.itmo.itmoevent.view.adapters.UserAdapter
-import org.itmo.itmoevent.view.util.DisplayDateFormats
-import org.itmo.itmoevent.viewmodel.ContentItemLiveDataProvider
-import org.itmo.itmoevent.viewmodel.ContentItemLiveDataProvider.ContentItemUIState.*
+import org.itmo.itmoevent.view.fragments.base.BaseFragment
+import org.itmo.itmoevent.view.fragments.binding.ContentBinding
+import org.itmo.itmoevent.view.fragments.binding.EventInfoContentBinding
+import org.itmo.itmoevent.view.fragments.binding.PlaceItemContentBinding
 import org.itmo.itmoevent.viewmodel.EventViewModel
 import org.itmo.itmoevent.viewmodel.MainViewModel
-import java.lang.IllegalStateException
-import java.time.format.DateTimeFormatter
 
-class EventFragment : Fragment(R.layout.fragment_event) {
+class EventFragment : BaseFragment<FragmentEventBinding>() {
 
-    private var viewBinding: FragmentEventBinding? = null
     private var eventId: Int? = null
-    private var model: EventViewModel? = null
+
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    private val activitiesAdapter = EventAdapter(object : EventAdapter.OnEventListClickListener {
-        override fun onEventClicked(eventId: Int) {
-            mainViewModel.selectActivity(eventId)
-        }
-    })
+    private var _model: EventViewModel? = null
+    private val model: EventViewModel
+        get() = _model as EventViewModel
 
-    private val orgAdapter = UserAdapter()
-    private val participantsAdapter =
-        ParticipantAdapter(object : ParticipantAdapter.OnParticipantMarkChangeListener {
-            override fun changeMark(participantId: Int, isChecked: Boolean) {
-                showShortToast("participant $participantId - $isChecked")
-                model?.markEventParticipant(participantId, isChecked)
-            }
-        })
+    private val eventInfoContentBinding: ContentBinding<EventInfoBinding, Event> by lazy {
+        EventInfoContentBinding(requireActivity())
+    }
+
+    private val placeContentBinding: ContentBinding<PlaceItemBinding, Place> by lazy {
+        PlaceItemContentBinding()
+    }
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentEventBinding
+        get() = { inflater, container, attach ->
+            FragmentEventBinding.inflate(inflater, container, attach)
+        }
+
+    private var activitiesAdapter: EventAdapter? = null
+    private var orgAdapter: UserAdapter? = null
+    private var participantsAdapter: ParticipantAdapter? = null
 
     private val tabItemsIndexViewMap by lazy {
-        viewBinding?.run {
+        viewBinding.run {
             mapOf(
                 0 to eventSubsectionAcivitiesRv,
                 1 to eventSubsectionOrgGroup,
@@ -67,53 +66,52 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         }
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentEventBinding.inflate(inflater, container, false)
-        return viewBinding?.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setup(view: View, savedInstanceState: Bundle?) {
         val eventId = requireArguments().getInt(EVENT_ID_ARG)
         this.eventId = eventId
 
         val model: EventViewModel by viewModels {
-            val application = requireActivity().application as? EventApplication
-                ?: throw IllegalStateException("Application must be EventApplication implementation")
             EventViewModel.EventViewModelFactory(
                 eventId,
                 application.eventDetailsRepository,
                 application.roleRepository
             )
         }
-        this.model = model
+        _model = model
 
-        viewBinding?.run {
+        setupRecyclerViews()
+        registerViewListeners()
+        observeLiveData()
+    }
+
+    private fun setupRecyclerViews() {
+        activitiesAdapter = activitiesAdapter ?: EventAdapter(::onActivityClicked)
+        participantsAdapter = participantsAdapter ?: ParticipantAdapter(::onParticipantCheckChanged)
+        orgAdapter = orgAdapter ?: UserAdapter()
+
+        viewBinding.run {
             eventSubsectionAcivitiesRv.layoutManager = LinearLayoutManager(context)
             eventSubsectionAcivitiesRv.adapter = activitiesAdapter
             eventSubsectionOrganisatorsRv.layoutManager = LinearLayoutManager(context)
             eventSubsectionOrganisatorsRv.adapter = orgAdapter
             eventSubsectionParticipantsRv.layoutManager = LinearLayoutManager(context)
             eventSubsectionParticipantsRv.adapter = participantsAdapter
+        }
+    }
 
-            eventInfo.run {
-                eventDescHeader.setOnClickListener {
-                    switchVisibility(eventDescLong)
-                }
+    private fun registerViewListeners() {
+        viewBinding.run {
+            eventInfo.eventDescHeader.setOnClickListener {
+                switchVisibility(eventInfo.eventDescLong)
+            }
 
-                eventDetailsHeader.setOnClickListener {
-                    switchVisibility(eventDetailsGroup)
-                }
+            eventInfo.eventDetailsHeader.setOnClickListener {
+                switchVisibility(eventInfo.eventDetailsGroup)
             }
 
             eventSubsectionOrganisatorsRoleSelect.roleEdit.run {
-                this.setOnItemClickListener { _, _, _, _ ->
-                    model.roleName.value = this.text.toString()
+                setOnItemClickListener { _, _, _, _ ->
+                    model.roleName.value = text.toString()
                 }
             }
 
@@ -121,110 +119,70 @@ class EventFragment : Fragment(R.layout.fragment_event) {
                 model.markEventParticipantsAll()
             }
 
-            eventEditBtn.setOnClickListener {
-
-            }
-
             eventSubsectionsTab.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    show(tabItemsIndexViewMap?.get(tab?.position ?: 0))
+                    show(tabItemsIndexViewMap[tab?.position ?: 0])
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    hide(tabItemsIndexViewMap?.get(tab?.position ?: 0))
+                    hide(tabItemsIndexViewMap[tab?.position ?: 0])
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             })
+        }
+    }
 
+    private fun onActivityClicked(id: Int) {
+        mainViewModel.selectActivity(id)
+    }
+
+    private fun onParticipantCheckChanged(participantId: Int, isChecked: Boolean) {
+        showShortToast("participant $participantId - $isChecked")
+        model.markEventParticipant(participantId, isChecked)
+    }
+
+    private fun observeLiveData() {
+        viewBinding.run {
             model.run {
-                handleContentItemViewByLiveData<Place>(
-                    placeLiveData,
-                    eventInfo.eventPlaceCard.root
-                ) { place ->
-                    viewBinding?.eventInfo?.run {
-                        eventChipPlace.text = place.name
-                        eventPlaceCard.placeItemTitle.text = place.name
-                        eventPlaceCard.placeItemDesc.text = place.description
-                        eventPlaceCard.placeItemFormat.text = place.format
-
-                        eventPlaceCard.root.setOnClickListener {
-                            mainViewModel.selectPlace(place.id)
-                        }
-                    }
-                }
-
+                handleContentItemViewByLiveData(
+                    placeLiveData, eventInfo.eventPlaceCard.root,
+                    bindContent = ::bindPlace
+                )
 
                 handleContentItemViewByLiveData<List<EventShort>>(
-                    activitiesLiveData,
-                    eventSubsectionAcivitiesRv,
+                    activitiesLiveData, eventSubsectionAcivitiesRv,
                     eventSubsectionsProgressBar.root,
                     false,
                     { blockTabItem(0) }
                 ) { activities ->
-                    viewBinding?.run {
-                        activitiesAdapter.eventList = activities
+                    viewBinding.run {
+                        activitiesAdapter?.eventList = activities
                     }
                 }
 
                 handleContentItemViewByLiveData<List<Participant>>(
-                    participantsLiveData,
-                    eventSubsectionParticipantsRv,
+                    participantsLiveData, eventSubsectionParticipantsRv,
                     eventSubsectionsProgressBar.root,
                     false,
                     { blockTabItem(2) }
                 ) { participants ->
-                    viewBinding?.run {
-                        participantsAdapter.participantList = participants
+                    viewBinding.run {
+                        participantsAdapter?.participantList = participants
                     }
                 }
 
                 handleContentItemViewByLiveData<List<UserRole>>(
-                    orgsLiveData,
-                    eventSubsectionOrgGroup,
-                    eventSubsectionsProgressBar.root,
+                    orgsLiveData, eventSubsectionOrgGroup, eventSubsectionsProgressBar.root,
                     false,
                     { blockTabItem(1) }
                 ) { }
 
-                handleContentItemViewByLiveData<Event>(
-                    eventInfoLiveData,
-                    eventContent,
-                    eventProgressBarMain.root
-                ) { event ->
-                    viewBinding?.eventInfo?.run {
-                        val formatter =
-                            DateTimeFormatter.ofPattern(DisplayDateFormats.DATE_EVENT_FULL)
-                        event.run {
-                            eventTitle.text = title
-                            eventShortDesc.text = shortDesc
-                            eventDescLong.text = longDesc
-                            eventChipStatus.text = status
-                            eventChipTime.text = startDate.format(formatter)
-                            eventDetailsTimeHold.text =
-                                getString(
-                                    R.string.event_duration,
-                                    startDate.format(formatter),
-                                    endDate.format(formatter)
-                                )
-                            eventDetailsTimeRegister.text =
-                                getString(
-                                    R.string.event_duration,
-                                    regStart.format(formatter),
-                                    regEnd.format(formatter)
-                                )
-                            eventDetailsTimePrepare.text =
-                                getString(
-                                    R.string.event_duration,
-                                    preparingStart.format(formatter),
-                                    preparingEnd.format(formatter)
-                                )
-                            eventDetailsAge.text = participantAgeLowest.toString()
-                            eventDetailsParticipantsMax.text = participantLimit.toString()
-                        }
-                    }
-                }
+                handleContentItemViewByLiveData(
+                    eventInfoLiveData, eventContent, eventProgressBarMain.root,
+                    bindContent = ::bindEventInfo
+                )
 
                 rolesList.observe(this@EventFragment.viewLifecycleOwner) { roles ->
                     (eventSubsectionOrganisatorsRoleSelect.roleEdit as? MaterialAutoCompleteTextView)?.setSimpleItems(
@@ -233,99 +191,34 @@ class EventFragment : Fragment(R.layout.fragment_event) {
                 }
 
                 roleOrganizersList.observe(this@EventFragment.viewLifecycleOwner) { orgs ->
-                    orgs?.let {
-                        orgAdapter.userList = orgs
-                    }
+                    orgAdapter?.userList = orgs ?: emptyList()
                 }
+            }
 
+        }
+    }
+
+    private fun bindEventInfo(event: Event) {
+        eventInfoContentBinding.bindContentToView(viewBinding.eventInfo, event)
+    }
+
+    private fun bindPlace(place: Place) {
+        viewBinding.eventInfo.run {
+            placeContentBinding.bindContentToView(eventPlaceCard, place)
+            eventChipPlace.text = place.name
+
+            eventPlaceCard.root.setOnClickListener {
+                mainViewModel.selectPlace(place.id)
             }
         }
     }
 
     private fun blockTabItem(index: Int) {
-        viewBinding?.run {
-            eventSubsectionsTab.getTabAt(index)?.view?.isClickable = false
-        }
-    }
-
-    private fun <T> handleContentItemViewByLiveData(
-        livedata: LiveData<ContentItemLiveDataProvider.ContentItemUIState>,
-        contentView: View,
-        progressBar: View? = null,
-        needToShow: Boolean = true,
-        ifDisabled: (() -> Unit)? = null,
-        bindContent: (T) -> Unit
-    ) {
-        livedata.observe(this.viewLifecycleOwner) { state ->
-            when (state) {
-                is Success<*> -> {
-                    val content = state.content!! as T
-                    bindContent(content)
-                    if (needToShow) {
-                        show(contentView)
-                        progressBar?.let {
-                            hide(progressBar)
-                        }
-                    }
-                }
-
-                is Error -> {
-                    if (needToShow) {
-                        show(contentView)
-                        progressBar?.let {
-                            hide(progressBar)
-                        }
-                    }
-                    state.errorMessage?.let {
-                        showShortToast(it)
-                    }
-                }
-
-                is Disabled -> {
-                    if (needToShow) {
-                        hide(contentView)
-                    }
-                    ifDisabled?.invoke()
-                    showShortToast("Blocked")
-                }
-
-                is Loading -> {
-                    if (needToShow) {
-                        hide(contentView)
-                        progressBar?.let {
-                            show(progressBar)
-                        }
-                    }
-                }
-
-                is Start -> {
-                }
-            }
-        }
-    }
-
-    private fun show(view: View?) {
-        view?.visibility = VISIBLE
-    }
-
-    private fun hide(view: View?) {
-        view?.visibility = GONE
-    }
-
-    private fun showShortToast(text: String) {
-        Toast.makeText(
-            context,
-            text,
-            Toast.LENGTH_LONG
-        ).show()
+        viewBinding.eventSubsectionsTab.getTabAt(index)?.view?.isClickable = false
     }
 
     private fun switchVisibility(view: View) {
-        when (view.visibility) {
-            VISIBLE -> view.visibility = GONE
-            GONE -> view.visibility = VISIBLE
-            INVISIBLE -> view.visibility = VISIBLE
-        }
+        view.isVisible = !view.isVisible
     }
 
     companion object {
