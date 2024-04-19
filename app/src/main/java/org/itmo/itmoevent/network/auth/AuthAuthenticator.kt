@@ -1,15 +1,20 @@
 package org.itmo.itmoevent.network.auth
 
 import android.util.Log
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.logging.HttpLoggingInterceptor
 import org.itmo.itmoevent.network.api.AuthControllerApi
 import org.itmo.itmoevent.network.api.ProfileControllerApi
+import org.itmo.itmoevent.network.infrastructure.Serializer
 import org.itmo.itmoevent.network.util.TokenManager
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Inject
 class AuthAuthenticator @Inject constructor(
     private val tokenManager: TokenManager,
@@ -44,10 +49,15 @@ class AuthAuthenticator @Inject constructor(
     private suspend fun checkToken(token: String?): Boolean {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val converterFactories: List<Converter.Factory> = listOf(
+            ScalarsConverterFactory.create(),
+            Serializer.kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
+        )
+
         val okHttpClient = OkHttpClient.Builder().addInterceptor(loggingInterceptor)
             .addInterceptor{ chain ->
                 val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization: Bearer", token!!)
+                    .addHeader("Authorization", "Bearer $token")
                 .build()
                 chain.proceed(newRequest)
             }
@@ -55,7 +65,11 @@ class AuthAuthenticator @Inject constructor(
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://95.216.146.187:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
+                }
+            }
             .client(okHttpClient)
             .build()
 
