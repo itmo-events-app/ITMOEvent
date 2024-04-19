@@ -15,6 +15,7 @@
 
 package org.itmo.itmoevent.network.model
 
+import org.itmo.itmoevent.network.model.UserResponse
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
@@ -23,22 +24,18 @@ import kotlinx.serialization.Contextual
 /**
  * 
  *
- * @param filename 
- * @param presignedUrl 
- * @param unsignedUrl 
+ * @param total 
+ * @param items 
  */
 @Serializable
 
-data class FileDataResponse (
+data class PaginatedResponseUserResponse (
 
-    @SerialName(value = "filename")
-    val filename: kotlin.String? = null,
+    @SerialName(value = "total")
+    val total: kotlin.Long? = null,
 
-    @SerialName(value = "presignedUrl")
-    val presignedUrl: kotlin.String? = null,
-
-    @SerialName(value = "unsignedUrl")
-    val unsignedUrl: kotlin.String? = null
+    @SerialName(value = "items")
+    val items: kotlin.collections.List<UserResponse>? = null
 
 )
 

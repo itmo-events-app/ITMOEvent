@@ -23,22 +23,18 @@ import kotlinx.serialization.Contextual
 /**
  * 
  *
- * @param filename 
- * @param presignedUrl 
- * @param unsignedUrl 
+ * @param returnUrl 
+ * @param email 
  */
 @Serializable
 
-data class FileDataResponse (
+data class RecoveryPasswordRequest (
 
-    @SerialName(value = "filename")
-    val filename: kotlin.String? = null,
+    @SerialName(value = "returnUrl")
+    val returnUrl: kotlin.String,
 
-    @SerialName(value = "presignedUrl")
-    val presignedUrl: kotlin.String? = null,
-
-    @SerialName(value = "unsignedUrl")
-    val unsignedUrl: kotlin.String? = null
+    @SerialName(value = "email")
+    val email: kotlin.String
 
 )
 
