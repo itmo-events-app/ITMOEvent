@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 import org.itmo.itmoevent.network.model.NotificationSettingsRequest
-import org.itmo.itmoevent.network.model.PaginatedResponseUserSystemRoleResponse
+import org.itmo.itmoevent.network.model.PaginatedResponseUserResponse
 import org.itmo.itmoevent.network.model.PrivilegeResponse
 import org.itmo.itmoevent.network.model.PrivilegeWithHasOrganizerRolesResponse
 import org.itmo.itmoevent.network.model.ProfileResponse
@@ -62,10 +62,10 @@ interface ProfileControllerApi {
      * @param searchQuery Строка для поиска по имени и фамилии (optional, default to "")
      * @param page Номер страницы, с которой начать показ пользователей (optional, default to 0)
      * @param size Число пользователей на странице (optional, default to 10)
-     * @return [PaginatedResponseUserSystemRoleResponse]
+     * @return [PaginatedResponseUserResponse]
      */
     @GET("api/profile/all-system-users")
-    suspend fun getAllUsers(@Query("searchQuery") searchQuery: kotlin.String? = "", @Query("page") page: kotlin.Int? = 0, @Query("size") size: kotlin.Int? = 10): Response<PaginatedResponseUserSystemRoleResponse>
+    suspend fun getAllUsers(@Query("searchQuery") searchQuery: kotlin.String? = "", @Query("page") page: kotlin.Int? = 0, @Query("size") size: kotlin.Int? = 10): Response<PaginatedResponseUserResponse>
 
     /**
      * Получение списка всех привилегий пользователя в данном мероприятии

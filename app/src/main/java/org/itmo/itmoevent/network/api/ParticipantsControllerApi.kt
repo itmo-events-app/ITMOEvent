@@ -10,7 +10,8 @@ import kotlinx.serialization.Serializable
 
 import org.itmo.itmoevent.network.model.ParticipantPresenceRequest
 import org.itmo.itmoevent.network.model.ParticipantResponse
-import org.itmo.itmoevent.network.model.SetPartisipantsListRequest
+
+import okhttp3.MultipartBody
 
 interface ParticipantsControllerApi {
     /**
@@ -57,10 +58,11 @@ interface ParticipantsControllerApi {
      *  - 0: default response
      *
      * @param id 
-     * @param setPartisipantsListRequest  (optional)
+     * @param participantsFile 
      * @return [kotlin.collections.List<ParticipantResponse>]
      */
+    @Multipart
     @POST("api/events/{id}/participants")
-    suspend fun setPartisipantsList(@Path("id") id: kotlin.Int, @Body setPartisipantsListRequest: SetPartisipantsListRequest? = null): Response<kotlin.collections.List<ParticipantResponse>>
+    suspend fun setPartisipantsList(@Path("id") id: kotlin.Int, @Part participantsFile: MultipartBody.Part): Response<kotlin.collections.List<ParticipantResponse>>
 
 }

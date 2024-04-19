@@ -9,90 +9,75 @@ import retrofit2.http.Query
 
 class RoleRepository(private val roleApi: RoleControllerApi) {
 
-    fun assignAssistantRole(@Path("userId") userId: Int, @Path("eventId") eventId: Int) =
-        apiRequestFlow {
-            roleApi.assignAssistantRole(userId, eventId)
-        }
+    fun assignAssistantRole(userId: Int, eventId: Int) = apiRequestFlow {
+        roleApi.assignAssistantRole(userId, eventId)
+    }
 
-    fun assignOrganizationalRole(
-        @Path("userId") userId: Int,
-        @Path("eventId") eventId: Int,
-        @Path("roleId") roleId: Int
-    ) = apiRequestFlow {
+    fun assignOrganizationalRole(userId: Int, eventId: Int, roleId: Int) = apiRequestFlow {
         roleApi.assignOrganizationalRole(userId, eventId, roleId)
     }
 
-    fun assignOrganizerRole(@Path("userId") userId: Int, @Path("eventId") eventId: Int) =
-        apiRequestFlow {
-            roleApi.assignOrganizerRole(userId, eventId)
-        }
+    fun assignOrganizerRole(userId: Int, eventId: Int) = apiRequestFlow {
+        roleApi.assignOrganizerRole(userId, eventId)
+    }
 
-    fun assignSystemRole(@Path("userId") userId: Int, @Path("roleId") roleId: Int) =
-        apiRequestFlow {
-            roleApi.assignSystemRole(userId, roleId)
-        }
+    fun assignSystemRole(userId: Int, roleId: Int) = apiRequestFlow {
+        roleApi.assignSystemRole(userId, roleId)
+    }
 
-    fun createRole(@Body roleRequest: RoleRequest) = apiRequestFlow {
+    fun createRole(roleRequest: RoleRequest) = apiRequestFlow {
         roleApi.createRole(roleRequest)
     }
 
-    fun deleteRole(@Path("id") id: Int) = apiRequestFlow {
+    fun deleteRole(id: Int) = apiRequestFlow {
         roleApi.deleteRole(id)
     }
 
-    fun editRole(@Path("id") id: Int, @Body roleRequest: RoleRequest) = apiRequestFlow {
+    fun editRole(id: Int, roleRequest: RoleRequest) = apiRequestFlow {
         roleApi.editRole(id, roleRequest)
     }
 
-    fun getAllPrivileges(@Query("type") type: RoleControllerApi.TypeGetAllPrivileges? = null) =
-        apiRequestFlow {
-            roleApi.getAllPrivileges(type)
-        }
+    fun getAllPrivileges(type: RoleControllerApi.TypeGetAllPrivileges? = null) = apiRequestFlow {
+        roleApi.getAllPrivileges(type)
+    }
 
     fun getAllRoles() = apiRequestFlow {
         roleApi.getAllRoles()
     }
 
-    fun getEventsByRole(@Path("id") id: Int) = apiRequestFlow {
+    fun getEventsByRole(id: Int) = apiRequestFlow {
         roleApi.getEventsByRole(id)
     }
 
-    fun getOrganizationalRoleById(@Path("roleId") roleId: Int, @Query("eventId") eventId: Int) =
-        apiRequestFlow {
-            roleApi.getOrganizationalRoleById(roleId, eventId)
-        }
-
-    fun getOrganizationalRoles(@Query("eventId") eventId: Int) = apiRequestFlow {
-        roleApi.getOrganizationalRoles(eventId)
+    fun getOrganizationalRoleById(roleId: Int, eventId: Int) = apiRequestFlow {
+        roleApi.getOrganizationalRoleById(roleId, eventId)
     }
 
-    fun getRoleById(@Path("id") id: Int) = apiRequestFlow {
+    fun getOrganizationalRoles() = apiRequestFlow {
+        roleApi.getOrganizationalRoles()
+    }
+
+    fun getRoleById(id: Int) = apiRequestFlow {
         roleApi.getRoleById(id)
     }
 
-    fun revokeAssistantRole(@Path("userId") userId: Int, @Path("eventId") eventId: Int) =
-        apiRequestFlow {
-            roleApi.revokeAssistantRole(userId, eventId)
-        }
+    fun revokeAssistantRole(userId: Int, eventId: Int) = apiRequestFlow {
+        roleApi.revokeAssistantRole(userId, eventId)
+    }
 
-    fun revokeOrganizationalRole(
-        @Path("userId") userId: Int,
-        @Path("eventId") eventId: Int,
-        @Path("roleId") roleId: Int
-    ) = apiRequestFlow {
+    fun revokeOrganizationalRole(userId: Int, eventId: Int, roleId: Int) = apiRequestFlow {
         roleApi.revokeOrganizationalRole(userId, eventId, roleId)
     }
 
-    fun revokeOrganizerRole(@Path("userId") userId: Int, @Path("eventId") eventId: Int) =
-        apiRequestFlow {
-            roleApi.revokeOrganizerRole(userId, eventId)
-        }
-
-    fun revokeSystemRole(@Path("userId") userId: Int) = apiRequestFlow {
-        roleApi.revokeSystemRole(userId)
+    fun revokeOrganizerRole(userId: Int, eventId: Int) = apiRequestFlow {
+        roleApi.revokeOrganizerRole(userId, eventId)
     }
 
-    fun searchByName(@Query("name") name: String) = apiRequestFlow {
+    fun revokeSystemRole(userId: Int, roleId: Int) = apiRequestFlow {
+        roleApi.revokeSystemRole(userId, roleId)
+    }
+
+    fun searchByName(name: String) = apiRequestFlow {
         roleApi.searchByName(name)
     }
 }

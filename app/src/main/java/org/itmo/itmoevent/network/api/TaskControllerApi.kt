@@ -210,7 +210,6 @@ interface TaskControllerApi {
      * @return [TaskResponse]
      */
     @PUT("api/tasks/{id}/status")
-    @Headers("Content-Type: application/json")
     suspend fun taskSetStatus(@Path("id") id: kotlin.Int, @Body body: kotlin.String): Response<TaskResponse>
 
     /**
@@ -233,9 +232,9 @@ interface TaskControllerApi {
      *
      * @param id ID задачи
      * @param uploadFilesRequest  (optional)
-     * @return [kotlin.collections.List<kotlin.String>]
+     * @return [kotlin.collections.List<FileDataResponse>]
      */
     @PUT("api/tasks/{id}/files")
-    suspend fun uploadFiles(@Path("id") id: kotlin.Int, @Body uploadFilesRequest: UploadFilesRequest? = null): Response<kotlin.collections.List<kotlin.String>>
+    suspend fun uploadFiles(@Path("id") id: kotlin.Int, @Body uploadFilesRequest: UploadFilesRequest? = null): Response<kotlin.collections.List<FileDataResponse>>
 
 }

@@ -12,89 +12,128 @@ import retrofit2.http.Query
 
 class EventRepository(private val eventApi: EventControllerApi) {
     fun addActivity(
-        @Part("placeId") placeId: Int,
-        @Part("startDate") startDate: java.time.OffsetDateTime,
-        @Part("endDate") endDate: java.time.OffsetDateTime,
-        @Part("title") title: String,
-        @Part("shortDescription") shortDescription: String,
-        @Part("fullDescription") fullDescription: String,
-        @Part("format") format: String,
-        @Part("status") status: String,
-        @Part("registrationStart") registrationStart: java.time.OffsetDateTime,
-        @Part("registrationEnd") registrationEnd: java.time.OffsetDateTime,
-        @Part("participantLimit") participantLimit: Int,
-        @Part("participantAgeLowest") participantAgeLowest: Int,
-        @Part("participantAgeHighest") participantAgeHighest: Int,
-        @Part("preparingStart") preparingStart: java.time.OffsetDateTime,
-        @Part("preparingEnd") preparingEnd: java.time.OffsetDateTime,
-        @Part image: MultipartBody.Part,
-        @Part("parent") parent: Int? = null
+        placeId: Int,
+        startDate: java.time.OffsetDateTime,
+        endDate: java.time.OffsetDateTime,
+        title: String,
+        shortDescription: String,
+        fullDescription: String,
+        format: String,
+        status: String,
+        registrationStart: java.time.OffsetDateTime,
+        registrationEnd: java.time.OffsetDateTime,
+        participantLimit: Int,
+        participantAgeLowest: Int,
+        participantAgeHighest: Int,
+        preparingStart: java.time.OffsetDateTime,
+        preparingEnd: java.time.OffsetDateTime,
+        image: MultipartBody.Part,
+        parent: Int? = null
     ) = apiRequestFlow {
         eventApi.addActivity(
             placeId,
-            startDate,
-            endDate,
+            startDate.toLocalDateTime(),
+            endDate.toLocalDateTime(),
             title,
             shortDescription,
             fullDescription,
             format,
             status,
-            registrationStart,
-            registrationEnd,
+            registrationStart.toLocalDateTime(),
+            registrationEnd.toLocalDateTime(),
             participantLimit,
             participantAgeLowest,
             participantAgeHighest,
-            preparingStart,
-            preparingEnd,
+            preparingStart.toLocalDateTime(),
+            preparingEnd.toLocalDateTime(),
+            parent,
             image
         )
     }
 
-    fun addEventByOrganizer(@Body createEventRequest: CreateEventRequest) = apiRequestFlow {
+    fun addEventByOrganizer(createEventRequest: CreateEventRequest) = apiRequestFlow {
         eventApi.addEventByOrganizer(createEventRequest)
     }
 
-    fun copyEvent(@Path("id") id: Int, @Query("deep") deep: Boolean? = false) = apiRequestFlow {
+    fun copyEvent(id: Int, deep: Boolean? = false) = apiRequestFlow {
         eventApi.copyEvent(id, deep)
     }
 
-    fun deleteEventById(@Path("id") id: Int) = apiRequestFlow {
-        eventApi.deleteEventById(id)
+    fun deleteActivityById(id: Int) = apiRequestFlow {
+        eventApi.deleteActivityById(id)
     }
 
     fun getAllOrFilteredEvents(
-        @Query("page") page: Int? = 0,
-        @Query("size") size: Int? = 15,
-        @Query("parentId") parentId: Int? = null,
-        @Query("title") title: String? = null,
-        @Query("startDate") startDate: java.time.OffsetDateTime? = null,
-        @Query("endDate") endDate: java.time.OffsetDateTime? = null,
-        @Query("status") status: EventControllerApi.StatusGetAllOrFilteredEvents? = null,
-        @Query("format") format: EventControllerApi.FormatGetAllOrFilteredEvents? = null
+        page: Int? = 0,
+        size: Int? = 15,
+        parentId: Int? = null,
+        title: String? = null,
+        startDate: java.time.OffsetDateTime? = null,
+        endDate: java.time.OffsetDateTime? = null,
+        status: EventControllerApi.StatusGetAllOrFilteredEvents? = null,
+        format: EventControllerApi.FormatGetAllOrFilteredEvents? = null
     ) = apiRequestFlow {
         eventApi.getAllOrFilteredEvents(
             page,
             size,
             parentId,
             title,
-            startDate,
-            endDate,
+            startDate?.toLocalDateTime(),
+            endDate?.toLocalDateTime(),
             status,
             format
         )
     }
 
-    fun getEventById(@Path("id") id: Int) = apiRequestFlow {
+    fun getEventById(id: Int) = apiRequestFlow {
         eventApi.getEventById(id)
     }
 
-    fun getUsersHavingRoles(@Path("id") id: Int) = apiRequestFlow {
+    fun getUsersHavingRoles(id: Int) = apiRequestFlow {
         eventApi.getUsersHavingRoles(id)
     }
 
-    fun updateEvent(@Path("id") id: Int, @Body eventRequest: EventRequest? = null) =
-        apiRequestFlow {
-            eventApi.updateEvent(id, eventRequest)
-        }
+    fun updateEvent(
+        id: Int,
+        placeId: Int,
+        startDate: java.time.OffsetDateTime,
+        endDate: java.time.OffsetDateTime,
+        title: String,
+        shortDescription: String,
+        fullDescription: String,
+        format: String,
+        status: String,
+        registrationStart: java.time.OffsetDateTime,
+        registrationEnd: java.time.OffsetDateTime,
+        participantLimit: Int,
+        participantAgeLowest: Int,
+        participantAgeHighest: Int,
+        preparingStart: java.time.OffsetDateTime,
+        preparingEnd: java.time.OffsetDateTime,
+        parent: Int? = null,
+        image: MultipartBody.Part? = null
+    ) = apiRequestFlow {
+        eventApi.updateEvent(
+            id,
+            placeId,
+            startDate.toLocalDateTime(),
+            endDate.toLocalDateTime(),
+            title,
+            shortDescription,
+            fullDescription,
+            format,
+            status,
+            registrationStart.toLocalDateTime(),
+            registrationEnd.toLocalDateTime(),
+            participantLimit,
+            participantAgeLowest,
+            participantAgeHighest,
+            preparingStart.toLocalDateTime(),
+            preparingEnd.toLocalDateTime(),
+            parent,
+            image
+        )
+    }
+
 
 }
