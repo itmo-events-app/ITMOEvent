@@ -119,7 +119,15 @@ class TaskViewModel @Inject constructor(
 
     }
 
-
+    fun taskDeleteAssignee(
+        taskId: Int,
+        coroutinesErrorHandler: CoroutinesErrorHandler
+    ) = baseRequest(
+        MutableLiveData(),
+        coroutinesErrorHandler
+    )  {
+        taskRepository.taskDeleteAssignee(taskId)
+    }
 
     fun updateIsCurrent(newIsCurrent: Boolean) {
         viewModelScope.launch {

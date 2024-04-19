@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/theme"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
@@ -26,7 +26,18 @@
             android:gravity="start"
             style="@style/Text.Header2"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/send_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            tools:text="Время"
+            android:gravity="start"
+            style="@style/Text.Body1"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
@@ -51,6 +62,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.2"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

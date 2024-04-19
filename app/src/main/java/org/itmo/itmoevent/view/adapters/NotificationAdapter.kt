@@ -15,6 +15,7 @@ import org.itmo.itmoevent.model.data.entity.Notification
 import org.itmo.itmoevent.model.data.entity.mapNotificationResponseToNotification
 import org.itmo.itmoevent.network.model.NotificationResponse
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class NotificationAdapter(
@@ -30,6 +31,8 @@ class NotificationAdapter(
             theme.text = notification.title
             val description = (notification.description?.take(40) ?: "") + "..."
             message.text = description
+            val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
+            binding.sendTime.text = notification.sentTime!!.format(formatter)
 
             notificationCard.setOnClickListener {
                 notification.isOpen = !notification.isOpen

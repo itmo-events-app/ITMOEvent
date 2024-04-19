@@ -51,7 +51,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
         adapter = NotificationAdapter(object : NotificationAdapter.OnNotificationClickListener {
             override fun onNotificationClicked(notificationId: Int) {
-                showShortToast(notificationId.toString())
+                //showShortToast(notificationId.toString())
                 viewModel.setOneAsSeenNotification(notificationId, object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)
@@ -111,6 +111,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     binding.editEmailText.setText(email)
                     binding.emailText.text = email
                     binding.mailSwitch.isChecked = it.data.enableEmailNotifications!!
+                    binding.pushSwitch.isChecked = it.data.enablePushNotifications!!
                 }
             }
         }
@@ -125,12 +126,21 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
 
             mailSwitch.setOnCheckedChangeListener {_,isChecked ->
-                viewModel.updateNotifications(NotificationSettingsRequest(isChecked, false), object : CoroutinesErrorHandler {
+                viewModel.updateNotifications(NotificationSettingsRequest(isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)
                     }
                 })
             }
+
+            pushSwitch.setOnCheckedChangeListener {_,isChecked ->
+                viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, isChecked), object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
+            }
+
 
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE

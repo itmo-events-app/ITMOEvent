@@ -111,16 +111,24 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/push_switch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Получать push-уведомления"
+        android:textAppearance="@style/Text.Body1"
+        app:layout_constraintTop_toBottomOf="@id/profile_info_group"
+        app:layout_constraintStart_toStartOf="@id/mail_switch"
+        app:layout_constraintEnd_toEndOf="@id/mail_switch"/>
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/mail_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="@string/switch_tools_text"
         android:textAppearance="@style/Text.Body1"
-        app:layout_constraintTop_toBottomOf="@id/profile_info_group"
+        app:layout_constraintTop_toBottomOf="@id/push_switch"
         app:layout_constraintStart_toEndOf="@id/guideline_v05"
         app:layout_constraintEnd_toStartOf="@id/guideline_v90"/>
 

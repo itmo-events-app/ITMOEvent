@@ -120,4 +120,5 @@
     <string name="place_address_label">Адрес</string>
     <string name="place_room_label">Комната</string>
     <string name="place_desc_label">Описание</string>
+    <string name="refuse_task_button_text">Отказаться от задачи</string>
 </resources>

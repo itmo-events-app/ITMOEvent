@@ -71,6 +71,7 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                         taskNotificationTime.text = text
                         text = task.place!!.name + ", " + task.place.address
                         taskPlace.text = text
+
                         taskStatusSelect.setOnItemClickListener { parent, view, positions, id ->
                             val newStatus = "\"" + when (positions) {
                                 0 -> TaskResponse.TaskStatus.NEW
@@ -80,6 +81,14 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                             }.toString() + "\""
 
                             model.taskSetStatus(task.id!!, newStatus, object: CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                        }
+
+                        refuseTaskButton.setOnClickListener {
+                            model.taskDeleteAssignee(task.id!!, object: CoroutinesErrorHandler {
                                 override fun onError(message: String) {
                                     Log.d("api", message)
                                 }
