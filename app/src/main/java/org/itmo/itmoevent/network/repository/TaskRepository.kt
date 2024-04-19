@@ -7,50 +7,47 @@ import retrofit2.http.Body
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-
 class TaskRepository(private val taskApi: TaskControllerApi) {
 
-    fun taskAdd(@Body taskRequest: TaskRequest) = apiRequestFlow {
+    fun taskAdd(taskRequest: TaskRequest) = apiRequestFlow {
         taskApi.taskAdd(taskRequest)
     }
 
-    fun taskDelete(@Path("id") id: Int) = apiRequestFlow {
+    fun taskDelete(id: Int) = apiRequestFlow {
         taskApi.taskDelete(id)
     }
 
-    fun taskDeleteAssignee(@Path("id") id: Int) = apiRequestFlow {
+    fun taskDeleteAssignee(id: Int) = apiRequestFlow {
         taskApi.taskDeleteAssignee(id)
     }
 
-    fun taskEdit(@Path("id") id: Int, @Body taskRequest: TaskRequest) = apiRequestFlow {
+    fun taskEdit(id: Int, taskRequest: TaskRequest) = apiRequestFlow {
         taskApi.taskEdit(id, taskRequest)
     }
 
-    fun taskGet(@Path("id") id: Int) = apiRequestFlow {
+    fun taskGet(id: Int) = apiRequestFlow {
         taskApi.taskGet(id)
     }
 
-    fun taskListCopy(@Path("dstEventId") dstEventId: Int, @Body requestBody: List<Int>) =
-        apiRequestFlow {
-            taskApi.taskListCopy(dstEventId, requestBody)
-        }
+    fun taskListCopy(dstEventId: Int, requestBody: List<Int>) = apiRequestFlow {
+        taskApi.taskListCopy(dstEventId, requestBody)
+    }
 
-    fun taskListMove(@Path("dstEventId") dstEventId: Int, @Body requestBody: List<Int>) =
-        apiRequestFlow {
-            taskApi.taskListMove(dstEventId, requestBody)
-        }
+    fun taskListMove(dstEventId: Int, requestBody: List<Int>) = apiRequestFlow {
+        taskApi.taskListMove(dstEventId, requestBody)
+    }
 
     fun taskListShowInEvent(
-        @Path("eventId") eventId: Int,
-        @Query("assigneeId") assigneeId: Int? = null,
-        @Query("assignerId") assignerId: Int? = null,
-        @Query("taskStatus") taskStatus: TaskControllerApi.TaskStatusTaskListShowInEvent? = null,
-        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null,
-        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null,
-        @Query("subEventTasksGet") subEventTasksGet: Boolean? = false,
-        @Query("personalTasksGet") personalTasksGet: Boolean? = false,
-        @Query("page") page: Int? = 0,
-        @Query("pageSize") pageSize: Int? = 50
+        eventId: Int,
+        assigneeId: Int? = null,
+        assignerId: Int? = null,
+        taskStatus: TaskControllerApi.TaskStatusTaskListShowInEvent? = null,
+        deadlineLowerLimit: java.time.LocalDateTime? = null,
+        deadlineUpperLimit: java.time.LocalDateTime? = null,
+        subEventTasksGet: Boolean? = false,
+        personalTasksGet: Boolean? = false,
+        page: Int? = 0,
+        pageSize: Int? = 50
     ) = apiRequestFlow {
         taskApi.taskListShowInEvent(
             eventId,
@@ -67,13 +64,13 @@ class TaskRepository(private val taskApi: TaskControllerApi) {
     }
 
     fun taskListShowWhereAssignee(
-        @Query("eventId") eventId: Int? = null,
-        @Query("assignerId") assignerId: Int? = null,
-        @Query("taskStatus") taskStatus: TaskControllerApi.TaskStatusTaskListShowWhereAssignee? = null,
-        @Query("deadlineLowerLimit") deadlineLowerLimit: java.time.LocalDateTime? = null,
-        @Query("deadlineUpperLimit") deadlineUpperLimit: java.time.LocalDateTime? = null,
-        @Query("page") page: Int? = 0,
-        @Query("pageSize") pageSize: Int? = 50
+        eventId: Int? = null,
+        assignerId: Int? = null,
+        taskStatus: TaskControllerApi.TaskStatusTaskListShowWhereAssignee? = null,
+        deadlineLowerLimit: java.time.LocalDateTime? = null,
+        deadlineUpperLimit: java.time.LocalDateTime? = null,
+        page: Int? = 0,
+        pageSize: Int? = 50
     ) = apiRequestFlow {
         taskApi.taskListShowWhereAssignee(
             eventId,
@@ -86,15 +83,15 @@ class TaskRepository(private val taskApi: TaskControllerApi) {
         )
     }
 
-    fun taskSetAssignee(@Path("id") id: Int, @Path("userId") userId: Int) = apiRequestFlow {
+    fun taskSetAssignee(id: Int, userId: Int) = apiRequestFlow {
         taskApi.taskSetAssignee(id, userId)
     }
 
-    fun taskSetStatus(@Path("id") id: Int, @Body body: String) = apiRequestFlow {
+    fun taskSetStatus(id: Int, body: String) = apiRequestFlow {
         taskApi.taskSetStatus(id, body)
     }
 
-    fun taskTakeOn(@Path("id") id: Int) = apiRequestFlow {
+    fun taskTakeOn(id: Int) = apiRequestFlow {
         taskApi.taskTakeOn(id)
     }
 }

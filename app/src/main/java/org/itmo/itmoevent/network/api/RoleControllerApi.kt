@@ -63,7 +63,7 @@ interface RoleControllerApi {
      * @param roleId ID роли
      * @return [Unit]
      */
-    @PUT("api/roles/system/{userId}/{roleId}")
+    @POST("api/roles/system/{userId}/{roleId}")
     suspend fun assignSystemRole(@Path("userId") userId: kotlin.Int, @Path("roleId") roleId: kotlin.Int): Response<Unit>
 
     /**
@@ -136,6 +136,19 @@ interface RoleControllerApi {
     suspend fun getAllRoles(): Response<kotlin.collections.List<RoleResponse>>
 
     /**
+     * Получение списка мероприятий пользователя по привилегии
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param privilegeId ID привилегии
+     * @param userId ID пользователя
+     * @return [kotlin.collections.List<EventResponse>]
+     */
+    @GET("api/roles/{privilegeId}/{userId}/events")
+    suspend fun getEventsByPrivilige(@Path("privilegeId") privilegeId: kotlin.Int, @Path("userId") userId: kotlin.Int): Response<kotlin.collections.List<EventResponse>>
+
+    /**
      * Получение списка мероприятий пользователя по роли
      * 
      * Responses:
@@ -166,11 +179,10 @@ interface RoleControllerApi {
      * Responses:
      *  - 200: OK
      *
-     * @param eventId ID меропрятия
      * @return [kotlin.collections.List<RoleResponse>]
      */
     @GET("api/roles/organizational")
-    suspend fun getOrganizationalRoles(@Query("eventId") eventId: kotlin.Int): Response<kotlin.collections.List<RoleResponse>>
+    suspend fun getOrganizationalRoles(): Response<kotlin.collections.List<RoleResponse>>
 
     /**
      * Получение роли по id
@@ -194,6 +206,31 @@ interface RoleControllerApi {
      */
     @GET("api/roles/system")
     suspend fun getSystemRoles(): Response<kotlin.collections.List<RoleResponse>>
+
+    /**
+     * Получение списка организационных ролей в мероприятии, назначенных пользователю
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param userId ID пользователя
+     * @param eventId ID мероприятия
+     * @return [kotlin.collections.List<RoleResponse>]
+     */
+    @GET("api/roles/organizational/{userId}/{eventId}")
+    suspend fun getUserEventRoles(@Path("userId") userId: kotlin.Int, @Path("eventId") eventId: kotlin.Int): Response<kotlin.collections.List<RoleResponse>>
+
+    /**
+     * Получение списка организационных ролей в мероприятии, назначенных пользователю
+     * 
+     * Responses:
+     *  - 200: OK
+     *
+     * @param userId ID пользователя
+     * @return [kotlin.collections.List<RoleResponse>]
+     */
+    @GET("api/roles/system/{userId}")
+    suspend fun getUserSystemRoles(@Path("userId") userId: kotlin.Int): Response<kotlin.collections.List<RoleResponse>>
 
     /**
      * Лишение пользователя роли Помощник
@@ -242,10 +279,11 @@ interface RoleControllerApi {
      *  - 200: OK
      *
      * @param userId ID пользователя
+     * @param roleId ID роли
      * @return [Unit]
      */
-    @PUT("api/roles/system-revoke/{userId}")
-    suspend fun revokeSystemRole(@Path("userId") userId: kotlin.Int): Response<Unit>
+    @DELETE("api/roles/system-revoke/{userId}/{roleId}")
+    suspend fun revokeSystemRole(@Path("userId") userId: kotlin.Int, @Path("roleId") roleId: kotlin.Int): Response<Unit>
 
     /**
      * Поиск ролей по совпадению в названии
