@@ -86,7 +86,9 @@ class LoginFragment : Fragment() {
         }
 
         binding.loginButton.setOnClickListener {
-            if (!checkLogin(email) || !checkPassword(password)) {
+            if (!checkLogin(email)
+//                || !checkPassword(password)
+                ) {
                 if (!checkLogin(email)) {
                     binding.email.error = "Некорректная почта"
                 } else {
