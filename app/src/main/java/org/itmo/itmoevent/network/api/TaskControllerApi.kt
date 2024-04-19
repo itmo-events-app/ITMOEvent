@@ -210,6 +210,7 @@ interface TaskControllerApi {
      * @return [TaskResponse]
      */
     @PUT("api/tasks/{id}/status")
+    @Headers("Content-Type: application/json")
     suspend fun taskSetStatus(@Path("id") id: kotlin.Int, @Body body: kotlin.String): Response<TaskResponse>
 
     /**
