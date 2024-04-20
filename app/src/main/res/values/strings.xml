@@ -121,4 +121,5 @@
     <string name="place_room_label">Комната</string>
     <string name="place_desc_label">Описание</string>
     <string name="refuse_task_button_text">Отказаться от задачи</string>
+    <string name="not_filled">Не заполнено</string>
 </resources>
