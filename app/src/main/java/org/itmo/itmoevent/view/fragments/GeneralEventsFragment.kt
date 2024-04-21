@@ -24,9 +24,12 @@ class GeneralEventsFragment : BaseFragment<FragmentGeneralEventsBinding>() {
 
     private val eventItemViewModel: MainViewModel by activityViewModels()
 
-    private var _model: GeneralEventsViewModel? = null
-    private val model: GeneralEventsViewModel
-        get() = _model as GeneralEventsViewModel
+    private val model: GeneralEventsViewModel by viewModels {
+        GeneralEventsViewModel.MainEventsViewModelFactory(
+            application.roleRepository,
+            application.eventRepository
+        )
+    }
 
     private var eventAdapter: EventAdapter? = null
 
@@ -36,14 +39,6 @@ class GeneralEventsFragment : BaseFragment<FragmentGeneralEventsBinding>() {
         }
 
     override fun setup(view: View, savedInstanceState: Bundle?) {
-        val model: GeneralEventsViewModel by viewModels {
-            GeneralEventsViewModel.MainEventsViewModelFactory(
-                application.roleRepository,
-                application.eventRepository
-            )
-        }
-        _model = model
-
         setupRecyclerViews()
         registerViewListeners()
         observeLiveData()

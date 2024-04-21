@@ -12,7 +12,14 @@ import org.itmo.itmoevent.viewmodel.PlaceViewModel
 
 class PlaceFragment : BaseFragment<FragmentPlaceBinding>() {
     private var placeId: Int? = null
-    private var model: PlaceViewModel? = null
+
+    val model: PlaceViewModel by viewModels {
+        PlaceViewModel.PlaceViewModelModelFactory(
+            placeId!!,
+            application.placeRepository,
+            application.roleRepository
+        )
+    }
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPlaceBinding
         get() = { inflater, container, attach ->
             FragmentPlaceBinding.inflate(inflater, container, attach)
@@ -21,15 +28,6 @@ class PlaceFragment : BaseFragment<FragmentPlaceBinding>() {
     override fun setup(view: View, savedInstanceState: Bundle?) {
         val placeId = requireArguments().getInt(PLACE_ID_ARG)
         this.placeId = placeId
-
-        val model: PlaceViewModel by viewModels {
-            PlaceViewModel.PlaceViewModelModelFactory(
-                placeId,
-                application.placeRepository,
-                application.roleRepository
-            )
-        }
-        this.model = model
 
         viewBinding.run {
             handleContentItemViewByLiveData(

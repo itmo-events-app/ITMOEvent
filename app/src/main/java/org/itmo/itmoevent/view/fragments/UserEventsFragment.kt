@@ -21,9 +21,13 @@ import org.itmo.itmoevent.viewmodel.UserEventsViewModel
 
 class UserEventsFragment : BaseFragment<FragmentUserEventsBinding>() {
 
-    private var _model: UserEventsViewModel? = null
-    private val model: UserEventsViewModel
-        get() = _model as UserEventsViewModel
+    val model: UserEventsViewModel by viewModels {
+        UserEventsViewModel.UserEventsViewModelFactory(
+            application.eventRequestRepository,
+            application.roleRepository,
+            application.eventRepository
+        )
+    }
     private val eventItemViewModel: MainViewModel by activityViewModels()
 
     private var requestAdapter: EventRequestAdapter? = null
@@ -35,15 +39,6 @@ class UserEventsFragment : BaseFragment<FragmentUserEventsBinding>() {
         }
 
     override fun setup(view: View, savedInstanceState: Bundle?) {
-        val model: UserEventsViewModel by viewModels {
-            UserEventsViewModel.UserEventsViewModelFactory(
-                application.eventRequestRepository,
-                application.roleRepository,
-                application.eventRepository
-            )
-        }
-        _model = model
-
         setupRecyclerViews()
         registerViewListeners()
         observeLiveData()

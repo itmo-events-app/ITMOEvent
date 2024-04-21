@@ -28,11 +28,11 @@ import java.lang.IllegalStateException
 class MainActivity : AppCompatActivity() {
 
     private var viewBinding: ActivityMainBinding? = null
-    private val navFragmentsMap: Map<Int, Fragment> = mapOf(
-        R.id.nav_item_events to EventSectionFragment(),
-        R.id.nav_item_tasks to TaskSectionFragment(),
-        R.id.nav_item_manage to ManagementSectionFragment(),
-        R.id.nav_item_profile to ProfileSectionFragment()
+    private val navFragmentsMap: Map<Int, Class<out Fragment>> = mapOf(
+        R.id.nav_item_events to EventSectionFragment::class.java,
+        R.id.nav_item_tasks to TaskSectionFragment::class.java,
+        R.id.nav_item_manage to ManagementSectionFragment::class.java,
+        R.id.nav_item_profile to ProfileSectionFragment::class.java
     )
 
     private val mainViewModel: MainViewModel by viewModels()
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
                 supportFragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!)
+                    .replace(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!, null)
                     .addToBackStack(BACK_STACK_TAB_TAG)
                     .commit()
 
@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity() {
                                 BACK_STACK_TAB_TAG,
                                 FragmentManager.POP_BACK_STACK_INCLUSIVE
                             )
-                            navFragmentsMap[item.itemId]?.run {
+                            navFragmentsMap[item.itemId]?.let { frag ->
                                 supportFragmentManager.beginTransaction()
                                     .setReorderingAllowed(true)
-                                    .replace(R.id.main_fragment_container, this)
+                                    .replace(R.id.main_fragment_container, frag, null)
                                     .addToBackStack(BACK_STACK_TAB_TAG)
                                     .commit()
                             }
