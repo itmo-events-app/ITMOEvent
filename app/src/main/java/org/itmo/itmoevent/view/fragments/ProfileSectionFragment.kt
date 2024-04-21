@@ -66,7 +66,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             notificationRecycler.layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.getNotifications(0, 15, object : CoroutinesErrorHandler {
+        viewModel.getNotifications(0, 10, object : CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
             }
