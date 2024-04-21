@@ -35,9 +35,13 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    private var _model: EventViewModel? = null
-    private val model: EventViewModel
-        get() = _model as EventViewModel
+    private val model: EventViewModel by viewModels {
+        EventViewModel.EventViewModelFactory(
+            eventId!!,
+            application.eventDetailsRepository,
+            application.roleRepository
+        )
+    }
 
     private val eventInfoContentBinding: ContentBinding<EventInfoBinding, Event> by lazy {
         EventInfoContentBinding(requireActivity())
@@ -69,15 +73,6 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     override fun setup(view: View, savedInstanceState: Bundle?) {
         val eventId = requireArguments().getInt(EVENT_ID_ARG)
         this.eventId = eventId
-
-        val model: EventViewModel by viewModels {
-            EventViewModel.EventViewModelFactory(
-                eventId,
-                application.eventDetailsRepository,
-                application.roleRepository
-            )
-        }
-        _model = model
 
         setupRecyclerViews()
         registerViewListeners()
