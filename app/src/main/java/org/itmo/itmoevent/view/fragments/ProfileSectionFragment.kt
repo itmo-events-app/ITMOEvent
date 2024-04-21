@@ -110,6 +110,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     Log.d("api_loading", it.toString())
                 }
                 is ApiResponse.Success -> {
+                    showShortToast(it.data.userId.toString())
                     binding.fio.text = "${it.data.name} ${it.data.surname}"
                     binding.editName.setText(it.data.name)
                     binding.editSurname.setText(it.data.surname)

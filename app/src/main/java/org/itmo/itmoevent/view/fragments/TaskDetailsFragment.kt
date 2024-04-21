@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
@@ -41,6 +42,7 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
 
 
         val taskId = arguments?.getInt("taskId",-1)
+        showShortToast(taskId.toString())
         model.taskGet(taskId!!, object: CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
@@ -100,8 +102,13 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                 }
             }
         }
-
-
     }
 
+    private fun showShortToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }

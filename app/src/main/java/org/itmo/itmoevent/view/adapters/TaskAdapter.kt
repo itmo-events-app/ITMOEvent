@@ -1,6 +1,7 @@
 package org.itmo.itmoevent.view.adapters
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,19 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
             taskName.text = task.title
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             val text = "До " + task.deadline!!.format(formatter)
+            if (task.event == null) {
+                taskEventName.text = ""
+                taskEventName.visibility = View.GONE
+                taskEventActivityName.visibility = View.GONE
+            } else {
+                taskEventName.text = task.event.eventTitle
+                if (task.event.activityTitle == null) {
+                    taskEventActivityName.visibility = View.GONE
+                } else {
+                    taskEventActivityName.text = task.event.activityTitle
+                }
+            }
+
             val currentStatus = when(task.taskStatus) {
                 TaskResponse.TaskStatus.NEW -> "Новая"
                 TaskResponse.TaskStatus.IN_PROGRESS -> "В работе"
@@ -41,11 +55,7 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
 
             taskDeadline.text = text
             taskStatus.text = currentStatus
-            taskEventName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
-            taskEventActivityName.text //TODO НЕСОСТЫКОВКА БД С ТРЕБОВАНИЯМИ
-            itemView.setOnClickListener {
-                //TODO Переход на страницу таски
-            }
+
             taskCardClicker.setOnClickListener {
                 listener.onTaskClick(task.id!!)
             }
