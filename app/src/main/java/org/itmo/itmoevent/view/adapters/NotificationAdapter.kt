@@ -35,6 +35,8 @@ class NotificationAdapter(
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             binding.sendTime.text = notification.sentTime!!.format(formatter)
 
+            notificationCard.setBackgroundColor(0)
+
             notificationCard.setOnClickListener {
                 notification.isOpen = !notification.isOpen
                 if (notification.isOpen)
