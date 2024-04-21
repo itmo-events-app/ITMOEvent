@@ -29,7 +29,8 @@ class NotificationAdapter(
 
         fun bind(notification: Notification, onNotificationClickListener: OnNotificationClickListener) = with(binding) {
             theme.text = notification.title
-            val description = (notification.description?.take(40) ?: "") + "..."
+            var description = (notification.description?.take(40) ?: "")
+            if (notification.description!!.length > 40) description += "..."
             message.text = description
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             binding.sendTime.text = notification.sentTime!!.format(formatter)

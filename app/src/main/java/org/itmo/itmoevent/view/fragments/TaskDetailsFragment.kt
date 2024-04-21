@@ -2,6 +2,7 @@ package org.itmo.itmoevent.view.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import java.time.format.DateTimeFormatter
 class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
     private lateinit var binding: FragmentTaskDetailsBinding
     private val model: TaskViewModel by viewModels()
+    private var goBack: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,8 +104,4 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
 
     }
 
-    fun getPlace(placeId: Int): String {
-        //TODO получить место
-        return "Место"
-    }
 }

@@ -37,7 +37,6 @@ import java.time.LocalDateTime
 class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClickListener {
     private lateinit var binding: FragmentTaskSectionBinding
     private lateinit var adapter: TaskAdapter
-
     private val model: TaskViewModel by viewModels()
     private var taskList: List<TaskResponse> = emptyList()
     private var activityList: List<TaskResponse> = emptyList()
@@ -53,9 +52,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         adapter = TaskAdapter(this)
-
-
 
         binding.run {
 
