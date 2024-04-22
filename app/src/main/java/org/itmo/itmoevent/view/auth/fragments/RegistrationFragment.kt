@@ -70,26 +70,42 @@ class RegistrationFragment : Fragment() {
         binding.signup.setOnClickListener {
             if (!checkLogin(email) || !checkName(firstName) || !checkName(name) || !checkPassword(password)
                 || (password != passwordCheck)) {
-                if (!checkLogin(email)) {
-                    binding.email.error = "Некорректная почта"
+                if (!checkLogin(email) || email == "") {
+                    if (email == "") {
+                        binding.email.error = "Поле не должно быть пустым"
+                    } else {
+                        binding.email.error = "Некорректный email"
+                        showLongToast("Некорректный email. Поддерживаемые домены: @itmo.ru, @idu.itmo.ru и @niuitmo.ru")
+                    }
                 } else {
                     binding.email.error = null
                 }
-                if (!checkName(firstName)) {
-                    binding.firstname.error = "Некорректная фамилия"
+                if (!checkName(firstName) || firstName == "") {
+                    if (firstName == "") {
+                        binding.firstname.error = "Поле не должно быть пустым"
+                    } else {
+                        binding.firstname.error = "Фамилия должна содержать только буквы кириллицы без цифр и спец. символов"
+                    }
+
                 } else {
                     binding.firstname.error = null
                 }
-                if (!checkName(name)) {
-                    binding.name.error = "Некорректное имя"
+                if (!checkName(name) || name == "") {
+                    if (name == "") {
+                        binding.name.error = "Поле не должно быть пустым"
+                    } else {
+                        binding.name.error = "Имя должно содержать только буквы кириллицы без цифр и спец. символов"
+                    }
+
                 } else {
                     binding.name.error = null
                 }
                 if (!checkPassword(password) || password == "") {
                     if (password == "") {
-                        binding.password.error = "Пустое поле"
+                        binding.password.error = "Поле не должно быть короче 8 символов"
                     } else {
                         binding.password.error = "Некорректный пароль"
+                        showLongToast("Пароль должен содержать один спец. символ, один символ верхнего и нижнего регистра, а также длина пароля не должна быть короче 8 символов")
                     }
 
                 } else {
@@ -97,9 +113,9 @@ class RegistrationFragment : Fragment() {
                 }
                 if (password != passwordCheck || passwordCheck == "") {
                     if (passwordCheck == "") {
-                        binding.checkPassword.error = "Пустое поле"
+                        binding.checkPassword.error = "Поле не должно быть короче 8 символов"
                     } else {
-                        binding.checkPassword.error = "Некорректное подтверждение пароля"
+                        binding.checkPassword.error = "Пароль не совпадает"
                     }
 
                 } else {
@@ -178,6 +194,14 @@ class RegistrationFragment : Fragment() {
             context,
             text,
             Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showLongToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_LONG
         ).show()
     }
 
