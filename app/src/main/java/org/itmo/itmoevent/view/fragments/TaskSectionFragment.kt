@@ -196,7 +196,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                         Log.d("EventID DDDDDDD", activityId.toString())
                     } else {
                         model.selectActivityId(-1)
-                        model.taskListShowWhereAssignee(object: CoroutinesErrorHandler {
+                        model.taskListShowInEvent(model.selectedEventId.value!!, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
                             override fun onError(message: String) {
                                 Log.d("api", message)
                             }

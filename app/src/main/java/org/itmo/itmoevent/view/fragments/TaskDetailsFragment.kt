@@ -42,7 +42,6 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
 
 
         val taskId = arguments?.getInt("taskId",-1)
-        showShortToast(taskId.toString())
         model.taskGet(taskId!!, object: CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
