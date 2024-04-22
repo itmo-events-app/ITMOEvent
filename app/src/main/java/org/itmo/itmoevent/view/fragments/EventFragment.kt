@@ -195,6 +195,11 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 //                    eventSubsectionOrganisatorsRv.isVisible = !orgs.isNullOrEmpty()
 //                    eventSubsectionsEmptyList.root.isVisible = orgs.isNullOrEmpty()
                 }
+
+                availableEditEventLiveData.observe(this@EventFragment.viewLifecycleOwner) {
+                    eventEditBtn.isVisible = true
+                }
+
             }
 
         }
