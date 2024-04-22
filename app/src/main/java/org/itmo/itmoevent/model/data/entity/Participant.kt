@@ -5,5 +5,5 @@ data class Participant (
     val name: String,
     val email: String,
     val additionalInfo: String,
-    val visited: Boolean
+    var visited: Boolean
 )

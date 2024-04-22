@@ -112,6 +112,13 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 
             eventSubsectionParticipantsMarkAll.setOnClickListener {
                 model.markEventParticipantsAll()
+
+                participantsAdapter?.run {
+                    participantList = participantList.map {
+                        it.visited = true
+                        it
+                    }
+                }
             }
 
             eventSubsectionsTab.addOnTabSelectedListener(object : OnTabSelectedListener {
@@ -197,7 +204,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
                 }
 
                 availableEditEventLiveData.observe(this@EventFragment.viewLifecycleOwner) {
-                    eventEditBtn.isVisible = true
+                    hide(eventEditBtn)
                 }
 
             }
