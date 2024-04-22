@@ -6,7 +6,9 @@ import org.itmo.itmoevent.model.data.dto.EventRequestDto
 import org.itmo.itmoevent.model.data.dto.EventShortDto
 import org.itmo.itmoevent.model.data.dto.ParticipantDto
 import org.itmo.itmoevent.model.data.dto.UserRoleDto
+import org.itmo.itmoevent.model.data.dto.request.ParticipantMark
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -39,8 +41,7 @@ interface EventApi {
     @PUT("/api/events/{id}/participants")
     suspend fun markEventParticipants(
         @Path("id") eventId: Int,
-        @Query("idParticipant") participantId: Int,
-        @Query("isVisited") isMarked: Boolean
+        @Body mark: ParticipantMark
     ) : Response<Void>
 
     @GET("/api/events/{id}/organizers")
