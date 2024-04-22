@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
             when(it) {
                 is ApiResponse.Failure -> {
                     Log.d("api_error", it.errorMessage)
-                    showShortToast("Ошибка входа")
+                    showLongToast("Пользователь не найден")
                 }
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())
                 is ApiResponse.Success -> {
@@ -86,11 +86,16 @@ class LoginFragment : Fragment() {
         }
 
         binding.loginButton.setOnClickListener {
-            if (!checkLogin(email)
+            if (!checkLogin(email) || email == ""
 //                || !checkPassword(password)
                 ) {
-                if (!checkLogin(email)) {
-                    binding.email.error = "Некорректная почта"
+                if (!checkLogin(email) || email == "") {
+                    if (email == "") {
+                        binding.email.error = "Поле не должно быть пустым"
+                    } else {
+                        binding.email.error = "Некорректный email"
+                        showLongToast("Некорректный email. Поддерживаемые домены: @itmo.ru, @idu.itmo.ru и @niuitmo.ru")
+                    }
                 } else {
                     binding.email.error = null
                 }
@@ -153,6 +158,13 @@ class LoginFragment : Fragment() {
         requireActivity().finish()
     }
 
+    private fun showLongToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     private fun checkLogin(login: String): Boolean {
         return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru$".toRegex())
