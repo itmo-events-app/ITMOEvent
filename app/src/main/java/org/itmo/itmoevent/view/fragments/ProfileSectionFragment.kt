@@ -110,7 +110,6 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     Log.d("api_loading", it.toString())
                 }
                 is ApiResponse.Success -> {
-                    showShortToast(it.data.userId.toString())
                     binding.fio.text = "${it.data.name} ${it.data.surname}"
                     binding.editName.setText(it.data.name)
                     binding.editSurname.setText(it.data.surname)
@@ -119,8 +118,6 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     binding.emailText.text = email
                     binding.mailSwitch.isChecked = it.data.enableEmailNotifications!!
                     binding.pushSwitch.isChecked = it.data.enablePushNotifications!!
-                    showShortToast(it.data.enableEmailNotifications.toString())
-                    showShortToast(it.data.enablePushNotifications.toString())
                 }
             }
         }
@@ -133,7 +130,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
 
 
-            mailSwitch.setOnCheckedChangeListener {_,_ ->
+            mailSwitch.setOnClickListener {
                 viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)
@@ -141,7 +138,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 })
             }
 
-            pushSwitch.setOnCheckedChangeListener {_,_ ->
+            pushSwitch.setOnClickListener {
                 viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)

@@ -130,20 +130,24 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
             }
 
             model.selectedEventId.observe(viewLifecycleOwner) {
-                model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                if (it != -1) {
+                    model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
+                }
                 taskActivityFilterSelect.setText("Все активности", false)
             }
 
             model.selectedActivityId.observe(viewLifecycleOwner) {
-                model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                if (it != -1) {
+                    model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
+                }
             }
 
             model.filterResponse.observe(viewLifecycleOwner) {
@@ -156,6 +160,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                         val activityTitleList: List<String> = listOf("Все активности") + it.data.map {item ->
                             item.event!!.activityTitle
                         }.filterNotNull()
+
+                        Log.d("activitylist: ", activityList.toString())
 
                         taskActivityFilter.visibility = View.VISIBLE
 

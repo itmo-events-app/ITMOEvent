@@ -2,6 +2,7 @@ package org.itmo.itmoevent.view.adapters
 
 import android.annotation.SuppressLint
 import android.opengl.Visibility
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,8 @@ class TaskAdapter(private val listener: OnTaskClickListener): RecyclerView.Adapt
             taskName.text = task.title
             val formatter = DateTimeFormatter.ofPattern("dd MMMM, HH:mm")
             val text = "До " + task.deadline!!.format(formatter)
+            taskEventName.visibility = View.VISIBLE
+            taskEventActivityName.visibility = View.VISIBLE
             if (task.event == null) {
                 taskEventName.text = ""
                 taskEventName.visibility = View.GONE
