@@ -3,8 +3,8 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".view.fragments.GeneralEventsFragment">
 
     <LinearLayout
@@ -51,6 +51,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textAppearance="?textAppearanceLabelMedium" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -70,9 +72,22 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textAppearance="?textAppearanceLabelMedium" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/filter_date_helper_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/filter_date_helper_text"
+                    android:textAppearance="?textAppearanceLabelSmall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gen_events_filter_from_tl" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/gen_events_filter_status_tl"
@@ -83,7 +98,7 @@
                     android:hint="@string/event_filter_status"
                     app:layout_constraintEnd_toEndOf="@id/gen_events_filter_from_tl"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/gen_events_filter_from_tl">
+                    app:layout_constraintTop_toBottomOf="@id/filter_date_helper_text">
 
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
@@ -126,6 +141,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textAppearance="?textAppearanceLabelMedium" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -145,12 +162,11 @@
 
         <include
             android:id="@+id/gen_events_progress_bar"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             layout="@layout/progress_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="24dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/general_events_rv"
@@ -158,16 +174,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/events_list_item"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            tools:listitem="@layout/events_list_item" />
 
-        <include layout="@layout/empty_list"
+        <include
             android:id="@+id/gen_events_empty_list"
+            layout="@layout/empty_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

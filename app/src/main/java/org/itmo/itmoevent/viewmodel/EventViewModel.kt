@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -18,8 +20,12 @@ import org.itmo.itmoevent.viewmodel.ContentLiveDataProvider.ContentItemUIState.*
 class EventViewModel(
     private val eventId: Int,
     private val eventDetailsRepository: EventDetailsRepository,
-    roleRepository: RoleRepository
+    private val roleRepository: RoleRepository
 ) : ViewModel() {
+
+    private val eventPrivileges = liveData {
+        emit(roleRepository.loadEventPrivileges(eventId)?.map { it.name })
+    }
 
     fun markEventParticipant(participantId: Int, isMarked: Boolean) = viewModelScope.launch {
         eventDetailsRepository.updateEventParticipantIsMarked(eventId, participantId, isMarked)
@@ -35,7 +41,7 @@ class EventViewModel(
     }
 
     val placeLiveData = ContentLiveDataProvider(
-        !roleRepository.systemPrivilegesNames!!.contains(PrivilegeName.VIEW_EVENT_PLACE),
+        hasEventPrivilege(PrivilegeName.VIEW_EVENT_PLACE),
         viewModelScope
     ) {
         viewModelScope.async {
@@ -45,13 +51,14 @@ class EventViewModel(
         }
     }.contentLiveData
 
-
-    val activitiesLiveData = ContentLiveDataProvider(
-        !roleRepository.systemPrivilegesNames!!.contains(PrivilegeName.VIEW_EVENT_ACTIVITIES),
-        viewModelScope
-    ) {
-        viewModelScope.async { eventDetailsRepository.getActivities(eventId) }
-    }.contentLiveData
+    val activitiesLiveData = eventPrivileges.switchMap {
+        ContentLiveDataProvider(
+            !hasSysPrivilege(PrivilegeName.VIEW_EVENT_ACTIVITIES),
+            viewModelScope
+        ) {
+            viewModelScope.async { eventDetailsRepository.getActivities(eventId) }
+        }.contentLiveData
+    }
 
     val eventInfoLiveData = ContentLiveDataProvider(
         false,
@@ -60,27 +67,30 @@ class EventViewModel(
         viewModelScope.async { eventDetailsRepository.getEventInfo(eventId) }
     }.contentLiveData
 
-    val orgsLiveData = ContentLiveDataProvider(
-        false,
-//        !roleRepository.systemPrivilegesNames!!.contains(PrivilegeName.VIEW_ORGANIZER_USERS),
-        viewModelScope
-    ) {
-        viewModelScope.async {
-            eventDetailsRepository.getOrgs(eventId)
+    val orgsLiveData = eventPrivileges.switchMap {
+        ContentLiveDataProvider(
+            !hasEventPrivilege(PrivilegeName.VIEW_ORGANIZER_USERS),
+            viewModelScope
+        ) {
+            viewModelScope.async {
+                eventDetailsRepository.getOrgs(eventId)
 
-        }
-    }.contentLiveData
+            }
+        }.contentLiveData
+    }
 
     private var participants: List<Participant>? = null
-    val participantsLiveData = ContentLiveDataProvider(
-        false,
-        viewModelScope
-    ) {
-        viewModelScope.async {
-            participants = eventDetailsRepository.getParticipants(eventId)
-            participants
-        }
-    }.contentLiveData
+    val participantsLiveData = eventPrivileges.switchMap {
+        ContentLiveDataProvider(
+            !hasEventPrivilege(PrivilegeName.WORK_WITH_PARTICIPANT_LIST),
+            viewModelScope
+        ) {
+            viewModelScope.async {
+                participants = eventDetailsRepository.getParticipants(eventId)
+                participants
+            }
+        }.contentLiveData
+    }
 
 
     val roleName = MutableLiveData<String>()
@@ -105,6 +115,20 @@ class EventViewModel(
             emptyList()
         }
     }
+
+    val availableEditEventLiveData: LiveData<Boolean> = eventPrivileges.switchMap {
+        liveData {
+            if (hasEventPrivilege(PrivilegeName.EDIT_EVENT_INFO)) {
+                emit(true)
+            }
+        }
+    }
+
+    private fun hasSysPrivilege(sysPrivilegeName: PrivilegeName) =
+        roleRepository.systemPrivilegesNames!!.contains(sysPrivilegeName)
+
+    private fun hasEventPrivilege(eventPrivilegeName: PrivilegeName) =
+        eventPrivileges.value?.contains(eventPrivilegeName) ?: false
 
 
     class EventViewModelFactory(

@@ -4,9 +4,11 @@ import android.util.Log
 import org.itmo.itmoevent.model.data.dto.EventShortDto
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.network.EventApi
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
+import java.util.Locale
 
 class EventRepository(private val eventApi: EventApi) {
 
@@ -19,7 +21,9 @@ class EventRepository(private val eventApi: EventApi) {
     ): List<EventShort>? {
         return try {
             Log.i("retrofit", "Try to load events")
-            val response = eventApi.getEvents(title, from, to, status, format)
+            val startString = convertDateToString(from)
+            val endString = convertDateToString(to)
+            val response = eventApi.getEvents(title, startString, endString, status, format)
             if (response.isSuccessful) {
                 response.body()?.items?.map {
                     Log.i("retrofit", "Events loaded correctly: $it")
@@ -69,9 +73,15 @@ class EventRepository(private val eventApi: EventApi) {
             entity.format
         )
 
-    private fun getLocalDateTime(date: Date?) : LocalDateTime? {
+    private fun getLocalDateTime(date: Date?): LocalDateTime? {
         return date?.let {
             LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+        }
+    }
+
+    private fun convertDateToString(date: Date?): String? {
+        return date?.let {
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(date)
         }
     }
 }

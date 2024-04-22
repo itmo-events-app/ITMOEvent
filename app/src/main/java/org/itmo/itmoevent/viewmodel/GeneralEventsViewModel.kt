@@ -145,8 +145,6 @@ class GeneralEventsViewModel(
         private const val FILTER_DATETIME_PATTERN: String = "dd.MM.yyyy HH:mm"
 
         private const val FILTER_MESSAGE_TOO_LONG: String = "Строка слишком длинная"
-//        private const val FILTER_MESSAGE_SYMBOLS_INVALID: String =
-//            "Строка содержит недопустимые символы"
         private const val FILTER_MESSAGE_DATE_FORMAT_INVALID: String = "Некорректный формат даты"
 
     }

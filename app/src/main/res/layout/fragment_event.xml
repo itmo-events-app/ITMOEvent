@@ -180,6 +180,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/event_edit_btn"
-        app:icon="@drawable/ic_edit" />
+        app:icon="@drawable/ic_edit"
+        android:visibility="gone"/>
 
 </FrameLayout>

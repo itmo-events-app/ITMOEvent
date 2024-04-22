@@ -20,9 +20,7 @@ class RoleRepository(private val roleApi: RoleApi) {
                 val response = roleApi.getUserSystemPrivileges()
                 if (response.isSuccessful) {
                     response.body()?.privileges?.let { list ->
-                        systemPrivileges = list.map {
-                            mapPrivilegeDtoToEntity(it)
-                        }
+                        systemPrivileges = list.map(::mapPrivilegeDtoToEntity)
                         Log.i("retrofit", "Priv loaded correctly: $systemPrivileges")
 
                         systemPrivilegesNames = list.map {
@@ -39,6 +37,21 @@ class RoleRepository(private val roleApi: RoleApi) {
         }
 
         return systemPrivileges
+    }
+
+    suspend fun loadEventPrivileges(eventId: Int): List<Privilege>? {
+        return try {
+            val response = roleApi.getUserEventPrivileges(eventId)
+            if (response.isSuccessful) {
+                Log.i("retrofit", "Org privileges loaded correctly: ${response.body()}")
+                response.body()?.map(::mapPrivilegeDtoToEntity)
+            } else {
+                null
+            }
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
     }
 
     suspend fun getOrgRoles(): List<Role>? {

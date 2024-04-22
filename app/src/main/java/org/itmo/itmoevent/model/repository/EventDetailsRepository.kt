@@ -6,6 +6,7 @@ import org.itmo.itmoevent.model.data.dto.EventShortDto
 import org.itmo.itmoevent.model.data.dto.ParticipantDto
 import org.itmo.itmoevent.model.data.dto.PlaceDto
 import org.itmo.itmoevent.model.data.dto.UserRoleDto
+import org.itmo.itmoevent.model.data.dto.request.ParticipantMark
 import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
@@ -25,7 +26,8 @@ class EventDetailsRepository(private val eventApi: EventApi, private val placeAp
         isMarked: Boolean
     ): Boolean {
         return try {
-            val response = eventApi.markEventParticipants(eventId, participantId, isMarked)
+            val response =
+                eventApi.markEventParticipants(eventId, ParticipantMark(participantId, isMarked))
             response.isSuccessful
         } catch (ex: Exception) {
             false
