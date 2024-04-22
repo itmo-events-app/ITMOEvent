@@ -48,6 +48,17 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
             }
         })
 
+        model.refuseResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Failure -> {}
+                ApiResponse.Loading -> {}
+                is ApiResponse.Success -> {
+                    Log.d("EXIT", "Success")
+                    parentFragmentManager.popBackStack()
+                }
+            }
+        }
+
         model.taskResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiResponse.Failure -> {}
