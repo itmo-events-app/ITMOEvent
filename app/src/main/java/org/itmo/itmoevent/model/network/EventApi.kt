@@ -18,8 +18,8 @@ interface EventApi {
     @GET("/api/events")
     suspend fun getEvents(
         @Query("title") title: String?,
-        @Query("startDate") from: Date?,
-        @Query("endDate") to: Date?,
+        @Query("startDate") from: String?,
+        @Query("endDate") to: String?,
         @Query("status") status: String?,
         @Query("format") format: String?
     ): Response<EventListDto>
