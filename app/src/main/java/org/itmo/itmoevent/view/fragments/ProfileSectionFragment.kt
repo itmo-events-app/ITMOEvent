@@ -84,10 +84,16 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
         viewModel.notificationsResponse.observe(this.viewLifecycleOwner) {
             when (it) {
-                is ApiResponse.Failure -> Toast.makeText(requireContext(), "Проблемы с соединением", Toast.LENGTH_SHORT).show()
+                is ApiResponse.Failure -> Toast.makeText(
+                    requireContext(),
+                    "Проблемы с соединением",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 ApiResponse.Loading -> {
                     //TODO ЭКРАН ЗАГРУКЗКИ
                 }
+
                 is ApiResponse.Success -> {
                     adapter.refresh(it.data.content)
 
@@ -95,20 +101,22 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             }
         }
 
-        viewModel.getUserInfo(object: CoroutinesErrorHandler {
+        viewModel.getUserInfo(object : CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
             }
         })
 
-        viewModel.profileResponse.observe(this.viewLifecycleOwner){
-            when(it){
+        viewModel.profileResponse.observe(this.viewLifecycleOwner) {
+            when (it) {
                 is ApiResponse.Failure -> {
                     Log.d("aoi_error", it.toString())
                 }
+
                 ApiResponse.Loading -> {
                     Log.d("api_loading", it.toString())
                 }
+
                 is ApiResponse.Success -> {
                     binding.fio.text = "${it.data.name} ${it.data.surname}"
                     binding.editName.setText(it.data.name)
@@ -131,19 +139,27 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
 
             mailSwitch.setOnClickListener {
-                viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                viewModel.updateNotifications(
+                    NotificationSettingsRequest(
+                        mailSwitch.isChecked,
+                        pushSwitch.isChecked
+                    ), object : CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
             }
 
             pushSwitch.setOnClickListener {
-                viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                viewModel.updateNotifications(
+                    NotificationSettingsRequest(
+                        mailSwitch.isChecked,
+                        pushSwitch.isChecked
+                    ), object : CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
             }
 
 
@@ -186,10 +202,10 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
             editProfileButton.setOnClickListener {
                 editName.visibility = View.VISIBLE
-                editSurname.visibility =View.VISIBLE
+                editSurname.visibility = View.VISIBLE
                 editEmailText.visibility = View.VISIBLE
                 fio.visibility = View.INVISIBLE
-                emailText.visibility  =View.INVISIBLE
+                emailText.visibility = View.INVISIBLE
                 editProfileButtonConfirm.visibility = View.VISIBLE
                 editProfileButton.visibility = View.GONE
             }
@@ -206,14 +222,36 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 val newLogin = editEmailText.text.toString()
                 val newFio = "$newName $newSurname"
 
-                if (fio.text.toString() != newFio)  {
-
-                    if (!checkName(newName, newSurname)) {
+                if (fio.text.toString() != newFio) {
+                    if (newName == "") {
                         isOk = false
                         editName.setText(oldName)
                         editSurname.setText(oldSurname)
-                        showShortToast("Некорректное имя пользователя")
-                    } else {
+                        showShortToast("Имя не может быть пустым")
+                    }
+                    Log.d("new NAME:", "$newName" )
+                    if (newName.matches("[а-яА-Я]+".toRegex())) {
+                        isOk = false
+                        editName.setText(oldName)
+                        editSurname.setText(oldSurname)
+                        Log.d("newName fail", "$newSurname")
+                        showShortToast("Имя должно содержать только буквы кириллицы без цифр и специальных символов")
+                    }
+                    if (newSurname == "") {
+                        isOk = false
+                        editName.setText(oldName)
+                        editSurname.setText(oldSurname)
+                        showShortToast("Фамилия не может быть пустой")
+                    }
+                    Log.d("new NAME:", "$newSurname" )
+                    if (newSurname.matches("[а-яА-Я]+".toRegex())) {
+                        isOk = false
+                        editName.setText(oldName)
+                        editSurname.setText(oldSurname)
+                        Log.d("newSurname fail", "$newSurname")
+                        showShortToast("Фамилия должна содержать только буквы кириллицы без цифр и специальных символов")
+                    }
+                    if (isOk) {
                         fio.text = newFio
                         viewModel.changeName(
                             UserChangeNameRequest(newName, newSurname),
@@ -227,10 +265,15 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
                 if (emailText.text.toString() != newLogin) {
 
+                    if (newLogin == " ") {
+                        isOk = false
+                        editEmailText.setText(emailText.text)
+                        showShortToast("Email не может быть пустым.")
+                    }
                     if (!checkLogin(newLogin)) {
                         isOk = false
                         editEmailText.setText(emailText.text)
-                        showShortToast("Некорректная почта")
+                        showShortToast("Некорректный email. Поддерживаемые домены: @itmo.ru, @idu.itmo.ru и @niuitmo.ru")
                     } else {
                         emailText.text = editEmailText.text
 
