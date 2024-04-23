@@ -41,6 +41,9 @@ class TaskViewModel @Inject constructor(
     private val _filterResponse = MutableLiveData<ApiResponse<List<TaskResponse>>>()
     val filterResponse = _filterResponse
 
+    private val _refuseResponse = MutableLiveData<ApiResponse<TaskResponse>>()
+    val refuseResponse = _refuseResponse
+
     val isCurrent = MutableLiveData<Boolean>(true)
 
     val selectedEventId = MutableLiveData<Int>(-1)
@@ -119,7 +122,15 @@ class TaskViewModel @Inject constructor(
 
     }
 
-
+    fun taskDeleteAssignee(
+        taskId: Int,
+        coroutinesErrorHandler: CoroutinesErrorHandler
+    ) = baseRequest(
+        _refuseResponse,
+        coroutinesErrorHandler
+    )  {
+        taskRepository.taskDeleteAssignee(taskId)
+    }
 
     fun updateIsCurrent(newIsCurrent: Boolean) {
         viewModelScope.launch {

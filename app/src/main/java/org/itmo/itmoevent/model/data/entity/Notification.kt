@@ -8,6 +8,7 @@ data class Notification(
     val title: String?,
     val description: String?,
     var seen: Boolean? = false,
+    val sentTime: LocalDateTime? = null,
     var isOpen: Boolean = false
 )
 
@@ -16,6 +17,7 @@ fun mapNotificationResponseToNotification(notification: NotificationResponse): N
         notification.id,
         notification.title,
         notification.description,
-        notification.seen
+        notification.seen,
+        notification.sentTime
     )
 }

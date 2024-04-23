@@ -37,7 +37,6 @@ import java.time.LocalDateTime
 class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClickListener {
     private lateinit var binding: FragmentTaskSectionBinding
     private lateinit var adapter: TaskAdapter
-
     private val model: TaskViewModel by viewModels()
     private var taskList: List<TaskResponse> = emptyList()
     private var activityList: List<TaskResponse> = emptyList()
@@ -53,9 +52,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         adapter = TaskAdapter(this)
-
-
 
         binding.run {
 
@@ -132,20 +130,24 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
             }
 
             model.selectedEventId.observe(viewLifecycleOwner) {
-                model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                if (it != -1) {
+                    model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
+                }
                 taskActivityFilterSelect.setText("Все активности", false)
             }
 
             model.selectedActivityId.observe(viewLifecycleOwner) {
-                model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                if (it != -1) {
+                    model.taskListShowInEvent(it, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
+                        override fun onError(message: String) {
+                            Log.d("api", message)
+                        }
+                    })
+                }
             }
 
             model.filterResponse.observe(viewLifecycleOwner) {
@@ -158,6 +160,8 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                         val activityTitleList: List<String> = listOf("Все активности") + it.data.map {item ->
                             item.event!!.activityTitle
                         }.filterNotNull()
+
+                        Log.d("activitylist: ", activityList.toString())
 
                         taskActivityFilter.visibility = View.VISIBLE
 
@@ -192,7 +196,7 @@ class TaskSectionFragment : Fragment(R.layout.fragment_task_section), OnTaskClic
                         Log.d("EventID DDDDDDD", activityId.toString())
                     } else {
                         model.selectActivityId(-1)
-                        model.taskListShowWhereAssignee(object: CoroutinesErrorHandler {
+                        model.taskListShowInEvent(model.selectedEventId.value!!, subEventTasksGet = true, personalTasksGet = true, coroutinesErrorHandler = object: CoroutinesErrorHandler {
                             override fun onError(message: String) {
                                 Log.d("api", message)
                             }

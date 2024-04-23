@@ -2,11 +2,13 @@ package org.itmo.itmoevent.view.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.itmo.itmoevent.R
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter
 class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
     private lateinit var binding: FragmentTaskDetailsBinding
     private val model: TaskViewModel by viewModels()
+    private var goBack: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +47,17 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                 Log.d("api", message)
             }
         })
+
+        model.refuseResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is ApiResponse.Failure -> {}
+                ApiResponse.Loading -> {}
+                is ApiResponse.Success -> {
+                    Log.d("EXIT", "Success")
+                    parentFragmentManager.popBackStack()
+                }
+            }
+        }
 
         model.taskResponse.observe(viewLifecycleOwner) {
             when (it) {
@@ -71,6 +85,7 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                         taskNotificationTime.text = text
                         text = task.place!!.name + ", " + task.place.address
                         taskPlace.text = text
+
                         taskStatusSelect.setOnItemClickListener { parent, view, positions, id ->
                             val newStatus = "\"" + when (positions) {
                                 0 -> TaskResponse.TaskStatus.NEW
@@ -85,16 +100,25 @@ class TaskDetailsFragment : Fragment(R.layout.fragment_task_details) {
                                 }
                             })
                         }
+
+                        refuseTaskButton.setOnClickListener {
+                            model.taskDeleteAssignee(task.id!!, object: CoroutinesErrorHandler {
+                                override fun onError(message: String) {
+                                    Log.d("api", message)
+                                }
+                            })
+                        }
                     }
                 }
             }
         }
-
-
     }
 
-    fun getPlace(placeId: Int): String {
-        //TODO получить место
-        return "Место"
+    private fun showShortToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

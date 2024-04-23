@@ -120,6 +120,7 @@
     <string name="place_address_label">Адрес</string>
     <string name="place_room_label">Комната</string>
     <string name="place_desc_label">Описание</string>
+    <string name="refuse_task_button_text">Отказаться от задачи</string>
     <string name="not_filled">Не заполнено</string>
     <string name="filter_date_helper_text">Формат ввода \'dd.mm.yyyy[ hh:mm]\'</string>
 </resources>

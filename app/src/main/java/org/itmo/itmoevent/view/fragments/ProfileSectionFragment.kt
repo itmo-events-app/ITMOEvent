@@ -32,10 +32,10 @@ import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
 class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     private lateinit var binding: FragmentProfileSectionBinding
     private lateinit var adapter: NotificationAdapter
-
     private val viewModel: UserNotificationsViewModel by viewModels()
     private val tokenViewModel: TokenViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +49,11 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         adapter = NotificationAdapter(object : NotificationAdapter.OnNotificationClickListener {
             override fun onNotificationClicked(notificationId: Int) {
-                showShortToast(notificationId.toString())
+                //showShortToast(notificationId.toString())
                 viewModel.setOneAsSeenNotification(notificationId, object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)
@@ -64,7 +66,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
             notificationRecycler.layoutManager = LinearLayoutManager(context)
         }
 
-        viewModel.getNotifications(0, 15, object : CoroutinesErrorHandler {
+        viewModel.getNotifications(0, 10, object : CoroutinesErrorHandler {
             override fun onError(message: String) {
                 Log.d("api", message)
             }
@@ -101,8 +103,12 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
         viewModel.profileResponse.observe(this.viewLifecycleOwner){
             when(it){
-                is ApiResponse.Failure -> Log.d("aoi_error", it.toString())
-                ApiResponse.Loading -> Log.d("api_loading", it.toString())
+                is ApiResponse.Failure -> {
+                    Log.d("aoi_error", it.toString())
+                }
+                ApiResponse.Loading -> {
+                    Log.d("api_loading", it.toString())
+                }
                 is ApiResponse.Success -> {
                     binding.fio.text = "${it.data.name} ${it.data.surname}"
                     binding.editName.setText(it.data.name)
@@ -111,10 +117,10 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     binding.editEmailText.setText(email)
                     binding.emailText.text = email
                     binding.mailSwitch.isChecked = it.data.enableEmailNotifications!!
+                    binding.pushSwitch.isChecked = it.data.enablePushNotifications!!
                 }
             }
         }
-
 
         binding.run {
             exitButton.setOnClickListener {
@@ -124,13 +130,22 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
 
 
-            mailSwitch.setOnCheckedChangeListener {_,isChecked ->
-                viewModel.updateNotifications(NotificationSettingsRequest(isChecked, false), object : CoroutinesErrorHandler {
+            mailSwitch.setOnClickListener {
+                viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
                     override fun onError(message: String) {
                         Log.d("api", message)
                     }
                 })
             }
+
+            pushSwitch.setOnClickListener {
+                viewModel.updateNotifications(NotificationSettingsRequest(mailSwitch.isChecked, pushSwitch.isChecked), object : CoroutinesErrorHandler {
+                    override fun onError(message: String) {
+                        Log.d("api", message)
+                    }
+                })
+            }
+
 
             editPasswordButton.setOnClickListener {
                 editCurrentPassword.visibility = View.VISIBLE
@@ -147,11 +162,18 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                 val oldPassword = editCurrentPassword.text.toString()
                 val newPassword = editNewPassword.text.toString()
                 val newPasswordTwice = editNewPasswordTwice.text.toString()
-                viewModel.changePassword(UserChangePasswordRequest(oldPassword, newPassword, newPasswordTwice), object : CoroutinesErrorHandler {
-                    override fun onError(message: String) {
-                        Log.d("api", message)
-                    }
-                })
+                if (oldPassword.isNotEmpty() && newPassword.isNotEmpty() && newPasswordTwice.isNotEmpty()) {
+                    viewModel.changePassword(
+                        UserChangePasswordRequest(
+                            oldPassword,
+                            newPassword,
+                            newPasswordTwice
+                        ), object : CoroutinesErrorHandler {
+                            override fun onError(message: String) {
+                                Log.d("api", message)
+                            }
+                        })
+                }
                 editCurrentPassword.setText("")
                 editNewPassword.setText("")
                 editNewPasswordTwice.setText("")
