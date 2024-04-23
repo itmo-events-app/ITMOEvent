@@ -60,15 +60,6 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     private var orgAdapter: UserAdapter? = null
     private var participantsAdapter: ParticipantAdapter? = null
 
-    private val tabItemsIndexViewMap by lazy {
-        viewBinding.run {
-            mapOf(
-                TAB_ACTIVITIES_INDEX to eventSubsectionAcivitiesRv,
-                TAB_ORGANIZERS_INDEX to eventSubsectionOrgGroup,
-                TAB_PARTICIPANTS_INDEX to eventSubsectionParticipantsGroup
-            )
-        }
-    }
 
     override fun setup(view: View, savedInstanceState: Bundle?) {
         val eventId = requireArguments().getInt(EVENT_ID_ARG)
@@ -123,12 +114,12 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 
             eventSubsectionsTab.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    show(tabItemsIndexViewMap[tab?.position ?: 0])
+                    show(getTabViewByIndex(tab?.position ?: 0))
                     hide(eventSubsectionsEmptyList.root)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    hide(tabItemsIndexViewMap[tab?.position ?: 0])
+                    hide(getTabViewByIndex(tab?.position ?: 0))
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
@@ -211,6 +202,16 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 
         }
     }
+
+    private fun getTabViewByIndex(index: Int): View? =
+        viewBinding.run {
+            when (index) {
+                TAB_ACTIVITIES_INDEX -> eventSubsectionAcivitiesRv
+                TAB_ORGANIZERS_INDEX -> eventSubsectionOrgGroup
+                TAB_PARTICIPANTS_INDEX -> eventSubsectionParticipantsGroup
+                else -> null
+            }
+        }
 
 
     private fun bindEventInfo(event: Event) {

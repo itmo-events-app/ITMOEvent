@@ -7,7 +7,7 @@ class PlaceItemContentBinding : ContentBinding<PlaceItemBinding, Place> {
     override fun bindContentToView(viewBinding: PlaceItemBinding, content: Place) {
         viewBinding.run {
             placeItemTitle.text = content.name
-            placeItemDesc.text = content.description
+            placeItemDesc.text = content.address
             placeItemFormat.text = content.format
         }
     }
