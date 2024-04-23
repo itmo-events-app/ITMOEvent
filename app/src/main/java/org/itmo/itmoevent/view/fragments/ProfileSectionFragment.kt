@@ -228,39 +228,36 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                         editName.setText(oldName)
                         editSurname.setText(oldSurname)
                         showShortToast("Имя не может быть пустым")
-                    }
-                    Log.d("new NAME:", "$newName" )
-                    if (newName.matches("[а-яА-Я]+".toRegex())) {
-                        isOk = false
-                        editName.setText(oldName)
-                        editSurname.setText(oldSurname)
-                        Log.d("newName fail", "$newSurname")
-                        showShortToast("Имя должно содержать только буквы кириллицы без цифр и специальных символов")
-                    }
-                    if (newSurname == "") {
-                        isOk = false
-                        editName.setText(oldName)
-                        editSurname.setText(oldSurname)
-                        showShortToast("Фамилия не может быть пустой")
-                    }
-                    Log.d("new NAME:", "$newSurname" )
-                    if (newSurname.matches("[а-яА-Я]+".toRegex())) {
-                        isOk = false
-                        editName.setText(oldName)
-                        editSurname.setText(oldSurname)
-                        Log.d("newSurname fail", "$newSurname")
-                        showShortToast("Фамилия должна содержать только буквы кириллицы без цифр и специальных символов")
-                    }
-                    if (isOk) {
-                        fio.text = newFio
-                        viewModel.changeName(
-                            UserChangeNameRequest(newName, newSurname),
-                            object : CoroutinesErrorHandler {
-                                override fun onError(message: String) {
-                                    Log.d("api", message)
-                                }
-                            })
-                    }
+                    } else
+                        if (!newName.matches("^[а-яА-Я]+$".toRegex())) {
+                            isOk = false
+                            editName.setText(oldName)
+                            editSurname.setText(oldSurname)
+                            Log.d("newName fail", "$newSurname")
+                            showShortToast("Имя должно содержать только буквы кириллицы без цифр и специальных символов")
+                        } else
+                            if (newSurname == "") {
+                                isOk = false
+                                editName.setText(oldName)
+                                editSurname.setText(oldSurname)
+                                showShortToast("Фамилия не может быть пустой")
+                            } else
+                                if (!newSurname.matches("^[а-яА-Я]+$".toRegex())) {
+                                    isOk = false
+                                    editName.setText(oldName)
+                                    editSurname.setText(oldSurname)
+                                    Log.d("newSurname fail", "$newSurname")
+                                    showShortToast("Фамилия должна содержать только буквы кириллицы без цифр и специальных символов")
+                                } else {
+                                        fio.text = newFio
+                                        viewModel.changeName(
+                                            UserChangeNameRequest(newName, newSurname),
+                                            object : CoroutinesErrorHandler {
+                                                override fun onError(message: String) {
+                                                    Log.d("api", message)
+                                                }
+                                            })
+                                    }
                 }
 
                 if (emailText.text.toString() != newLogin) {
@@ -269,8 +266,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                         isOk = false
                         editEmailText.setText(emailText.text)
                         showShortToast("Email не может быть пустым.")
-                    }
-                    if (!checkLogin(newLogin)) {
+                    } else if (!checkLogin(newLogin)) {
                         isOk = false
                         editEmailText.setText(emailText.text)
                         showShortToast("Некорректный email. Поддерживаемые домены: @itmo.ru, @idu.itmo.ru и @niuitmo.ru")
