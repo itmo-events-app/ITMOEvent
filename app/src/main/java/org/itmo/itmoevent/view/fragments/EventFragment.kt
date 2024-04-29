@@ -135,7 +135,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     }
 
     private fun onParticipantCheckChanged(participantId: Int, isChecked: Boolean) {
-        showShortToast("participant $participantId - $isChecked")
+//        showShortToast("participant $participantId - $isChecked")
         model.markEventParticipant(participantId, isChecked)
     }
 
