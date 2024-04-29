@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.squareup.picasso.Picasso
+import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.EventInfoBinding
 import org.itmo.itmoevent.databinding.FragmentEventBinding
 import org.itmo.itmoevent.databinding.PlaceItemBinding
@@ -189,13 +191,18 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
 
                 roleOrganizersList.observe(this@EventFragment.viewLifecycleOwner) { orgs ->
                     orgAdapter?.userList = orgs ?: emptyList()
-//                    //temp
-//                    eventSubsectionOrganisatorsRv.isVisible = !orgs.isNullOrEmpty()
-//                    eventSubsectionsEmptyList.root.isVisible = orgs.isNullOrEmpty()
                 }
 
                 availableEditEventLiveData.observe(this@EventFragment.viewLifecycleOwner) {
-                    hide(eventEditBtn)
+                    show(eventEditBtn)
+                }
+
+                imageUrlLiveData.observe(this@EventFragment.viewLifecycleOwner) { url ->
+                    Picasso.get().load(url)
+                        .fit()
+                        .error(R.color.blue_200)
+                        .placeholder(R.color.grey_200)
+                        .into(viewBinding.eventInfo.eventImage)
                 }
 
             }

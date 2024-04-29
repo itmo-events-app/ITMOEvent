@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.itmo.itmoevent.model.data.entity.Participant
 import org.itmo.itmoevent.model.data.entity.UserRole
 import org.itmo.itmoevent.model.data.entity.enums.PrivilegeName
+import org.itmo.itmoevent.model.network.EventImageUrlService
 import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.viewmodel.ContentLiveDataProvider.ContentItemUIState.*
@@ -123,6 +124,16 @@ class EventViewModel(
             }
         }
     }
+
+//    val availableMarkAllLiveData: LiveData<Boolean> = participantsLiveData.switchMap {
+//        liveData {
+//
+//        }
+//    }
+
+    val imageUrlLiveData: LiveData<String> = MutableLiveData(
+        EventImageUrlService.getEventImageUrl(eventId)
+    )
 
     private fun hasSysPrivilege(sysPrivilegeName: PrivilegeName) =
         roleRepository.systemPrivilegesNames!!.contains(sysPrivilegeName)
