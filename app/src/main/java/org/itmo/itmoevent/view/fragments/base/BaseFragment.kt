@@ -38,7 +38,7 @@ abstract class BaseFragment<T : ViewBinding> : EventAppFragment<T>() {
                         }
                     }
                     state.errorMessage?.let {
-                        showShortToast(it)
+//                        showShortToast(it)
                     }
                 }
 
@@ -47,7 +47,7 @@ abstract class BaseFragment<T : ViewBinding> : EventAppFragment<T>() {
                         hide(contentView)
                     }
                     ifDisabled?.invoke()
-                    showShortToast("Blocked")
+//                    showShortToast("Blocked")
                 }
 
                 is ContentLiveDataProvider.ContentItemUIState.Loading -> {
