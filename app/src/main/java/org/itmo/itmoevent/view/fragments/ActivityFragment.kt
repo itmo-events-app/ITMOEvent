@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.squareup.picasso.Picasso
+import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.EventInfoBinding
 import org.itmo.itmoevent.databinding.FragmentActivBinding
 import org.itmo.itmoevent.databinding.PlaceItemBinding
@@ -58,6 +60,14 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
                 activityInfo.eventPlaceCard.root,
                 bindContent = ::bindPlace
             )
+
+            model.imageUrlLiveData.observe(this@ActivityFragment.viewLifecycleOwner) { url ->
+                Picasso.get().load(url)
+                    .fit()
+                    .error(R.color.blue_200)
+                    .placeholder(R.color.grey_200)
+                    .into(activityInfo.eventImage)
+            }
         }
     }
 
