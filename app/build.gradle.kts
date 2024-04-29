@@ -73,6 +73,10 @@ dependencies {
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    //Image loader
+    implementation ("com.squareup.picasso:picasso:2.8")
+
+
 }
 
 kapt {

@@ -10,10 +10,10 @@
             android:layout_width="0dp"
             android:layout_height="180dp"
             android:contentDescription="@string/event_image"
-            android:src="@color/blue_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

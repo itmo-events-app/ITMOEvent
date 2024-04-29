@@ -17,7 +17,6 @@ class EventNetworkService(private val tokenManager: TokenManager) {
 
     private val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
 
-    private val mainOkHttpClient = OkHttpClient()
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -36,7 +35,7 @@ class EventNetworkService(private val tokenManager: TokenManager) {
         }
     }
 
-    private val recipesOkHttpClient = mainOkHttpClient.newBuilder()
+    private val okHttpClient = OkHttpClient().newBuilder()
         .addInterceptor(tokenInjectorInterceptor)
         .addInterceptor(loggingInterceptor)
         .build()
@@ -44,7 +43,7 @@ class EventNetworkService(private val tokenManager: TokenManager) {
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(recipesOkHttpClient)
+        .client(okHttpClient)
         .build()
 
     val eventApi = retrofit.create<EventApi>()
