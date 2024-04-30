@@ -123,4 +123,5 @@
     <string name="refuse_task_button_text">Отказаться от задачи</string>
     <string name="not_filled">Не заполнено</string>
     <string name="filter_date_helper_text">Формат ввода \'dd.mm.yyyy[ hh:mm]\'</string>
+    <string name="event_subsection_tasks">Задачи</string>
 </resources>

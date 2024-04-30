@@ -8,12 +8,6 @@
     android:fillViewport="true"
     android:fitsSystemWindows="true">
 
-<!--    <com.google.android.material.appbar.MaterialToolbar-->
-<!--        android:id="@+id/event_toolbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?attr/actionBarSize"-->
-<!--        app:menu="@menu/event_details_menu" />-->
-
     <include
         android:id="@+id/event_progress_bar_main"
         layout="@layout/progress_bar_main"
@@ -46,13 +40,13 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="12dp" />
 
-            <include layout="@layout/event_info"
+            <include
                 android:id="@+id/event_info"
+                layout="@layout/event_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/event_subsections_tab"
@@ -61,7 +55,8 @@
                 android:layout_marginTop="64dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/event_info">
+                app:layout_constraintTop_toBottomOf="@id/event_info"
+                app:tabMode="scrollable">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
@@ -78,6 +73,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/event_subsection_participants" />
 
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/event_subsection_tasks" />
+
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -87,17 +87,18 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab"/>
+                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab" />
 
-            <include layout="@layout/empty_list"
+            <include
                 android:id="@+id/event_subsections_empty_list"
+                layout="@layout/empty_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab" />
 
             <include
                 android:id="@+id/event_subsection_organisators_role_select"
@@ -121,6 +122,16 @@
                 app:layout_constraintTop_toBottomOf="@id/event_subsection_organisators_role_select"
                 tools:itemCount="4"
                 tools:listitem="@layout/user_list_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/event_subsection_tasks_rv"
+                android:layout_width="0dp"
+                android:layout_height="350dp"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/event_subsection_org_group"
@@ -147,20 +158,18 @@
                 android:layout_marginTop="12dp"
                 android:text="@string/participants_mark_all_btn"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toBottomOf="@id/event_subsection_participants_rv"
-               />
+                app:layout_constraintTop_toBottomOf="@id/event_subsection_participants_rv" />
 
             <include
                 android:id="@+id/event_subsections_progress_bar"
                 layout="@layout/progress_bar_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab"
                 android:layout_marginTop="24dp"
                 android:visibility="gone"
-                />
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/event_subsections_tab" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/event_subsection_participants_group"
@@ -180,7 +189,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/event_edit_btn"
-        app:icon="@drawable/ic_edit"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:icon="@drawable/ic_edit" />
 
 </FrameLayout>

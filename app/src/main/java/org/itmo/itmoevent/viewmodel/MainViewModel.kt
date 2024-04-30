@@ -8,6 +8,7 @@ class MainViewModel : ViewModel() {
     val eventId = MutableLiveData<Int>()
     val activityId = MutableLiveData<Int>()
     val placeId = MutableLiveData<Int>()
+    val taskId = MutableLiveData<Int>()
     val exitIntended = MutableLiveData<Boolean>()
 
     fun selectEventItem(id: Int) {
@@ -20,6 +21,10 @@ class MainViewModel : ViewModel() {
 
     fun selectPlace(id: Int) {
         placeId.value = id
+    }
+
+    fun selectTask(id: Int) {
+        taskId.value = id
     }
 
     fun exit() {
