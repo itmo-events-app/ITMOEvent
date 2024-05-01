@@ -61,21 +61,15 @@ class MainActivity : AppCompatActivity() {
                 if (savedInstanceState == null) {
                     supportFragmentManager.beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!, null)
-                        .addToBackStack(BACK_STACK_TAB_TAG)
+                        .add(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!, null)
                         .commit()
 
                     viewBinding?.run {
                         mainBottomNavBar.setOnItemSelectedListener { item ->
-                            supportFragmentManager.popBackStack(
-                                BACK_STACK_TAB_TAG,
-                                FragmentManager.POP_BACK_STACK_INCLUSIVE
-                            )
                             navFragmentsMap[item.itemId]?.let { frag ->
                                 supportFragmentManager.beginTransaction()
                                     .setReorderingAllowed(true)
                                     .replace(R.id.main_fragment_container, frag, null)
-                                    .addToBackStack(BACK_STACK_TAB_TAG)
                                     .commit()
                             }
                             true
