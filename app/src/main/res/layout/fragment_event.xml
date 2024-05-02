@@ -17,14 +17,15 @@
         android:visibility="gone" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/event_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="128dp">
+            android:layout_height="wrap_content"
+            android:paddingBottom="120dp">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
@@ -83,8 +84,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/event_subsection_acivities_rv"
                 android:layout_width="0dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/event_subsections_tab" />
@@ -115,8 +117,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/event_subsection_organisators_rv"
                 android:layout_width="0dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/event_subsection_organisators_role_select"
@@ -126,8 +129,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/event_subsection_tasks_rv"
                 android:layout_width="0dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:nestedScrollingEnabled="false"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -143,8 +147,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/event_subsection_participants_rv"
                 android:layout_width="0dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/event_subsection_organisators_role_select"
