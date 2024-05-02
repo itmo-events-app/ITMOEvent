@@ -1,4 +1,4 @@
-package org.itmo.itmoevent.model.data.entity
+package org.itmo.itmoevent.model.data.entity.task
 
 import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 

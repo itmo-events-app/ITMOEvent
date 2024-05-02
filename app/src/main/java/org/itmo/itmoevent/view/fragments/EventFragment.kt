@@ -20,7 +20,8 @@ import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
 import org.itmo.itmoevent.model.data.entity.Place
-import org.itmo.itmoevent.model.data.entity.TaskShort
+import org.itmo.itmoevent.model.data.entity.PlaceShort
+import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.data.entity.UserRole
 import org.itmo.itmoevent.view.adapters.EventAdapter
 import org.itmo.itmoevent.view.adapters.ParticipantAdapter
@@ -52,7 +53,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         EventInfoContentBinding(requireActivity())
     }
 
-    private val placeContentBinding: ContentBinding<PlaceItemBinding, Place> by lazy {
+    private val placeContentBinding: ContentBinding<PlaceItemBinding, PlaceShort> by lazy {
         PlaceItemContentBinding()
     }
 
@@ -252,7 +253,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         }
     }
 
-    private fun bindPlace(place: Place) {
+    private fun bindPlace(place: PlaceShort) {
         viewBinding.eventInfo.run {
             placeContentBinding.bindContentToView(eventPlaceCard, place)
             eventChipPlace.text = place.name

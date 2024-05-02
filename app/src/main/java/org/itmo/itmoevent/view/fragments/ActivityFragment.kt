@@ -14,7 +14,8 @@ import org.itmo.itmoevent.databinding.FragmentActivBinding
 import org.itmo.itmoevent.databinding.PlaceItemBinding
 import org.itmo.itmoevent.model.data.entity.EventsActivity
 import org.itmo.itmoevent.model.data.entity.Place
-import org.itmo.itmoevent.model.data.entity.TaskShort
+import org.itmo.itmoevent.model.data.entity.PlaceShort
+import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.view.adapters.TaskItemAdapter
 import org.itmo.itmoevent.view.fragments.base.BaseFragment
 import org.itmo.itmoevent.view.fragments.binding.ActivityInfoContentBinding
@@ -31,7 +32,7 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
 
     private var activityId: Int? = null
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val placeContentBinding: ContentBinding<PlaceItemBinding, Place> =
+    private val placeContentBinding: ContentBinding<PlaceItemBinding, PlaceShort> =
         PlaceItemContentBinding()
     private val activityInfoContentBinding: ContentBinding<EventInfoBinding, EventsActivity> by lazy {
         ActivityInfoContentBinding(requireActivity())
@@ -92,7 +93,7 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
         mainViewModel.selectTask(id)
     }
 
-    private fun bindPlace(place: Place) {
+    private fun bindPlace(place: PlaceShort) {
         viewBinding.activityInfo.run {
             placeContentBinding.bindContentToView(eventPlaceCard, place)
             eventChipPlace.text = place.name

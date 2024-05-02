@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.TaskListItem2Binding
-import org.itmo.itmoevent.model.data.entity.TaskShort
+import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 
 class TaskItemAdapter(private val onTaskClickListener: (Int) -> Unit) :

@@ -50,7 +50,7 @@ class EventViewModel(
         ) {
             viewModelScope.async {
                 eventDetailsRepository.getEventInfo(eventId)?.placeId?.let {
-                    eventDetailsRepository.getPlace(it)
+                    eventDetailsRepository.getShortPlace(it)
                 }
             }
         }.contentLiveData

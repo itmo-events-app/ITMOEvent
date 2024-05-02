@@ -40,7 +40,7 @@ class EventActivityViewModel(
     ) {
         viewModelScope.async {
             activityRepository.getActivity(activityId)?.placeId?.let {
-                placeRepository.getPlace(it)
+                placeRepository.getShortPlace(it)
             }
         }
     }.contentLiveData

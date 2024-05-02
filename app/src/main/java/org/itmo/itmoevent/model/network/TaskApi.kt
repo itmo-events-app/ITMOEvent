@@ -1,5 +1,6 @@
 package org.itmo.itmoevent.model.network
 
+import org.itmo.itmoevent.model.data.dto.task.TaskDto
 import org.itmo.itmoevent.model.data.dto.taskShort.TaskShortDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -22,5 +23,8 @@ interface TaskApi {
         @Query("page") page: Int? = null,
         @Query("pageSize") pageSize: Int? = null
     ): Response<List<TaskShortDto>>
+
+    @GET("/api/tasks/{id}")
+    suspend fun getTaskById(@Path("id") taskId: Int): Response<TaskDto>
 
 }

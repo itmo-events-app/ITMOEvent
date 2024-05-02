@@ -1,6 +1,7 @@
 package org.itmo.itmoevent.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,29 +34,30 @@ class EventSectionFragment : ViewBindingFragment<FragmentEventSectionBinding>() 
                 .replace(R.id.event_section_frag_container, tabFragmentsMap[0]!!)
                 .addToBackStack(null)
                 .commit()
+        }
 
-            viewBinding.eventSectionTagLayout.addOnTabSelectedListener(object :
-                OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.position?.let {
-                        model.activeSectionIndexLiveData.value = it
-                        childFragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.event_section_frag_container, tabFragmentsMap[it]!!)
-                            .addToBackStack(null)
-                            .commit()
-                    }
+        viewBinding.eventSectionTagLayout.addOnTabSelectedListener(object :
+            OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.i("tab", "chosen ${tab?.position}")
+                tab?.position?.let {
+                    model.activeSectionIndexLiveData.value = it
+                    childFragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.event_section_frag_container, tabFragmentsMap[it]!!)
+                        .addToBackStack(null)
+                        .commit()
                 }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-            })
-
-            model.activeSectionIndexLiveData.observe(this.viewLifecycleOwner) { index ->
-                viewBinding.eventSectionTagLayout.getTabAt(index)?.select()
             }
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+
+        model.activeSectionIndexLiveData.observe(this.viewLifecycleOwner) { index ->
+            viewBinding.eventSectionTagLayout.getTabAt(index)?.select()
         }
+
     }
 
 }

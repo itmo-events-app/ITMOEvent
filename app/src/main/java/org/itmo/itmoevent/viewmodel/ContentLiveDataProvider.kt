@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ContentLiveDataProvider<T>(
-    private val isDisabled: Boolean,
+    private val isDisabled: Boolean = false,
     private val scope: CoroutineScope,
     private val loadContent: (ContentLiveDataProvider<T>) -> Deferred<T?>
 ) {
