@@ -103,7 +103,7 @@ class EventViewModel(
             viewModelScope
         ) {
             viewModelScope.async {
-                taskRepository.getEventOrActivityTasks(eventId)
+                taskRepository.getEventOrActivityTasksShort(eventId)
             }
         }.contentLiveData
     }

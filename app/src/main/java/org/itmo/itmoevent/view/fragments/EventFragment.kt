@@ -19,7 +19,6 @@ import org.itmo.itmoevent.databinding.PlaceItemBinding
 import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
-import org.itmo.itmoevent.model.data.entity.Place
 import org.itmo.itmoevent.model.data.entity.PlaceShort
 import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.data.entity.UserRole
@@ -71,10 +70,6 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     override fun setup(view: View, savedInstanceState: Bundle?) {
         val eventId = requireArguments().getInt(EVENT_ID_ARG)
         this.eventId = eventId
-
-        if (savedInstanceState == null) {
-//            ...
-        }
 
         setupRecyclerViews()
         registerViewListeners()
@@ -139,6 +134,11 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             })
+
+            eventEditBtn.setOnClickListener{
+                mainViewModel.selectEditEvent(eventId!!)
+            }
+
         }
     }
 
@@ -151,7 +151,6 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     }
 
     private fun onParticipantCheckChanged(participantId: Int, isChecked: Boolean) {
-//        showShortToast("participant $participantId - $isChecked")
         model.markEventParticipant(participantId, isChecked)
     }
 

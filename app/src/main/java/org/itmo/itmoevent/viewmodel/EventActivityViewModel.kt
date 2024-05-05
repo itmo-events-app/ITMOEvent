@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import org.itmo.itmoevent.model.data.entity.enums.PrivilegeName
@@ -51,7 +49,7 @@ class EventActivityViewModel(
         viewModelScope
     ) {
         viewModelScope.async {
-            taskRepository.getEventOrActivityTasks(activityId)
+            taskRepository.getEventOrActivityTasksShort(activityId)
         }
     }.contentLiveData
 

@@ -1,8 +1,8 @@
 package org.itmo.itmoevent.model.network
 
 import org.itmo.itmoevent.model.data.dto.task.TaskDto
-import org.itmo.itmoevent.model.data.dto.taskShort.TaskShortDto
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -22,9 +22,12 @@ interface TaskApi {
         @Query("personalTasksGet") personalTasksGet: Boolean? = null,
         @Query("page") page: Int? = null,
         @Query("pageSize") pageSize: Int? = null
-    ): Response<List<TaskShortDto>>
+    ): Response<List<TaskDto>>
 
     @GET("/api/tasks/{id}")
     suspend fun getTaskById(@Path("id") taskId: Int): Response<TaskDto>
+
+    @DELETE("/api/tasks/{id}")
+    suspend fun deleteTaskById(@Path("id") taskId: Int): Response<Unit>
 
 }

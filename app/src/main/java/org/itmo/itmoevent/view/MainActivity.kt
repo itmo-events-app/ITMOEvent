@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -22,6 +21,7 @@ import org.itmo.itmoevent.view.fragments.PlaceFragment
 import org.itmo.itmoevent.view.fragments.ProfileSectionFragment
 import org.itmo.itmoevent.view.fragments.TaskFragment
 import org.itmo.itmoevent.view.fragments.TaskSectionFragment
+import org.itmo.itmoevent.view.fragments.edit.EditEventFragment
 import org.itmo.itmoevent.viewmodel.MainViewModel
 import java.lang.IllegalStateException
 
@@ -113,6 +113,16 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace<TaskFragment>(R.id.main_fragment_container, args = argBundle)
+                            .addToBackStack(BACK_STACK_DETAILS_TAG)
+                            .commit()
+                    }
+
+                    mainViewModel.editEventId.observe(this@MainActivity) { id ->
+                        val argBundle =
+                            bundleOf(EditEventFragment.EVENT_ID_ARG to id)
+                        supportFragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace<EditEventFragment>(R.id.main_fragment_container, args = argBundle)
                             .addToBackStack(BACK_STACK_DETAILS_TAG)
                             .commit()
                     }
