@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:text="@string/event_desc_header"
+            android:text="@string/desc"
             android:textAppearance="?textAppearanceHeadlineSmall"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/event_chip_scroll_view" />

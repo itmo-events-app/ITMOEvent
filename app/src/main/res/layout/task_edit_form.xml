@@ -20,7 +20,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_title"
+        android:id="@+id/edit_task_title_lt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/edit_task_form_title_label"
@@ -29,23 +29,26 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:textAppearance="?textAppearanceLabelMedium" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_desc"
+        android:id="@+id/edit_task_desc_lt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/edit_task_form_desc_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_title">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_title_lt">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="5"
@@ -54,16 +57,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_deadline"
+        android:id="@+id/edit_task_deadline_lt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/edit_task_form_deadline_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_desc">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_desc_lt">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_deadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?textAppearanceLabelMedium" />
@@ -71,16 +75,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_notification_time"
+        android:id="@+id/edit_task_notification_time_lt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/edit_task_form_notify_time_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_deadline">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_deadline_lt">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_task_notification_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?textAppearanceLabelMedium" />
@@ -88,7 +93,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_place"
+        android:id="@+id/edit_task_place_lt"
         style="?textInputFilledExposedDropdownMenuStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -96,9 +101,10 @@
         android:hint="@string/edit_event_place_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_notification_time">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_notification_time_lt">
 
         <AutoCompleteTextView
+            android:id="@+id/edit_task_place"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
@@ -108,7 +114,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_activity"
+        android:id="@+id/edit_task_activity_lt"
         style="?textInputFilledExposedDropdownMenuStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -116,9 +122,10 @@
         android:hint="@string/edit_task_form_activity_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_place">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_place_lt">
 
         <AutoCompleteTextView
+            android:id="@+id/edit_task_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?textAppearanceLabelMedium"
@@ -127,7 +134,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_task_executor"
+        android:id="@+id/edit_task_executor_lt"
         style="?textInputFilledExposedDropdownMenuStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -135,9 +142,10 @@
         android:hint="@string/edit_task_form_executor_label"
         app:layout_constraintEnd_toStartOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/edit_task_activity">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_activity_lt">
 
         <AutoCompleteTextView
+            android:id="@+id/edit_task_executor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?textAppearanceLabelMedium"

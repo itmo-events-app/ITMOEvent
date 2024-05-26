@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.EventInfoBinding
@@ -13,6 +14,9 @@ import org.itmo.itmoevent.databinding.FragmentActivBinding
 import org.itmo.itmoevent.databinding.PlaceItemBinding
 import org.itmo.itmoevent.model.data.entity.EventsActivity
 import org.itmo.itmoevent.model.data.entity.Place
+import org.itmo.itmoevent.model.data.entity.PlaceShort
+import org.itmo.itmoevent.model.data.entity.task.TaskShort
+import org.itmo.itmoevent.view.adapters.TaskItemAdapter
 import org.itmo.itmoevent.view.fragments.base.BaseFragment
 import org.itmo.itmoevent.view.fragments.binding.ActivityInfoContentBinding
 import org.itmo.itmoevent.view.fragments.binding.ContentBinding
@@ -28,11 +32,13 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
 
     private var activityId: Int? = null
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val placeContentBinding: ContentBinding<PlaceItemBinding, Place> =
+    private val placeContentBinding: ContentBinding<PlaceItemBinding, PlaceShort> =
         PlaceItemContentBinding()
     private val activityInfoContentBinding: ContentBinding<EventInfoBinding, EventsActivity> by lazy {
         ActivityInfoContentBinding(requireActivity())
     }
+    private var tasksAdapter: TaskItemAdapter? = null
+
 
     override fun setup(view: View, savedInstanceState: Bundle?) {
         val activityId = requireArguments().getInt(ACTIVITY_ID_ARG)
@@ -43,9 +49,14 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
                 activityId,
                 application.eventActivityRepository,
                 application.placeRepository,
-                application.roleRepository
+                application.roleRepository,
+                application.taskRepository
             )
         }
+
+        tasksAdapter = tasksAdapter ?: TaskItemAdapter(::onTaskClicked)
+        viewBinding.activityTasksRv.layoutManager = LinearLayoutManager(context)
+        viewBinding.activityTasksRv.adapter = tasksAdapter
 
         viewBinding.run {
             handleContentItemViewByLiveData(
@@ -61,6 +72,13 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
                 bindContent = ::bindPlace
             )
 
+            handleContentItemViewByLiveData<List<TaskShort>>(
+                model.tasksLiveData, activityTasksGroup,
+                bindContent = { tasks ->
+                    tasksAdapter?.tasks = tasks
+                }
+            )
+
             model.imageUrlLiveData.observe(this@ActivityFragment.viewLifecycleOwner) { url ->
                 Picasso.get().load(url)
                     .fit()
@@ -71,7 +89,11 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
         }
     }
 
-    private fun bindPlace(place: Place) {
+    private fun onTaskClicked(id: Int) {
+        mainViewModel.selectTask(id)
+    }
+
+    private fun bindPlace(place: PlaceShort) {
         viewBinding.activityInfo.run {
             placeContentBinding.bindContentToView(eventPlaceCard, place)
             eventChipPlace.text = place.name

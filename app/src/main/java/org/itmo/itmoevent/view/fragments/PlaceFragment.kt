@@ -13,7 +13,7 @@ import org.itmo.itmoevent.viewmodel.PlaceViewModel
 class PlaceFragment : BaseFragment<FragmentPlaceBinding>() {
     private var placeId: Int? = null
 
-    val model: PlaceViewModel by viewModels {
+    private val model: PlaceViewModel by viewModels {
         PlaceViewModel.PlaceViewModelModelFactory(
             placeId!!,
             application.placeRepository,

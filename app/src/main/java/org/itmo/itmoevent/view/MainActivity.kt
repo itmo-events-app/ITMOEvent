@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -20,7 +19,9 @@ import org.itmo.itmoevent.view.fragments.EventSectionFragment
 import org.itmo.itmoevent.view.fragments.ManagementSectionFragment
 import org.itmo.itmoevent.view.fragments.PlaceFragment
 import org.itmo.itmoevent.view.fragments.ProfileSectionFragment
+import org.itmo.itmoevent.view.fragments.TaskFragment
 import org.itmo.itmoevent.view.fragments.TaskSectionFragment
+import org.itmo.itmoevent.view.fragments.edit.EditEventFragment
 import org.itmo.itmoevent.viewmodel.MainViewModel
 import java.lang.IllegalStateException
 
@@ -61,21 +62,15 @@ class MainActivity : AppCompatActivity() {
                 if (savedInstanceState == null) {
                     supportFragmentManager.beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!, null)
-                        .addToBackStack(BACK_STACK_TAB_TAG)
+                        .add(R.id.main_fragment_container, navFragmentsMap[R.id.nav_item_events]!!, null)
                         .commit()
 
                     viewBinding?.run {
                         mainBottomNavBar.setOnItemSelectedListener { item ->
-                            supportFragmentManager.popBackStack(
-                                BACK_STACK_TAB_TAG,
-                                FragmentManager.POP_BACK_STACK_INCLUSIVE
-                            )
                             navFragmentsMap[item.itemId]?.let { frag ->
                                 supportFragmentManager.beginTransaction()
                                     .setReorderingAllowed(true)
                                     .replace(R.id.main_fragment_container, frag, null)
-                                    .addToBackStack(BACK_STACK_TAB_TAG)
                                     .commit()
                             }
                             true
@@ -108,6 +103,26 @@ class MainActivity : AppCompatActivity() {
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace<PlaceFragment>(R.id.main_fragment_container, args = argBundle)
+                            .addToBackStack(BACK_STACK_DETAILS_TAG)
+                            .commit()
+                    }
+
+                    mainViewModel.taskId.observe(this@MainActivity) { id ->
+                        val argBundle =
+                            bundleOf(TaskFragment.TASK_ID_ARG to id)
+                        supportFragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace<TaskFragment>(R.id.main_fragment_container, args = argBundle)
+                            .addToBackStack(BACK_STACK_DETAILS_TAG)
+                            .commit()
+                    }
+
+                    mainViewModel.editEventId.observe(this@MainActivity) { id ->
+                        val argBundle =
+                            bundleOf(EditEventFragment.EVENT_ID_ARG to id)
+                        supportFragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .replace<EditEventFragment>(R.id.main_fragment_container, args = argBundle)
                             .addToBackStack(BACK_STACK_DETAILS_TAG)
                             .commit()
                     }

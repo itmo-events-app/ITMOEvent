@@ -13,6 +13,7 @@ import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.enums.PrivilegeName.*
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId

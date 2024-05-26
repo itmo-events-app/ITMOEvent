@@ -11,6 +11,7 @@ import org.itmo.itmoevent.model.data.entity.Role
 import org.itmo.itmoevent.model.repository.EventRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.EventRequestRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 
 class UserEventsViewModel(
     private val eventReqRepository: EventRequestRepository,

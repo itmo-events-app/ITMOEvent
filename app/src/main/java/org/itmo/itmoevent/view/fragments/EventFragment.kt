@@ -19,10 +19,12 @@ import org.itmo.itmoevent.databinding.PlaceItemBinding
 import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
-import org.itmo.itmoevent.model.data.entity.Place
+import org.itmo.itmoevent.model.data.entity.PlaceShort
+import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.data.entity.UserRole
 import org.itmo.itmoevent.view.adapters.EventAdapter
 import org.itmo.itmoevent.view.adapters.ParticipantAdapter
+import org.itmo.itmoevent.view.adapters.TaskItemAdapter
 import org.itmo.itmoevent.view.adapters.UserAdapter
 import org.itmo.itmoevent.view.fragments.base.BaseFragment
 import org.itmo.itmoevent.view.fragments.binding.ContentBinding
@@ -41,7 +43,8 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         EventViewModel.EventViewModelFactory(
             eventId!!,
             application.eventDetailsRepository,
-            application.roleRepository
+            application.roleRepository,
+            application.taskRepository
         )
     }
 
@@ -49,7 +52,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         EventInfoContentBinding(requireActivity())
     }
 
-    private val placeContentBinding: ContentBinding<PlaceItemBinding, Place> by lazy {
+    private val placeContentBinding: ContentBinding<PlaceItemBinding, PlaceShort> by lazy {
         PlaceItemContentBinding()
     }
 
@@ -61,6 +64,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
     private var activitiesAdapter: EventAdapter? = null
     private var orgAdapter: UserAdapter? = null
     private var participantsAdapter: ParticipantAdapter? = null
+    private var tasksAdapter: TaskItemAdapter? = null
 
 
     override fun setup(view: View, savedInstanceState: Bundle?) {
@@ -76,6 +80,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         activitiesAdapter = activitiesAdapter ?: EventAdapter(::onActivityClicked)
         participantsAdapter = participantsAdapter ?: ParticipantAdapter(::onParticipantCheckChanged)
         orgAdapter = orgAdapter ?: UserAdapter()
+        tasksAdapter = tasksAdapter ?: TaskItemAdapter(::onTaskClicked)
 
         viewBinding.run {
             eventSubsectionAcivitiesRv.layoutManager = LinearLayoutManager(context)
@@ -84,6 +89,8 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
             eventSubsectionOrganisatorsRv.adapter = orgAdapter
             eventSubsectionParticipantsRv.layoutManager = LinearLayoutManager(context)
             eventSubsectionParticipantsRv.adapter = participantsAdapter
+            eventSubsectionTasksRv.layoutManager = LinearLayoutManager(context)
+            eventSubsectionTasksRv.adapter = tasksAdapter
         }
     }
 
@@ -127,6 +134,12 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             })
+
+            eventEditBtn.setOnClickListener{
+//                mainViewModel.selectEditEvent(eventId!!)
+                showShortToast("Пока не реализовано")
+            }
+
         }
     }
 
@@ -134,8 +147,11 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         mainViewModel.selectActivity(id)
     }
 
+    private fun onTaskClicked(id: Int) {
+        mainViewModel.selectTask(id)
+    }
+
     private fun onParticipantCheckChanged(participantId: Int, isChecked: Boolean) {
-//        showShortToast("participant $participantId - $isChecked")
         model.markEventParticipant(participantId, isChecked)
     }
 
@@ -183,6 +199,13 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
                     bindContent = ::bindEventInfo
                 )
 
+                handleContentItemViewByLiveData<List<TaskShort>>(
+                    tasksLiveData, eventSubsectionTasksRv, needToShow = false,
+                    bindContent = { tasks ->
+                        tasksAdapter?.tasks = tasks
+                    }
+                )
+
                 rolesList.observe(this@EventFragment.viewLifecycleOwner) { roles ->
                     (eventSubsectionOrganisatorsRoleSelect.roleEdit as? MaterialAutoCompleteTextView)?.setSimpleItems(
                         roles.toTypedArray()
@@ -216,6 +239,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
                 TAB_ACTIVITIES_INDEX -> eventSubsectionAcivitiesRv
                 TAB_ORGANIZERS_INDEX -> eventSubsectionOrgGroup
                 TAB_PARTICIPANTS_INDEX -> eventSubsectionParticipantsGroup
+                TAB_TASKS_INDEX -> eventSubsectionTasksRv
                 else -> null
             }
         }
@@ -229,7 +253,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         }
     }
 
-    private fun bindPlace(place: Place) {
+    private fun bindPlace(place: PlaceShort) {
         viewBinding.eventInfo.run {
             placeContentBinding.bindContentToView(eventPlaceCard, place)
             eventChipPlace.text = place.name
@@ -254,6 +278,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         private const val TAB_ACTIVITIES_INDEX = 0
         private const val TAB_ORGANIZERS_INDEX = 1
         private const val TAB_PARTICIPANTS_INDEX = 2
+        private const val TAB_TASKS_INDEX = 3
     }
 
 }

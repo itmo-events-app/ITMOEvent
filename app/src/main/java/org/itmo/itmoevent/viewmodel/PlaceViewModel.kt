@@ -7,6 +7,7 @@ import kotlinx.coroutines.async
 import org.itmo.itmoevent.model.data.entity.enums.PrivilegeName
 import org.itmo.itmoevent.model.repository.PlaceRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 
 class PlaceViewModel(
     private val placeId: Int,

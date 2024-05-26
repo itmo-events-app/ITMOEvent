@@ -28,9 +28,7 @@ class EventAdapter(
         return EventViewHolder(viewBinding)
     }
 
-    override fun getItemCount(): Int {
-        return eventList.size
-    }
+    override fun getItemCount() = eventList.size
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.binding.run {

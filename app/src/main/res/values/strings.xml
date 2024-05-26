@@ -52,7 +52,7 @@
     <string name="edit_new_password_text">Введите новый пароль</string>
     <string name="edit_new_password_twice_text">Введите новый пароль повторно</string>
     <string name="notifications_title_text">Уведомления</string>
-    <string name="event_desc_header">Описание</string>
+    <string name="desc">Описание</string>
     <string name="event_desc_show_close_desc">Открыть/закрыть описание мероприятия</string>
     <string name="event_details_header">Детали</string>
     <string name="event_icon_show_close_details">Открыть/закрыть детали мероприятия</string>
@@ -84,7 +84,6 @@
     <string name="edit_event_location_info_label">Информация о локации</string>
     <string name="edit_event_participants_max_label">Число участников</string>
     <string name="edit_event_age_label">Возраст до</string>
-    <string name="edit_tab_desc">Описание</string>
     <string name="edit_tab_activities">Активности</string>
     <string name="edit_tab_orgs">Организаторы</string>
     <string name="edit_tab_tasks">Задачи</string>
@@ -123,4 +122,23 @@
     <string name="refuse_task_button_text">Отказаться от задачи</string>
     <string name="not_filled">Не заполнено</string>
     <string name="filter_date_helper_text">Формат ввода \'dd.mm.yyyy[ hh:mm]\'</string>
+    <string name="event_subsection_tasks">Задачи</string>
+    <string name="task_complete_till">Выполнить до</string>
+    <string name="task_assigned">Исполнитель</string>
+    <string name="event">Мероприятие</string>
+    <string name="activity">Активность</string>
+    <string name="task_execute_place">Место выполения</string>
+    <string name="task_remind_time">Время напоминания:</string>
+    <string name="task_creation_time">Время создания:</string>
+    <string name="assigned_icon_cd">assigned icon</string>
+    <string name="date_icon_cd">date icon</string>
+
+<!--    task creation errors-->
+    <string name="err_field_empty">Поле не может быть пустым</string>
+    <string name="err_deadline_in_past">Крайний срок не может быть в прошлом</string>
+    <string name="err_remind_in_past">Напоминание не может быть в прошлом</string>
+    <string name="err_remind_later_than_deadline">Напоминание не может быть позже крайнего срока</string>
+    <string name="err_field_date_format">Не соответствует формату заполнения</string>
+
+
 </resources>

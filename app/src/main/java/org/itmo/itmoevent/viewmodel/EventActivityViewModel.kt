@@ -11,13 +11,20 @@ import org.itmo.itmoevent.model.network.EventImageUrlService
 import org.itmo.itmoevent.model.repository.EventActivityRepository
 import org.itmo.itmoevent.model.repository.PlaceRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.model.repository.TaskRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 
 class EventActivityViewModel(
     private val activityId: Int,
     private val activityRepository: EventActivityRepository,
     private val placeRepository: PlaceRepository,
-    roleRepository: RoleRepository
+    private val roleRepository: RoleRepository,
+    private val taskRepository: TaskRepository
 ) : ViewModel() {
+
+//    private val eventPrivileges = liveData {
+//        emit(roleRepository.loadEventPrivileges(activityId)?.map { it.name })
+//    }
 
     val activityInfoLiveData = ContentLiveDataProvider(
         false,
@@ -32,8 +39,18 @@ class EventActivityViewModel(
     ) {
         viewModelScope.async {
             activityRepository.getActivity(activityId)?.placeId?.let {
-                placeRepository.getPlace(it)
+                placeRepository.getShortPlace(it)
             }
+        }
+    }.contentLiveData
+
+    val tasksLiveData = ContentLiveDataProvider(
+//            !hasSysPrivilege(PrivilegeName.VIEW_ALL_EVENT_TASKS),
+        false,
+        viewModelScope
+    ) {
+        viewModelScope.async {
+            taskRepository.getEventOrActivityTasksShort(activityId)
         }
     }.contentLiveData
 
@@ -45,7 +62,8 @@ class EventActivityViewModel(
         private val activityId: Int,
         private val activityRepository: EventActivityRepository,
         private val placeRepository: PlaceRepository,
-        private val roleRepository: RoleRepository
+        private val roleRepository: RoleRepository,
+        private val taskRepository: TaskRepository
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -54,7 +72,8 @@ class EventActivityViewModel(
                     activityId,
                     activityRepository,
                     placeRepository,
-                    roleRepository
+                    roleRepository,
+                    taskRepository
                 ) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")

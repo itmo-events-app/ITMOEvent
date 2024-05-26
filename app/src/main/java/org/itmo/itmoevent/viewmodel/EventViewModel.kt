@@ -16,12 +16,15 @@ import org.itmo.itmoevent.model.data.entity.enums.PrivilegeName
 import org.itmo.itmoevent.model.network.EventImageUrlService
 import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
-import org.itmo.itmoevent.viewmodel.ContentLiveDataProvider.ContentItemUIState.*
+import org.itmo.itmoevent.model.repository.TaskRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider.ContentItemUIState.*
 
 class EventViewModel(
     private val eventId: Int,
     private val eventDetailsRepository: EventDetailsRepository,
-    private val roleRepository: RoleRepository
+    private val roleRepository: RoleRepository,
+    private val taskRepository: TaskRepository
 ) : ViewModel() {
 
     private val eventPrivileges = liveData {
@@ -41,16 +44,18 @@ class EventViewModel(
         }
     }
 
-    val placeLiveData = ContentLiveDataProvider(
-        hasEventPrivilege(PrivilegeName.VIEW_EVENT_PLACE),
-        viewModelScope
-    ) {
-        viewModelScope.async {
-            eventDetailsRepository.getEventInfo(eventId)?.placeId?.let {
-                eventDetailsRepository.getPlace(it)
+    val placeLiveData = eventPrivileges.switchMap {
+        ContentLiveDataProvider(
+            !hasSysPrivilege(PrivilegeName.VIEW_EVENT_PLACE),
+            viewModelScope
+        ) {
+            viewModelScope.async {
+                eventDetailsRepository.getEventInfo(eventId)?.placeId?.let {
+                    eventDetailsRepository.getShortPlace(it)
+                }
             }
-        }
-    }.contentLiveData
+        }.contentLiveData
+    }
 
     val activitiesLiveData = eventPrivileges.switchMap {
         ContentLiveDataProvider(
@@ -75,7 +80,6 @@ class EventViewModel(
         ) {
             viewModelScope.async {
                 eventDetailsRepository.getOrgs(eventId)
-
             }
         }.contentLiveData
     }
@@ -89,6 +93,18 @@ class EventViewModel(
             viewModelScope.async {
                 participants = eventDetailsRepository.getParticipants(eventId)
                 participants
+            }
+        }.contentLiveData
+    }
+
+    val tasksLiveData = eventPrivileges.switchMap {
+        ContentLiveDataProvider(
+//            !hasSysPrivilege(PrivilegeName.VIEW_ALL_EVENT_TASKS),
+            false,
+            viewModelScope
+        ) {
+            viewModelScope.async {
+                taskRepository.getEventOrActivityTasksShort(eventId)
             }
         }.contentLiveData
     }
@@ -145,12 +161,13 @@ class EventViewModel(
     class EventViewModelFactory(
         private val eventId: Int,
         private val eventDetailsRepository: EventDetailsRepository,
-        private val roleRepository: RoleRepository
+        private val roleRepository: RoleRepository,
+        private val taskRepository: TaskRepository
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(EventViewModel::class.java)) {
-                return EventViewModel(eventId, eventDetailsRepository, roleRepository) as T
+                return EventViewModel(eventId, eventDetailsRepository, roleRepository, taskRepository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

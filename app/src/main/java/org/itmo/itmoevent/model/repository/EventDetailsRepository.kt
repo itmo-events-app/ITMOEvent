@@ -10,7 +10,7 @@ import org.itmo.itmoevent.model.data.dto.request.ParticipantMark
 import org.itmo.itmoevent.model.data.entity.Event
 import org.itmo.itmoevent.model.data.entity.EventShort
 import org.itmo.itmoevent.model.data.entity.Participant
-import org.itmo.itmoevent.model.data.entity.Place
+import org.itmo.itmoevent.model.data.entity.PlaceShort
 import org.itmo.itmoevent.model.data.entity.UserRole
 import org.itmo.itmoevent.model.network.EventApi
 import org.itmo.itmoevent.model.network.PlaceApi
@@ -52,7 +52,7 @@ class EventDetailsRepository(private val eventApi: EventApi, private val placeAp
         }
     }
 
-    suspend fun getPlace(placeId: Int): Place? {
+    suspend fun getShortPlace(placeId: Int): PlaceShort? {
         Log.i("retrofit", "Try to load place")
         return try {
             val response = placeApi.getPlaceById(placeId)
@@ -166,16 +166,11 @@ class EventDetailsRepository(private val eventApi: EventApi, private val placeAp
         participantDto.visited
     )
 
-    private fun mapPlaceDtoToEntity(placeDto: PlaceDto) = Place(
+    private fun mapPlaceDtoToEntity(placeDto: PlaceDto) = PlaceShort(
         placeDto.id,
         placeDto.name,
         placeDto.address,
-        placeDto.format,
-        placeDto.room,
-        placeDto.description,
-        placeDto.latitude,
-        placeDto.longitude,
-        placeDto.renderInfo
+        placeDto.format
     )
 
     private fun getLocalDateTime(date: Date?) = date?.let {

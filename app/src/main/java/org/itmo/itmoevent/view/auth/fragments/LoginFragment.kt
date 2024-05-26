@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
 
         binding.loginButton.setOnClickListener {
             if (!checkLogin(email) || email == ""
-//                || !checkPassword(password)
+                || !checkPassword(password)
                 ) {
                 if (!checkLogin(email) || email == "") {
                     if (email == "") {
@@ -99,11 +99,11 @@ class LoginFragment : Fragment() {
                 } else {
                     binding.email.error = null
                 }
-//                if (!checkPassword(password)) {
-//                    binding.password.error = "Некорректный пароль"
-//                } else {
-//                    binding.password.error = null
-//                }
+                if (!checkPassword(password)) {
+                    binding.password.error = "Некорректный пароль"
+                } else {
+                    binding.password.error = null
+                }
             } else {
                 Toast.makeText(context, "Загрузка", Toast.LENGTH_SHORT).show()
                 viewModel.login(

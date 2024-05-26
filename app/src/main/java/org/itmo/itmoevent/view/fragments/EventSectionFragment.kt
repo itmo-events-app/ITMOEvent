@@ -1,59 +1,61 @@
 package org.itmo.itmoevent.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.databinding.FragmentEventSectionBinding
+import org.itmo.itmoevent.view.fragments.base.ViewBindingFragment
+import org.itmo.itmoevent.viewmodel.EventSectionViewModel
 
 
-class EventSectionFragment : Fragment(R.layout.fragment_event_section) {
-    private var viewBinding: FragmentEventSectionBinding? = null
-    private val tabFragmentList: List<Fragment> = listOf(GeneralEventsFragment(), UserEventsFragment())
+class EventSectionFragment : ViewBindingFragment<FragmentEventSectionBinding>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentEventSectionBinding.inflate(inflater, container, false)
-        return viewBinding?.root
-    }
+    private val model: EventSectionViewModel by viewModels()
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentEventSectionBinding
+        get() = { inflater, container, attach ->
+            FragmentEventSectionBinding.inflate(inflater, container, attach)
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val tabFragmentsMap = mapOf(
+        0 to GeneralEventsFragment(),
+        1 to UserEventsFragment()
+    )
 
+    override fun setup(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             childFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.event_section_frag_container, tabFragmentList[0])
+                .replace(R.id.event_section_frag_container, tabFragmentsMap[0]!!)
                 .addToBackStack(null)
                 .commit()
+        }
 
-            viewBinding?.eventSectionTagLayout?.addOnTabSelectedListener(object :
-                OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.position?.let {
-                        childFragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .replace(R.id.event_section_frag_container, tabFragmentList[it])
-                            .addToBackStack(null)
-                            .commit()
-                    }
+        viewBinding.eventSectionTagLayout.addOnTabSelectedListener(object :
+            OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.i("tab", "chosen ${tab?.position}")
+                tab?.position?.let {
+                    model.activeSectionIndexLiveData.value = it
+                    childFragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.event_section_frag_container, tabFragmentsMap[it]!!)
+                        .addToBackStack(null)
+                        .commit()
                 }
+            }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
 
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-
-                }
-            })
+        model.activeSectionIndexLiveData.observe(this.viewLifecycleOwner) { index ->
+            viewBinding.eventSectionTagLayout.getTabAt(index)?.select()
         }
 
     }
