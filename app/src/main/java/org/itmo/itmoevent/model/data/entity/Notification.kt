@@ -9,7 +9,8 @@ data class Notification(
     val description: String?,
     var seen: Boolean? = false,
     val sentTime: LocalDateTime? = null,
-    var isOpen: Boolean = false
+    var isOpen: Boolean = false,
+    var taskId: Int? = null
 )
 
 fun mapNotificationResponseToNotification(notification: NotificationResponse): Notification {
@@ -18,6 +19,13 @@ fun mapNotificationResponseToNotification(notification: NotificationResponse): N
         notification.title,
         notification.description,
         notification.seen,
-        notification.sentTime
+        notification.sentTime,
+        taskId = extractTaskNumber(notification.link)
     )
+}
+
+fun extractTaskNumber(url: String?): Int? {
+    val regex = """.*/task[s]?/(\d+)""".toRegex()
+    val matchResult = url?.let { regex.find(it) }
+    return matchResult?.groups?.get(1)?.value?.toIntOrNull()
 }
