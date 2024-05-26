@@ -64,7 +64,7 @@ class AuthAuthenticator @Inject constructor(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://95.216.146.187:8080/")
+            .baseUrl("http://192.168.81.31:8080/")
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)
