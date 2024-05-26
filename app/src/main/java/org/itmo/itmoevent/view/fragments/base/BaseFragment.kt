@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.tabs.TabLayout
-import org.itmo.itmoevent.viewmodel.ContentLiveDataProvider
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 
 abstract class BaseFragment<T : ViewBinding> : EventAppFragment<T>() {
 

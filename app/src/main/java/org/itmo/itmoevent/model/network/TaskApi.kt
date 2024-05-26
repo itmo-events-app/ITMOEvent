@@ -1,9 +1,12 @@
 package org.itmo.itmoevent.model.network
 
+import org.itmo.itmoevent.model.data.dto.request.TaskRequest
 import org.itmo.itmoevent.model.data.dto.task.TaskDto
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.Date
@@ -29,5 +32,8 @@ interface TaskApi {
 
     @DELETE("/api/tasks/{id}")
     suspend fun deleteTaskById(@Path("id") taskId: Int): Response<Unit>
+
+    @POST("/api/tasks")
+    suspend fun createTask(@Body task: TaskRequest): Response<Int>
 
 }

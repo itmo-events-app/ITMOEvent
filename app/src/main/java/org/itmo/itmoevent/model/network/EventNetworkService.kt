@@ -1,6 +1,5 @@
 package org.itmo.itmoevent.model.network
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -27,8 +26,6 @@ class EventNetworkService(private val tokenManager: TokenManager) {
             val token = runBlocking {
                 tokenManager.getToken().first()
             }
-
-            Log.d("interceptor", token!!)
             val request = chain.request().newBuilder()
             request.addHeader("Authorization", "Bearer $token")
             chain.proceed(request.build())
@@ -56,7 +53,7 @@ class EventNetworkService(private val tokenManager: TokenManager) {
 
 
     companion object {
-        //        private const val BASE_URL: String = "http://192.168.81.31:8080"
+//                private const val BASE_URL: String = "http://192.168.81.31:8080"
         private const val BASE_URL: String = "http://95.216.146.187:8080"
 
     }

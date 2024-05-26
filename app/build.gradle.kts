@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "org.itmo.itmoevent"
-        minSdk = 28
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -75,8 +75,6 @@ dependencies {
 
     //Image loader
     implementation ("com.squareup.picasso:picasso:2.8")
-
-
 }
 
 kapt {

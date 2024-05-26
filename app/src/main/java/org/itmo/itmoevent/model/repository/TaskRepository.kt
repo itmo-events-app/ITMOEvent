@@ -1,6 +1,7 @@
 package org.itmo.itmoevent.model.repository
 
 import android.util.Log
+import org.itmo.itmoevent.model.data.dto.request.TaskRequest
 import org.itmo.itmoevent.model.data.dto.task.TaskDto
 import org.itmo.itmoevent.model.data.entity.PlaceShort
 import org.itmo.itmoevent.model.data.entity.task.Task
@@ -52,6 +53,17 @@ class TaskRepository(private val taskApi: TaskApi) {
         }
     }
 
+    suspend fun createTask(task: TaskRequest): Int? {
+        return try {
+            val response = taskApi.createTask(task)
+            if (response.isSuccessful) {
+                return response.body()
+            } else null
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
+    }
 
     suspend fun getTaskById(taskId: Int): Task? {
         return try {

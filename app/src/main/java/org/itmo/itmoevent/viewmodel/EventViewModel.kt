@@ -17,7 +17,8 @@ import org.itmo.itmoevent.model.network.EventImageUrlService
 import org.itmo.itmoevent.model.repository.EventDetailsRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
-import org.itmo.itmoevent.viewmodel.ContentLiveDataProvider.ContentItemUIState.*
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider.ContentItemUIState.*
 
 class EventViewModel(
     private val eventId: Int,

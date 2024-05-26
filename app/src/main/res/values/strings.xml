@@ -132,4 +132,13 @@
     <string name="task_creation_time">Время создания:</string>
     <string name="assigned_icon_cd">assigned icon</string>
     <string name="date_icon_cd">date icon</string>
+
+<!--    task creation errors-->
+    <string name="err_field_empty">Поле не может быть пустым</string>
+    <string name="err_deadline_in_past">Крайний срок не может быть в прошлом</string>
+    <string name="err_remind_in_past">Напоминание не может быть в прошлом</string>
+    <string name="err_remind_later_than_deadline">Напоминание не может быть позже крайнего срока</string>
+    <string name="err_field_date_format">Не соответствует формату заполнения</string>
+
+
 </resources>

@@ -1,6 +1,5 @@
 package org.itmo.itmoevent.model.data.entity.task
 
-import org.itmo.itmoevent.model.data.entity.Place
 import org.itmo.itmoevent.model.data.entity.PlaceShort
 import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 import java.time.LocalDateTime

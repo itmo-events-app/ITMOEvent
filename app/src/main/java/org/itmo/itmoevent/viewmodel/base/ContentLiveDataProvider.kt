@@ -1,4 +1,4 @@
-package org.itmo.itmoevent.viewmodel
+package org.itmo.itmoevent.viewmodel.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData

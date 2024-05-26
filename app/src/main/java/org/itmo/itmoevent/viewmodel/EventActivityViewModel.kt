@@ -12,6 +12,7 @@ import org.itmo.itmoevent.model.repository.EventActivityRepository
 import org.itmo.itmoevent.model.repository.PlaceRepository
 import org.itmo.itmoevent.model.repository.RoleRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
+import org.itmo.itmoevent.viewmodel.base.ContentLiveDataProvider
 
 class EventActivityViewModel(
     private val activityId: Int,
