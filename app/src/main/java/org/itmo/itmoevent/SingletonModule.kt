@@ -38,7 +38,8 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideTokenManager(@ApplicationContext context: Context): TokenManager = TokenManager(context)
+    fun provideTokenManager(@ApplicationContext context: Context): TokenManager =
+        TokenManager(context)
 
     @Singleton
     @Provides
@@ -75,7 +76,7 @@ class SingletonModule {
             kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
         )
         return Retrofit.Builder()
-            .baseUrl("http://95.216.146.187:8080/")
+            .baseUrl("http://192.168.81.31:8080/")
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)
@@ -92,7 +93,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideProfileAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): ProfileControllerApi =
+    fun provideProfileAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): ProfileControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
@@ -101,7 +105,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun providePlaceAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): PlaceControllerApi =
+    fun providePlaceAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): PlaceControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
@@ -109,7 +116,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideNotificationAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): NotificationControllerApi =
+    fun provideNotificationAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): NotificationControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
@@ -117,7 +127,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideEventAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): EventControllerApi =
+    fun provideEventAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): EventControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
@@ -125,7 +138,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideRoleAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): RoleControllerApi =
+    fun provideRoleAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): RoleControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
@@ -133,7 +149,10 @@ class SingletonModule {
 
     @Singleton
     @Provides
-    fun provideTaskAPIService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): TaskControllerApi =
+    fun provideTaskAPIService(
+        okHttpClient: OkHttpClient,
+        retrofit: Retrofit.Builder
+    ): TaskControllerApi =
         retrofit
             .client(okHttpClient)
             .build()
