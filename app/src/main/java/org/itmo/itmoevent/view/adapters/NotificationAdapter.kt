@@ -49,7 +49,7 @@ class NotificationAdapter(
                 notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
 
                 Log.d("Task", "Task ${notification.taskId}")
-                notification.taskId?.let { it1 -> listener.onTaskClick(it1) }
+                if (notification.isOpen) notification.taskId?.let { it1 -> listener.onTaskClick(it1) }
                 Log.d("TO READ", "is READ")
                 onNotificationClickListener.onNotificationClicked(notification.id!!)
 
