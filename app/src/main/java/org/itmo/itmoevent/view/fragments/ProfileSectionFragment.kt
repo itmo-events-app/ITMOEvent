@@ -21,6 +21,7 @@ import org.itmo.itmoevent.network.model.UserChangeNameRequest
 import org.itmo.itmoevent.network.model.UserChangePasswordRequest
 import org.itmo.itmoevent.network.util.ApiResponse
 import org.itmo.itmoevent.view.adapters.NotificationAdapter
+import org.itmo.itmoevent.view.adapters.OnTaskClickListener
 import org.itmo.itmoevent.view.auth.LoginActivity
 import org.itmo.itmoevent.viewmodel.CoroutinesErrorHandler
 import org.itmo.itmoevent.viewmodel.MainViewModel
@@ -29,7 +30,7 @@ import org.itmo.itmoevent.viewmodel.UserNotificationsViewModel
 
 
 @AndroidEntryPoint
-class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
+class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section), OnTaskClickListener {
     private lateinit var binding: FragmentProfileSectionBinding
     private lateinit var adapter: NotificationAdapter
     private val viewModel: UserNotificationsViewModel by viewModels()
@@ -60,7 +61,7 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
                     }
                 })
             }
-        })
+        }, this)
         binding.run {
             notificationRecycler.adapter = adapter
             notificationRecycler.layoutManager = LinearLayoutManager(context)
@@ -320,6 +321,16 @@ class ProfileSectionFragment : Fragment(R.layout.fragment_profile_section) {
 
     private fun checkLogin(login: String): Boolean {
         return login.matches("^\\w[\\w\\-.]*@(niu|idu.)?itmo\\.ru".toRegex())
+    }
+
+    override fun onTaskClick(taskId: Int) {
+        Log.d("To TASK", "task $taskId")
+        val bundle = Bundle().apply { putInt("taskId", taskId) }
+        val fragment = TaskDetailsFragment().apply { arguments = bundle }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }

@@ -19,7 +19,8 @@ import java.time.format.DateTimeFormatter
 
 
 class NotificationAdapter(
-    private val onNotificationClickListener: OnNotificationClickListener
+    private val onNotificationClickListener: OnNotificationClickListener,
+    private val listener: OnTaskClickListener
 ) : RecyclerView.Adapter<NotificationAdapter.NotificationHolder>() {
 
     private var notificationsList: List<Notification> = listOf()
@@ -27,7 +28,7 @@ class NotificationAdapter(
     class NotificationHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val binding = bind(item)
 
-        fun bind(notification: Notification, onNotificationClickListener: OnNotificationClickListener) = with(binding) {
+        fun bind(notification: Notification, onNotificationClickListener: OnNotificationClickListener, listener: OnTaskClickListener) = with(binding) {
             theme.text = notification.title
             var description = (notification.description?.take(40) ?: "")
             if (notification.description!!.length > 40) description += "..."
@@ -36,6 +37,7 @@ class NotificationAdapter(
             binding.sendTime.text = notification.sentTime!!.format(formatter)
 
             notificationCard.setBackgroundColor(0)
+
 
             notificationCard.setOnClickListener {
                 notification.isOpen = !notification.isOpen
@@ -46,7 +48,12 @@ class NotificationAdapter(
 
                 notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
 
+                Log.d("Task", "Task ${notification.taskId}")
+                notification.taskId?.let { it1 -> listener.onTaskClick(it1) }
+                Log.d("TO READ", "is READ")
                 onNotificationClickListener.onNotificationClicked(notification.id!!)
+
+
             }
 
             if (notification.seen == true) {
@@ -54,6 +61,7 @@ class NotificationAdapter(
                 notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
             }
 
+            notification.id
         }
     }
 
@@ -68,7 +76,7 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
-        holder.bind(notificationsList[position], onNotificationClickListener)
+        holder.bind(notificationsList[position], onNotificationClickListener, listener)
     }
 
     @SuppressLint("NotifyDataSetChanged")
