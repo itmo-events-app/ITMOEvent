@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.logging.HttpLoggingInterceptor
+import org.itmo.itmoevent.config.NetworkSettings
 import org.itmo.itmoevent.network.api.AuthControllerApi
 import org.itmo.itmoevent.network.api.ProfileControllerApi
 import org.itmo.itmoevent.network.infrastructure.Serializer
@@ -64,7 +65,7 @@ class AuthAuthenticator @Inject constructor(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.81.31:8080/")
+            .baseUrl(NetworkSettings.BASE_URL)
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)

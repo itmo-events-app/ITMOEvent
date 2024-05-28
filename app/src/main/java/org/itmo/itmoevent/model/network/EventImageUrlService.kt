@@ -1,11 +1,11 @@
 package org.itmo.itmoevent.model.network
 
+import org.itmo.itmoevent.config.NetworkSettings
+
 class EventImageUrlService {
 
     companion object {
-        private const val IMAGE_URL: String = "http://192.168.81.31:9000"
-
         fun getEventImageUrl(eventOrActivityId: Int): String =
-            "$IMAGE_URL/event-images/$eventOrActivityId.jpg"
+            "${NetworkSettings.IMAGES_SOURCE_URL}/event-images/$eventOrActivityId.jpg"
     }
 }
