@@ -4,6 +4,7 @@ import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 import java.util.Date
 
 class TaskRequest (
+    val eventId: Int?,
     val assigneeId: Int?,
     val title: String,
     val description: String,

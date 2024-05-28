@@ -5,7 +5,7 @@ import java.util.Date
 
 data class EventShortDto(
     val id: Int,
-    val title: String?,
+    val title: String,
     @SerializedName("shortDescription")
     val shortDesc: String?,
     val status: String?,

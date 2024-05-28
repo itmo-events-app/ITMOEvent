@@ -1,5 +1,6 @@
 package org.itmo.itmoevent.viewmodel.edit
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,12 @@ import kotlinx.coroutines.launch
 import org.itmo.itmoevent.R
 import org.itmo.itmoevent.model.data.dto.request.TaskRequest
 import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
+import org.itmo.itmoevent.model.data.entity.search.ActivitySearch
+import org.itmo.itmoevent.model.data.entity.search.PlaceSearch
+import org.itmo.itmoevent.model.data.entity.search.UserSearch
 import org.itmo.itmoevent.model.data.entity.task.Task
 import org.itmo.itmoevent.model.repository.RoleRepository
+import org.itmo.itmoevent.model.repository.SearchRepository
 import org.itmo.itmoevent.model.repository.TaskRepository
 import org.itmo.itmoevent.viewmodel.base.UiText
 import org.itmo.itmoevent.viewmodel.util.DateInputUtil
@@ -20,7 +25,8 @@ import java.time.LocalDateTime
 class EditTasksViewModel(
     private val eventId: Int,
     private val roleRepository: RoleRepository,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val searchRepository: SearchRepository
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<EditTasksUIState>()
@@ -28,6 +34,9 @@ class EditTasksViewModel(
         get() = _uiState
 
     private var tasks = mutableListOf<Task>()
+    private var orgsSearch = listOf<UserSearch>()
+    private var placesSearch = listOf<PlaceSearch>()
+    private var activitiesSearch = listOf<ActivitySearch>()
 
     private var mode = MODE_CREATE
 
@@ -35,9 +44,9 @@ class EditTasksViewModel(
     val inputDesc = MutableLiveData<String>()
     val inputDeadline = MutableLiveData<String>()
     val inputRemind = MutableLiveData<String>()
-    val inputPlace = MutableLiveData<String>()
-    val inputActivity = MutableLiveData<String>()
-    val inputAssignee = MutableLiveData<String>()
+    val inputPlace = MutableLiveData<Int>()
+    val inputActivity = MutableLiveData<Int>()
+    val inputAssignee = MutableLiveData<Int>()
 
     val inputTitleError: LiveData<UiText?> = inputTitle.map { validateStringOnBlank(it) }
     val inputDescError: LiveData<UiText?> = inputDesc.map { validateStringOnBlank(it) }
@@ -66,8 +75,6 @@ class EditTasksViewModel(
         }
     }
 
-    private var submitTask: Task? = null
-
     private fun validateStringOnBlank(string: String) =
         if (string.isBlank()) UiText.StringResource(R.string.err_field_empty) else null
 
@@ -77,18 +84,16 @@ class EditTasksViewModel(
             _uiState.value = EditTasksUIState.SubmitBlocked(errorAfterSubmit)
             return
         }
-//        submitTask = formTask()
         _uiState.value = EditTasksUIState.SaveInProgress
 
         when (mode) {
             MODE_CREATE -> {
-
+                createTask()
             }
 
             MODE_CHANGE -> {}
             else -> {}
         }
-
 
     }
 
@@ -97,36 +102,27 @@ class EditTasksViewModel(
         val newId = taskRepository.createTask(taskRequest)
 
         if (newId != null) {
-//            tasks.add { it.id == taskId }
+            tasks.add(formTask(newId, taskRequest))
             _uiState.value = EditTasksUIState.TaskList(tasks)
         } else {
-            _uiState.value = EditTasksUIState.LoadingError("Ошибка удаления")
+            _uiState.value = EditTasksUIState.LoadingError("Ошибка создания")
         }
 
     }
 
     private fun formTaskRequest() =
         TaskRequest(
-            null,
+            activitiesSearch[inputActivity.value ?: 0].id,
+            orgsSearch[inputAssignee.value ?: 0].id,
             inputTitle.value!!,
             inputDesc.value!!,
             TaskStatus.NEW,
-            null,
+            placesSearch[inputPlace.value ?: 0].id,
             DateInputUtil.parseLocalDateTime(deadlineDateTime),
             DateInputUtil.parseLocalDateTime(remindDateTime)
         )
 
-//    private fun formTask(id: Int, taskRequest: TaskRequest) =
-//        taskRequest.run {
-//            Task(
-//                id,
-//                title,
-//                taskStatus,
-//                description,
-//                assigneeId,
-//
-//            )
-//        }
+    private fun formTask(id: Int, taskRequest: TaskRequest) = Task(id, taskRequest.title)
 
     private fun validateInput(): UiText? {
         val valid = noError(inputTitleError) && noError(inputDescError)
@@ -142,6 +138,7 @@ class EditTasksViewModel(
 
     fun init() {
         loadTasks()
+        loadForm()
     }
 
     fun deleteTask(taskId: Int) = viewModelScope.launch {
@@ -166,6 +163,26 @@ class EditTasksViewModel(
         }
     }
 
+    private fun loadForm() = viewModelScope.launch {
+        val loadedOrgs = searchRepository.getEventOrgsSearch(eventId)
+        val loadedActivities = searchRepository.getEventActivitiesSearch(eventId)
+        val loadedPlaces = searchRepository.getPlacesSearch()
+
+        if (loadedOrgs == null || loadedActivities == null || loadedPlaces == null) {
+            _uiState.value = EditTasksUIState.LoadingError("Ошибка загрузки")
+        } else {
+            orgsSearch = loadedOrgs
+            placesSearch = loadedPlaces
+            val activitiesMutableList = loadedActivities.toMutableList()
+            activitiesMutableList.add(ActivitySearch(eventId, "--"))
+            activitiesSearch = activitiesMutableList
+            _uiState.value =
+                EditTasksUIState.FormData(orgsSearch.map { "${it.name} ${it.surname}" },
+                    placesSearch.map { "${it.name} : ${it.address} : ${it.room}" },
+                    activitiesSearch.map { it.title })
+        }
+    }
+
     companion object {
         const val MODE_CREATE = 1
         const val MODE_CHANGE = 2
@@ -175,7 +192,8 @@ class EditTasksViewModel(
     class EditTasksViewModelFactory(
         private val activityId: Int,
         private val roleRepository: RoleRepository,
-        private val taskRepository: TaskRepository
+        private val taskRepository: TaskRepository,
+        private val searchRepository: SearchRepository
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -183,7 +201,8 @@ class EditTasksViewModel(
                 return EditTasksViewModel(
                     activityId,
                     roleRepository,
-                    taskRepository
+                    taskRepository,
+                    searchRepository
                 ) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
