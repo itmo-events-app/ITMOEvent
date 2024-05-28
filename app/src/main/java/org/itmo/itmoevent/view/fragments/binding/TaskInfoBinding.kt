@@ -12,13 +12,13 @@ class TaskInfoBinding : ContentBinding<FragmentTaskBinding, Task> {
                 DateTimeFormatter.ofPattern(DisplayDateFormats.DATE_EVENT_FULL)
             taskTitle.text = content.title
             taskDesc.text = content.desc
-            taskStatus.text = content.taskStatus.name
+            taskStatus.text = content.taskStatus?.name
             taskEvent.text = content.eventTitle
             taskActivity.text = content.activityTitle
             taskAssigned.text = getAssigneeString(content.assigneeName, content.assigneeSurname)
-            taskDateEnd.text = content.deadline.format(formatter)
-            taskDateCreation.text = content.creationTime.format(formatter)
-            taskDateRemind.text = content.reminder.format(formatter)
+            taskDateEnd.text = content.deadline?.format(formatter)
+            taskDateCreation.text = content.creationTime?.format(formatter)
+            taskDateRemind.text = content.reminder?.format(formatter)
         }
     }
 

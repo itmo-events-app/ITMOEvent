@@ -128,6 +128,7 @@
             android:id="@+id/edit_task_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="none"
             android:textAppearance="?textAppearanceLabelMedium"
             app:simpleItems="@array/event_format_array" />
 
@@ -148,6 +149,7 @@
             android:id="@+id/edit_task_executor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="none"
             android:textAppearance="?textAppearanceLabelMedium"
             app:simpleItems="@array/event_format_array" />
 

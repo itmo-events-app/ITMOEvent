@@ -136,8 +136,8 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
             })
 
             eventEditBtn.setOnClickListener{
-//                mainViewModel.selectEditEvent(eventId!!)
-                showShortToast("Пока не реализовано")
+                mainViewModel.selectEditEvent(eventId!!)
+//                showShortToast("Пока не реализовано")
             }
 
         }
