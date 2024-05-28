@@ -52,9 +52,4 @@ class EventNetworkService(private val tokenManager: TokenManager) {
     val eventActivityApi = retrofit.create<EventActivityApi>()
     val placeApi = retrofit.create<PlaceApi>()
 
-
-    companion object {
-        private const val BASE_URL: String = "http://95.216.146.187:8080"
-//        private const val BASE_URL: String = "http://192.168.81.31:8080"
-    }
 }
