@@ -43,10 +43,12 @@ class NotificationAdapter(
                 notification.isOpen = !notification.isOpen
                 if (notification.isOpen) {
                     message.text = notification.description
+
+                } else {
                     Log.d("Task", "Task ${notification.taskId}")
                     notification.taskId?.let { it1 -> listener.onTaskClick(it1) }
-                } else
                     message.text = description
+                }
 
                 notificationCard.setBackgroundColor(ContextCompat.getColor(notificationCard.context, R.color.grey_200))
 
