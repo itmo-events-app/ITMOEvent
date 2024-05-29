@@ -89,8 +89,8 @@ class ActivityFragment : BaseFragment<FragmentActivBinding>() {
         }
     }
 
-    private fun onTaskClicked(id: Int) {
-        mainViewModel.selectTask(id)
+    private fun onTaskClicked(taskId: Int, eventId: Int) {
+        mainViewModel.selectTask(taskId, eventId)
     }
 
     private fun bindPlace(place: PlaceShort) {

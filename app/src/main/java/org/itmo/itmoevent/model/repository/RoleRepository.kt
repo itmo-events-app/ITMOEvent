@@ -75,6 +75,21 @@ class RoleRepository(private val roleApi: RoleApi) {
         }
     }
 
+    suspend fun getUserId() : Int? {
+        return try {
+            val response = roleApi.getUserInfo()
+            if (response.isSuccessful) {
+                Log.i("retrofit", "Org privileges loaded correctly: ${response.body()}")
+                response.body()?.userId
+            } else {
+                null
+            }
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
+    }
+
     private fun mapPrivilegeDtoToEntity(privilegeDto: PrivilegeDto) = Privilege(
         privilegeDto.id,
         privilegeDto.name,

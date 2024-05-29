@@ -2,6 +2,7 @@ package org.itmo.itmoevent.model.network
 
 import org.itmo.itmoevent.model.data.dto.PrivilegeDto
 import org.itmo.itmoevent.model.data.dto.PrivilegesListDto
+import org.itmo.itmoevent.model.data.dto.ProfileDto
 import org.itmo.itmoevent.model.data.dto.RoleDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,5 +19,8 @@ interface RoleApi {
 
     @GET("/api/profile/event-privileges/{id}")
     suspend fun getUserEventPrivileges(@Path("id") eventId: Int) : Response<List<PrivilegeDto>>
+
+    @GET("/api/profile/me")
+    suspend fun getUserInfo() : Response<ProfileDto>
 
 }

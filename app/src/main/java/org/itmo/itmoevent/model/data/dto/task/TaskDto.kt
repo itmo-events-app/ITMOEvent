@@ -8,7 +8,7 @@ data class TaskDto(
     val title: String,
     val description: String,
     val taskStatus: TaskStatus,
-    val event: TaskEventDto?,
+    val event: TaskEventDto,
     val assignee: TaskAssigneeDto?,
     val place: TaskPlaceDto?,
     val creationTime: Date,

@@ -139,6 +139,7 @@
     <string name="err_remind_in_past">Напоминание не может быть в прошлом</string>
     <string name="err_remind_later_than_deadline">Напоминание не может быть позже крайнего срока</string>
     <string name="err_field_date_format">Не соответствует формату заполнения</string>
+    <string name="not_yet_implemented">Пока не реализовано</string>
 
 
 </resources>

@@ -7,6 +7,7 @@ data class TaskShort (
     val id: Int,
     val title: String,
     val taskStatus: TaskStatus,
+    val eventId: Int,
     val assigneeName: String?,
     val assigneeSurname: String?
 )

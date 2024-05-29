@@ -73,8 +73,7 @@ class LoginFragment : Fragment() {
                 ApiResponse.Loading -> Log.d("api_loading", it.toString())
                 is ApiResponse.Success -> {
                     tokenViewModel.saveToken(it.data)
-                    val intent = Intent(activity as AppCompatActivity, MainActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(activity, MainActivity::class.java))
                     exit()
                 }
             }

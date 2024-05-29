@@ -13,6 +13,12 @@
         <item>OFFLINE</item>
         <item>HYBRID</item>
     </string-array>
+    <string-array name="task_status_array">
+        <item>NEW</item>
+        <item>IN_PROGRESS</item>
+        <item>EXPIRED</item>
+        <item>DONE</item>
+    </string-array>
 
     <string-array name="event_filter_options_array">
         <item>Все</item>
