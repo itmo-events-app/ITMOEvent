@@ -125,8 +125,12 @@ class EditTasksViewModel(
     private fun formTask(id: Int, taskRequest: TaskRequest) = Task(id, taskRequest.title)
 
     private fun validateInput(): UiText? {
-        val valid = noError(inputTitleError) && noError(inputDescError)
-                && noError(inputDeadlineError) && noError(inputRemindError)
+        val isTitleValid = noError(inputTitleError, inputTitle)
+        val isDescValid = noError(inputDescError, inputDesc)
+        val isDeadlineValid = noError(inputDeadlineError, inputDeadline)
+        val isRemindValid = noError(inputRemindError, inputRemind)
+
+        val valid = isTitleValid && isDescValid && isDeadlineValid && isRemindValid
         return when {
             !valid -> UiText.DynamicString("")
             remindDateTime!!.isAfter(deadlineDateTime) -> UiText.StringResource(R.string.err_remind_later_than_deadline)
@@ -134,7 +138,15 @@ class EditTasksViewModel(
         }
     }
 
-    private fun noError(errorLiveDate: LiveData<*>) = errorLiveDate.value == null
+    private fun noError(
+        errorLiveDate: LiveData<*>,
+        dataLiveData: MutableLiveData<String>
+    ): Boolean {
+        if (dataLiveData.value == null) {
+            dataLiveData.value = ""
+        }
+        return errorLiveDate.value == null
+    }
 
     fun init() {
         loadTasks()
@@ -174,7 +186,7 @@ class EditTasksViewModel(
             orgsSearch = loadedOrgs
             placesSearch = loadedPlaces
             val activitiesMutableList = loadedActivities.toMutableList()
-            activitiesMutableList.add(ActivitySearch(eventId, "--"))
+            activitiesMutableList.add(0, ActivitySearch(eventId, "--"))
             activitiesSearch = activitiesMutableList
             _uiState.value =
                 EditTasksUIState.FormData(orgsSearch.map { "${it.name} ${it.surname}" },

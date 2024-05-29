@@ -14,7 +14,7 @@ class TaskInfoBinding : ContentBinding<FragmentTaskBinding, Task> {
             taskDesc.text = content.desc
             taskStatus.text = content.taskStatus?.name
             taskEvent.text = content.eventTitle
-            taskActivity.text = content.activityTitle
+            taskActivity.text = content.activityTitle ?: "--"
             taskAssigned.text = getAssigneeString(content.assigneeName, content.assigneeSurname)
             taskDateEnd.text = content.deadline?.format(formatter)
             taskDateCreation.text = content.creationTime?.format(formatter)

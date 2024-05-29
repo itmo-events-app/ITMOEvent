@@ -39,6 +39,7 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
 
     private var listItemListener = object : EditTaskAdapter.EditTasksClickListener {
         override fun onCopyClicked(taskId: Int) {
+            showShortToast(getString(R.string.not_yet_implemented))
 
         }
 
@@ -47,7 +48,7 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
         }
 
         override fun onChangeClicked(taskId: Int) {
-
+            showShortToast(getString(R.string.not_yet_implemented))
         }
 
     }
@@ -72,21 +73,15 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
 
         model.uiState.observe(this.viewLifecycleOwner) { state ->
             when (state) {
-                EditTasksUIState.LoadingList -> {
-                    showShortToast("Loading list")
-                }
+                EditTasksUIState.LoadingList -> { }
 
                 is EditTasksUIState.TaskList -> {
-                    showShortToast("Loaded list")
                     taskAdapter?.tasks = state.tasksList
                 }
 
-                is EditTasksUIState.LoadingForm -> {
-                    showShortToast("Loading form")
-                }
+                is EditTasksUIState.LoadingForm -> { }
 
                 is EditTasksUIState.FormData -> {
-                    showShortToast("Loaded form data")
                     viewBinding.editTasksForm.run {
                         (editTaskPlace as? MaterialAutoCompleteTextView)?.setSimpleItems(
                             state.placesSearch.toTypedArray()
@@ -105,21 +100,17 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
                 }
 
                 is EditTasksUIState.SubmitBlocked -> {
-                    showShortToast(
-                        "Submit blocked, reason: ${
-                            state.errorText.asString(
-                                requireContext()
-                            )
-                        }"
-                    )
+                    state.errorText.asString(requireContext()).let { text ->
+                        if (text.isNotBlank()) {
+                            showShortToast(text)
+                        }
+                    }
                 }
 
-                is EditTasksUIState.SaveInProgress -> {
-                    showShortToast("Form filled correctly")
-                }
+                is EditTasksUIState.SaveInProgress -> { }
 
                 is EditTasksUIState.SaveError -> {
-                    showShortToast("Save error")
+                    showShortToast("Ошибка сохранения. Попробуйте еще")
                 }
             }
 
@@ -138,9 +129,6 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
                 bindEditText(editTaskDesc, inputDesc)
                 bindEditText(editTaskDeadline, inputDeadline)
                 bindEditText(editTaskNotificationTime, inputRemind)
-//                bindEditText(editTaskPlace, inputPlace)
-//                bindEditText(editTaskExecutor, inputAssignee)
-//                bindEditText(editTaskActivity, inputActivity)
                 bindAutoCompleteTextView(editTaskPlace, inputPlace)
                 bindAutoCompleteTextView(editTaskExecutor, inputAssignee)
                 bindAutoCompleteTextView(editTaskActivity, inputActivity)
@@ -163,7 +151,10 @@ class EditTasksFragment : BaseFragment<FragmentEventEditTaskBinding>() {
         }
     }
 
-    private fun bindAutoCompleteTextView(autoCompleteTextView: AutoCompleteTextView?, liveData: MutableLiveData<Int>) {
+    private fun bindAutoCompleteTextView(
+        autoCompleteTextView: AutoCompleteTextView?,
+        liveData: MutableLiveData<Int>
+    ) {
         autoCompleteTextView?.setOnItemClickListener { parent, view, position, id ->
             liveData.value = position
         }
