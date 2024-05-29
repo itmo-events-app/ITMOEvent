@@ -2,11 +2,13 @@ package org.itmo.itmoevent.model.network
 
 import org.itmo.itmoevent.model.data.dto.request.TaskRequest
 import org.itmo.itmoevent.model.data.dto.task.TaskDto
+import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.Date
@@ -35,5 +37,14 @@ interface TaskApi {
 
     @POST("/api/tasks")
     suspend fun createTask(@Body task: TaskRequest): Response<Int>
+
+    @PUT("/api/tasks/{id}/status")
+    suspend fun changeTaskStatus(@Path("id") taskId: Int, @Body taskStatus: TaskStatus): Response<TaskDto>
+
+    @PUT("/api/tasks/{id}/assignee")
+    suspend fun setUserAsAssignee(@Path("id") taskId: Int): Response<TaskDto>
+
+    @DELETE("/api/tasks/{id}/assignee")
+    suspend fun removeUserAsAssignee(@Path("id") taskId: Int): Response<TaskDto>
 
 }

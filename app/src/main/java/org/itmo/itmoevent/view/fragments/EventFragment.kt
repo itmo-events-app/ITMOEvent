@@ -147,8 +147,8 @@ class EventFragment : BaseFragment<FragmentEventBinding>() {
         mainViewModel.selectActivity(id)
     }
 
-    private fun onTaskClicked(id: Int) {
-        mainViewModel.selectTask(id)
+    private fun onTaskClicked(taskId: Int, eventId: Int) {
+        mainViewModel.selectTask(taskId, eventId)
     }
 
     private fun onParticipantCheckChanged(participantId: Int, isChecked: Boolean) {

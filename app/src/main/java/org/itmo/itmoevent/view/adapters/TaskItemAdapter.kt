@@ -9,7 +9,7 @@ import org.itmo.itmoevent.databinding.TaskListItem2Binding
 import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 
-class TaskItemAdapter(private val onTaskClickListener: (Int) -> Unit) :
+class TaskItemAdapter(private val onTaskClickListener: (taskId: Int, eventId: Int) -> Unit) :
     RecyclerView.Adapter<TaskItemAdapter.TaskViewHolder>() {
 
     var tasks: List<TaskShort> = emptyList()
@@ -37,7 +37,7 @@ class TaskItemAdapter(private val onTaskClickListener: (Int) -> Unit) :
             statusRibbon.setBackgroundResource(getStatusColorResource(task.taskStatus))
 
             this.root.setOnClickListener {
-                onTaskClickListener.invoke(task.id)
+                onTaskClickListener.invoke(task.id, task.eventId)
             }
         }
     }

@@ -107,9 +107,10 @@ class MainActivity : AppCompatActivity() {
                             .commit()
                     }
 
-                    mainViewModel.taskId.observe(this@MainActivity) { id ->
-                        val argBundle =
-                            bundleOf(TaskFragment.TASK_ID_ARG to id)
+                    mainViewModel.taskEventId.observe(this@MainActivity) { taskEventId ->
+                        val (taskId, eventId) = taskEventId
+                        val argBundle = bundleOf(TaskFragment.TASK_ID_ARG to taskId,
+                            TaskFragment.EVENT_ID_ARG to eventId)
                         supportFragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
                             .replace<TaskFragment>(R.id.main_fragment_container, args = argBundle)

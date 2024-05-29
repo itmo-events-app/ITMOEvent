@@ -4,6 +4,7 @@ import android.util.Log
 import org.itmo.itmoevent.model.data.dto.request.TaskRequest
 import org.itmo.itmoevent.model.data.dto.task.TaskDto
 import org.itmo.itmoevent.model.data.entity.PlaceShort
+import org.itmo.itmoevent.model.data.entity.enums.TaskStatus
 import org.itmo.itmoevent.model.data.entity.task.Task
 import org.itmo.itmoevent.model.data.entity.task.TaskShort
 import org.itmo.itmoevent.model.network.TaskApi
@@ -77,10 +78,47 @@ class TaskRepository(private val taskApi: TaskApi) {
         }
     }
 
+    suspend fun changeTaskStatus(taskId: Int, newStatus: TaskStatus): Task? {
+        return try {
+            val response = taskApi.changeTaskStatus(taskId, newStatus)
+            if (response.isSuccessful) {
+                response.body()?.let { mapTaskDtoToEntity(it) }
+            } else null
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
+    }
+
+    suspend fun removeUserAsAssignee(taskId: Int): Task? {
+        return try {
+            val response = taskApi.removeUserAsAssignee(taskId)
+            if (response.isSuccessful) {
+                response.body()?.let { mapTaskDtoToEntity(it) }
+            } else null
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
+    }
+
+    suspend fun setUserAsAssignee(taskId: Int): Task? {
+        return try {
+            val response = taskApi.setUserAsAssignee(taskId)
+            if (response.isSuccessful) {
+                response.body()?.let { mapTaskDtoToEntity(it) }
+            } else null
+        } catch (ex: Exception) {
+            Log.i("retrofit", ex.stackTraceToString())
+            null
+        }
+    }
+
     private fun mapTaskShortDtoToEntity(taskDto: TaskDto) = TaskShort(
         taskDto.id,
         taskDto.title,
         taskDto.taskStatus,
+        taskDto.event.eventId,
         taskDto.assignee?.name,
         taskDto.assignee?.surname
     )
