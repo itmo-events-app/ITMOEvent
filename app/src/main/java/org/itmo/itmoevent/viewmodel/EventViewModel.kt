@@ -99,8 +99,7 @@ class EventViewModel(
 
     val tasksLiveData = eventPrivileges.switchMap {
         ContentLiveDataProvider(
-//            !hasSysPrivilege(PrivilegeName.VIEW_ALL_EVENT_TASKS),
-            false,
+            !hasEventPrivilege(PrivilegeName.VIEW_ALL_EVENT_TASKS),
             viewModelScope
         ) {
             viewModelScope.async {
